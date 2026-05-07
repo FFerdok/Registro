@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FIFA World Cup 2026 Predictor</title>
+
+<meta name="theme-color" content="#07142b">
+
+<link rel="manifest" href='data:application/manifest+json,{
+"name":"FIFA World Cup 2026 Predictor",
+"short_name":"WC2026",
+"start_url":"./",
+"display":"standalone",
+"background_color":"#07142b",
+"theme_color":"#07142b"
+}'>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+
+:root{
+  --bg:#07142b;
+  --card:#102654;
+  --gold:#d4af37;
+  --gold-light:#f5dd8c;
+  --white:#ffffff;
+  --red:#d72638;
+  --green:#13b86b;
+  --blue:#2563eb;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter, Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+
+  background:
+  radial-gradient(circle at top,#173d77 0%, #07142b 55%);
+
+  color:white;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen{
+
+  min-height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:20px;
+
+}
+
+.login-card{
+
+  width:100%;
+  max-width:420px;
+
+  background:
+  linear-gradient(
+    180deg,
+    #11295a,
+    #091733
+  );
+
+  border-radius:28px;
+
+  padding:32px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+  0 25px 45px rgba(0,0,0,.35);
+
+}
+
+.login-logo{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.login-logo h1{
+  color:var(--gold-light);
+  font-size:1.8rem;
+  margin-bottom:10px;
+}
+
+.login-logo p{
+  opacity:.75;
+  font-size:.92rem;
+}
+
+.login-input{
+
+  width:100%;
+  height:58px;
+
+  border:none;
+  outline:none;
+
+  border-radius:18px;
+
+  padding:0 18px;
+
+  font-size:1rem;
+
+  margin-bottom:18px;
+
+}
+
+.login-btn{
+
+  width:100%;
+  height:58px;
+
+  border:none;
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    90deg,
+    var(--gold),
+    var(--gold-light)
+  );
+
+  color:#000;
+
+  font-weight:900;
+
+  font-size:1rem;
+
+  cursor:pointer;
+
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+  display:none;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+
+  position:sticky;
+  top:0;
+  z-index:999;
+
+  backdrop-filter:blur(12px);
+
+  background:rgba(7,20,43,.9);
+
+  border-bottom:1px solid rgba(255,255,255,.06);
+
+}
+
+.topbar-inner{
+
+  max-width:1500px;
+  margin:auto;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:12px;
+
+  padding:16px;
+
+}
+
+.title h2{
+  color:var(--gold-light);
+  font-size:1.2rem;
+}
+
+.title p{
+  opacity:.72;
+  font-size:.84rem;
+}
+
+.user-chip{
+
+  background:rgba(255,255,255,.08);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  padding:10px 16px;
+
+  border-radius:999px;
+
+  font-size:.9rem;
+  font-weight:800;
+
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  max-width:1500px;
+  margin:auto;
+  padding:18px;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.actions{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,1fr);
+
+  gap:12px;
+
+  margin-bottom:18px;
+
+}
+
+.action-btn{
+
+  height:54px;
+
+  border:none;
+  border-radius:18px;
+
+  color:white;
+
+  font-weight:900;
+
+  font-size:.9rem;
+
+  cursor:pointer;
+
+}
+
+.save-btn{
+  background:var(--blue);
+}
+
+.lock-btn{
+  background:var(--red);
+}
+
+.unlock-btn{
+  background:#6b7280;
+}
+
+.export-btn{
+  background:var(--green);
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:18px;
+
+  padding:14px 16px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin-bottom:18px;
+
+}
+
+/* =========================
+   CAPTURE HEADER
+========================= */
+
+.capture-header{
+
+  background:
+  linear-gradient(
+    145deg,
+    #122d61,
+    #091733
+  );
+
+  border-radius:24px;
+
+  padding:18px;
+
+  margin-bottom:16px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+}
+
+.capture-header h2{
+  color:var(--gold-light);
+  margin-bottom:10px;
+}
+
+.capture-meta{
+
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:20px;
+
+  opacity:.9;
+
+  font-size:.92rem;
+
+}
+
+/* =========================
+   MATCHES
+========================= */
+
+.matches{
+
+  display:grid;
+  grid-template-columns:1fr;
+
+  gap:14px;
+
+}
+
+.match{
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+    145deg,
+    #122d61,
+    #091733
+  );
+
+  border-radius:24px;
+
+  padding:18px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+  0 10px 24px rgba(0,0,0,.22);
+
+}
+
+.match::before{
+
+  content:'';
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:
+  linear-gradient(
+    90deg,
+    #c79d32,
+    #f5dd8c,
+    #c79d32
+  );
+
+}
+
+/* =========================
+   MATCH TOP
+========================= */
+
+.match-top{
+
+  display:grid;
+
+  grid-template-columns:
+  1fr auto 1fr;
+
+  align-items:center;
+
+  gap:14px;
+
+}
+
+.team{
+
+  font-weight:900;
+  font-size:1rem;
+  line-height:1.2;
+
+}
+
+.team-left{
+  text-align:right;
+}
+
+.team-right{
+  text-align:left;
+}
+
+/* =========================
+   SCORE
+========================= */
+
+.score-center{
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+}
+
+.score{
+
+  width:58px;
+  height:58px;
+
+  border:none;
+  outline:none;
+
+  border-radius:16px;
+
+  background:white;
+  color:#000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  font-size:1.45rem;
+  font-weight:900;
+
+  padding:0;
+
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:textfield;
+
+  font-family:Arial, sans-serif;
+
+}
+
+.score::-webkit-outer-spin-button,
+.score::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+
+.separator{
+
+  font-size:1.5rem;
+  font-weight:900;
+
+  color:var(--gold-light);
+
+}
+
+/* =========================
+   MATCH INFO
+========================= */
+
+.match-bottom{
+
+  margin-top:16px;
+
+  padding-top:14px;
+
+  border-top:1px solid rgba(255,255,255,.08);
+
+  display:flex;
+  flex-direction:column;
+
+  gap:6px;
+
+  font-size:.84rem;
+
+  opacity:.86;
+
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  text-align:center;
+  padding:30px 16px;
+  opacity:.5;
+  font-size:.82rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+  .actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(min-width:768px){
+
+  .matches{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(min-width:1250px){
+
+  .matches{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div class="login-screen" id="loginScreen">
+
+  <div class="login-card">
+
+    <div class="login-logo">
+
+      <h1>🏆 FIFA World Cup 2026</h1>
+
+      <p>Registro Oficial de Pronósticos</p>
+
+    </div>
+
+    <input
+      type="text"
+      id="usernameInput"
+      class="login-input"
+      placeholder="Ingresa tu nombre"
+      maxlength="20"
+    >
+
+    <button
+      id="loginBtn"
+      class="login-btn"
+    >
+      INGRESAR
+    </button>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     APP
+========================= -->
+
+<div class="app" id="app">
+
+  <!-- TOPBAR -->
+
+  <div class="topbar">
+
+    <div class="topbar-inner">
+
+      <div class="title">
+
+        <h2>Jornada 1 · FIFA World Cup 2026</h2>
+
+        <p>Calendario Oficial</p>
+
+      </div>
+
+      <div class="user-chip">
+
+        👤 <span id="displayUser"></span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+      <button
+        id="saveBtn"
+        class="action-btn save-btn"
+      >
+        💾 GUARDAR
+      </button>
+
+      <button
+        id="lockBtn"
+        class="action-btn lock-btn"
+      >
+        🔒 BLOQUEAR
+      </button>
+
+      <button
+        id="unlockBtn"
+        class="action-btn unlock-btn"
+      >
+        🔓 DESBLOQUEAR
+      </button>
+
+      <button
+        id="exportBtn"
+        class="action-btn export-btn"
+      >
+        📸 GENERAR JPG
+      </button>
+
+    </div>
+
+    <!-- STATUS -->
+
+    <div class="status">
+
+      <div>
+
+        Estado:
+        <strong id="statusText">
+          🟢 ABIERTO
+        </strong>
+
+      </div>
+
+      <div>
+        Jornada 1 · 24 Partidos
+      </div>
+
+    </div>
+
+    <!-- CAPTURE AREA -->
+
+    <div id="captureArea">
+
+      <!-- EXPORT HEADER -->
+
+      <div class="capture-header">
+
+        <h2>
+          FIFA World Cup 2026 Predictor
+        </h2>
+
+        <div class="capture-meta">
+
+          <div>
+            👤 Participante:
+            <strong id="captureUser"></strong>
+          </div>
+
+          <div>
+            📌 Estado:
+            <strong id="captureStatus"></strong>
+          </div>
+
+          <div>
+            🏆 Jornada 1
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- MATCHES -->
+
+      <div
+        class="matches"
+        id="matchesContainer"
+      ></div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+
+  <div class="footer">
+    FIFA World Cup 2026 Predictor · PWA Offline
+  </div>
+
+</div>
+
+<script>
+
+/* =========================================
+   STORAGE
+========================================= */
+
+const STORAGE_USER =
+  "wc2026_locked_user";
+
+const STORAGE_PICKS =
+  "wc2026_predictions";
+
+const STORAGE_LOCK =
+  "wc2026_predictions_locked";
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+const ADMIN_PASSWORD =
+  "AP420";
+
+/* =========================================
+   MATCHES
+========================================= */
+
+const MATCHES = [
+
+{
+home:"México",
+away:"Sudáfrica",
+date:"11 Junio 2026 · 13:00",
+stadium:"🏟️ Estadio Azteca · Ciudad de México"
+},
+
+{
+home:"Corea del Sur",
+away:"República Checa",
+date:"11 Junio 2026 · 20:00",
+stadium:"🏟️ Estadio Akron · Guadalajara"
+},
+
+{
+home:"Canadá",
+away:"Bosnia y Herzegovina",
+date:"12 Junio 2026 · 13:00",
+stadium:"🏟️ Toronto Stadium"
+},
+
+{
+home:"Estados Unidos",
+away:"Paraguay",
+date:"12 Junio 2026 · 19:00",
+stadium:"🏟️ Los Angeles Stadium"
+},
+
+{
+home:"Qatar",
+away:"Suiza",
+date:"13 Junio 2026 · 13:00",
+stadium:"🏟️ San Francisco Bay Area Stadium"
+},
+
+{
+home:"Brasil",
+away:"Marruecos",
+date:"13 Junio 2026 · 16:00",
+stadium:"🏟️ New York New Jersey Stadium"
+},
+
+{
+home:"Haití",
+away:"Escocia",
+date:"13 Junio 2026 · 19:00",
+stadium:"🏟️ Boston Stadium"
+},
+
+{
+home:"Australia",
+away:"Turquía",
+date:"13 Junio 2026 · 22:00",
+stadium:"🏟️ BC Place · Vancouver"
+},
+
+{
+home:"Alemania",
+away:"Curazao",
+date:"14 Junio 2026 · 11:00",
+stadium:"🏟️ Houston Stadium"
+},
+
+{
+home:"Países Bajos",
+away:"Japón",
+date:"14 Junio 2026 · 14:00",
+stadium:"🏟️ Dallas Stadium"
+},
+
+{
+home:"Costa de Marfil",
+away:"Ecuador",
+date:"14 Junio 2026 · 17:00",
+stadium:"🏟️ Philadelphia Stadium"
+},
+
+{
+home:"Suecia",
+away:"Túnez",
+date:"14 Junio 2026 · 20:00",
+stadium:"🏟️ Estadio Monterrey"
+},
+
+{
+home:"España",
+away:"Cabo Verde",
+date:"15 Junio 2026 · 10:00",
+stadium:"🏟️ Atlanta Stadium"
+},
+
+{
+home:"Bélgica",
+away:"Egipto",
+date:"15 Junio 2026 · 13:00",
+stadium:"🏟️ Seattle Stadium"
+},
+
+{
+home:"Arabia Saudita",
+away:"Uruguay",
+date:"15 Junio 2026 · 16:00",
+stadium:"🏟️ Miami Stadium"
+},
+
+{
+home:"Irán",
+away:"Nueva Zelanda",
+date:"15 Junio 2026 · 19:00",
+stadium:"🏟️ Los Angeles Stadium"
+},
+
+{
+home:"Francia",
+away:"Senegal",
+date:"16 Junio 2026 · 13:00",
+stadium:"🏟️ New York New Jersey Stadium"
+},
+
+{
+home:"Argentina",
+away:"Argelia",
+date:"16 Junio 2026 · 16:00",
+stadium:"🏟️ Kansas City Stadium"
+},
+
+{
+home:"Irak",
+away:"Noruega",
+date:"16 Junio 2026 · 19:00",
+stadium:"🏟️ Boston Stadium"
+},
+
+{
+home:"Austria",
+away:"Jordania",
+date:"16 Junio 2026 · 19:00",
+stadium:"🏟️ San Francisco Bay Area Stadium"
+},
+
+{
+home:"Portugal",
+away:"RD Congo",
+date:"17 Junio 2026 · 11:00",
+stadium:"🏟️ Houston Stadium"
+},
+
+{
+home:"Ghana",
+away:"Panamá",
+date:"17 Junio 2026 · 13:00",
+stadium:"🏟️ Toronto Stadium"
+},
+
+{
+home:"Inglaterra",
+away:"Croacia",
+date:"17 Junio 2026 · 14:00",
+stadium:"🏟️ Dallas Stadium"
+},
+
+{
+home:"Uzbekistán",
+away:"Colombia",
+date:"17 Junio 2026 · 19:00",
+stadium:"🏟️ Estadio Azteca · CDMX"
+}
+
+];
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const loginScreen =
+document.getElementById("loginScreen");
+
+const app =
+document.getElementById("app");
+
+const loginBtn =
+document.getElementById("loginBtn");
+
+const usernameInput =
+document.getElementById("usernameInput");
+
+const displayUser =
+document.getElementById("displayUser");
+
+const captureUser =
+document.getElementById("captureUser");
+
+const captureStatus =
+document.getElementById("captureStatus");
+
+const matchesContainer =
+document.getElementById("matchesContainer");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const lockBtn =
+document.getElementById("lockBtn");
+
+const unlockBtn =
+document.getElementById("unlockBtn");
+
+const exportBtn =
+document.getElementById("exportBtn");
+
+const statusText =
+document.getElementById("statusText");
+
+/* =========================================
+   STATE
+========================================= */
+
+let locked =
+localStorage.getItem(STORAGE_LOCK)
+=== "true";
+
+const predictions =
+JSON.parse(
+localStorage.getItem(STORAGE_PICKS)
+|| "{}"
+);
+
+/* =========================================
+   INIT
+========================================= */
+
+function init(){
+
+const savedUser =
+localStorage.getItem(STORAGE_USER);
+
+if(savedUser){
+
+showApp(savedUser);
+
+}else{
+
+loginScreen.style.display = "flex";
+app.style.display = "none";
+
+}
+
+}
+
+/* =========================================
+   LOGIN
+========================================= */
+
+loginBtn.addEventListener("click",()=>{
+
+const username =
+usernameInput.value.trim();
+
+if(username.length < 3){
+
+alert("Ingresa un nombre válido.");
+return;
+
+}
+
+localStorage.setItem(
+STORAGE_USER,
+username
+);
+
+showApp(username);
+
+});
+
+/* =========================================
+   SHOW APP
+========================================= */
+
+function showApp(username){
+
+loginScreen.style.display = "none";
+
+app.style.display = "block";
+
+displayUser.textContent = username;
+
+captureUser.textContent = username;
+
+renderMatches();
+
+updateStatus();
+
+}
+
+/* =========================================
+   RENDER MATCHES
+========================================= */
+
+function renderMatches(){
+
+matchesContainer.innerHTML = "";
+
+MATCHES.forEach((match,index)=>{
+
+const localKey =
+`m_${index}_local`;
+
+const awayKey =
+`m_${index}_away`;
+
+const card =
+document.createElement("div");
+
+card.className = "match";
+
+card.innerHTML = `
+
+<div class="match-top">
+
+<div class="team team-left">
+${match.home}
+</div>
+
+<div class="score-center">
+
+<input
+class="score"
+type="number"
+min="0"
+value="${predictions[localKey] ?? ""}"
+data-key="${localKey}"
+${locked ? "disabled" : ""}
+/>
+
+<div class="separator">-</div>
+
+<input
+class="score"
+type="number"
+min="0"
+value="${predictions[awayKey] ?? ""}"
+data-key="${awayKey}"
+${locked ? "disabled" : ""}
+/>
+
+</div>
+
+<div class="team team-right">
+${match.away}
+</div>
+
+</div>
+
+<div class="match-bottom">
+
+<div>
+📅 ${match.date}
+</div>
+
+<div>
+${match.stadium}
+</div>
+
+</div>
+
+`;
+
+matchesContainer.appendChild(card);
+
+});
+
+/* SAVE INPUTS */
+
+document
+.querySelectorAll(".score")
+.forEach(input=>{
+
+input.addEventListener(
+"input",
+(e)=>{
+
+predictions[
+e.target.dataset.key
+] = e.target.value;
+
+}
+
+);
+
+});
+
+}
+
+/* =========================================
+   SAVE
+========================================= */
+
+saveBtn.addEventListener("click",()=>{
+
+localStorage.setItem(
+STORAGE_PICKS,
+JSON.stringify(predictions)
+);
+
+alert(
+"Cambios guardados correctamente."
+);
+
+});
+
+/* =========================================
+   STATUS
+========================================= */
+
+function updateStatus(){
+
+if(locked){
+
+statusText.innerHTML =
+"🔒 CERRADO";
+
+captureStatus.innerHTML =
+"🔒 CERRADO";
+
+}else{
+
+statusText.innerHTML =
+"🟢 ABIERTO";
+
+captureStatus.innerHTML =
+"🟢 ABIERTO";
+
+}
+
+}
+
+/* =========================================
+   LOCK
+========================================= */
+
+lockBtn.addEventListener("click",()=>{
+
+if(locked){
+
+alert(
+"Los pronósticos ya están bloqueados."
+);
+
+return;
+
+}
+
+const confirmLock =
+confirm(
+"¿Deseas bloquear los pronósticos?\n\nNO podrán modificarse."
+);
+
+if(!confirmLock) return;
+
+locked = true;
+
+localStorage.setItem(
+STORAGE_LOCK,
+"true"
+);
+
+localStorage.setItem(
+STORAGE_PICKS,
+JSON.stringify(predictions)
+);
+
+renderMatches();
+
+updateStatus();
+
+alert(
+"Pronósticos bloqueados."
+);
+
+});
+
+/* =========================================
+   UNLOCK
+========================================= */
+
+unlockBtn.addEventListener("click",()=>{
+
+const password =
+prompt(
+"Ingrese contraseña:"
+);
+
+if(password !== ADMIN_PASSWORD){
+
+alert(
+"Contraseña incorrecta."
+);
+
+return;
+
+}
+
+locked = false;
+
+localStorage.setItem(
+STORAGE_LOCK,
+"false"
+);
+
+renderMatches();
+
+updateStatus();
+
+alert(
+"Pronósticos desbloqueados."
+);
+
+});
+
+/* =========================================
+   EXPORT JPG
+========================================= */
+
+exportBtn.addEventListener(
+"click",
+async()=>{
+
+/* =========================
+   VALIDACION SEGURIDAD
+========================= */
+
+if(!locked){
+
+const password =
+prompt(
+"Para generar la imagen debes ingresar la contraseña:"
+);
+
+if(password !== ADMIN_PASSWORD){
+
+alert(
+"No autorizado para generar imagen."
+);
+
+return;
+
+}
+
+}
+
+/* =========================
+   CAPTURE AREA
+========================= */
+
+const capture =
+document.getElementById(
+"captureArea"
+);
+
+/* =========================
+   FIX HTML2CANVAS INPUT BUG
+========================= */
+
+const scoreInputs =
+document.querySelectorAll(".score");
+
+scoreInputs.forEach(input=>{
+
+const fake =
+document.createElement("div");
+
+fake.className = "score";
+
+fake.innerText =
+input.value || "";
+
+fake.setAttribute(
+"data-fake",
+"true"
+);
+
+fake.style.display = "flex";
+fake.style.alignItems = "center";
+fake.style.justifyContent = "center";
+
+input.style.display = "none";
+
+input.parentNode.insertBefore(
+fake,
+input
+);
+
+});
+
+/* =========================
+   GENERATE CANVAS
+========================= */
+
+const canvas =
+await html2canvas(capture,{
+
+scale:2,
+
+backgroundColor:"#07142b",
+
+useCORS:true
+
+});
+
+/* =========================
+   RESTORE INPUTS
+========================= */
+
+document
+.querySelectorAll('[data-fake="true"]')
+.forEach(fake=>{
+
+fake.remove();
+
+});
+
+scoreInputs.forEach(input=>{
+
+input.style.display = "flex";
+
+});
+
+/* =========================
+   DOWNLOAD JPG
+========================= */
+
+const link =
+document.createElement("a");
+
+link.download =
+"FIFA_WorldCup2026_Jornada1.jpg";
+
+link.href =
+canvas.toDataURL(
+"image/jpeg",
+1
+);
+
+link.click();
+
+}
+);
+
+/* =========================================
+   SERVICE WORKER
+========================================= */
+
+if("serviceWorker" in navigator){
+
+const swCode = `
+
+const CACHE_NAME = 'wc2026-cache-v1';
+
+self.addEventListener('install', event => {
+
+event.waitUntil(
+
+caches.open(CACHE_NAME)
+.then(cache => {
+
+return cache.addAll(['./']);
+
+})
+
+);
+
+});
+
+self.addEventListener('fetch', event => {
+
+event.respondWith(
+
+caches.match(event.request)
+.then(response => {
+
+return response || fetch(event.request);
+
+})
+
+);
+
+});
+
+`;
+
+const blob = new Blob(
+[swCode],
+{
+type:'application/javascript'
+}
+);
+
+const swURL =
+URL.createObjectURL(blob);
+
+navigator.serviceWorker
+.register(swURL);
+
+}
+
+/* =========================================
+   START
+========================================= */
+
+init();
+
+</script>
+
+</body>
+</html>
