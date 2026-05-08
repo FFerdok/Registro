@@ -1,1476 +1,334 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Mundial 2026 - Quiniela Jornada 1</title>
 
-<title>FIFA World Cup 2026 Predictor</title>
-
-<meta name="theme-color" content="#07142b">
-
-<link rel="manifest" href='data:application/manifest+json,{
-"name":"FIFA World Cup 2026 Predictor",
-"short_name":"WC2026",
-"start_url":"./",
-"display":"standalone",
-"background_color":"#07142b",
-"theme_color":"#07142b"
-}'>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-
-:root{
-  --bg:#07142b;
-  --card:#102654;
-  --gold:#d4af37;
-  --gold-light:#f5dd8c;
-  --white:#ffffff;
-  --red:#d72638;
-  --green:#13b86b;
-  --blue:#2563eb;
+:root {
+  --gold: #f5c518;
+  --gold2: #c9900a;
+  --red: #c0392b;
+  --green: #27ae60;
+  --bg: #0a0e1a;
+  --mid: #101828;
+  --card: #141e32;
+  --border: #1e2d4a;
+  --text: #e8eaf0;
+  --muted: #6a7a9a;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter, Arial, sans-serif;
-}
-
-body{
-  min-height:100vh;
-
-  background:
-  radial-gradient(circle at top,#173d77 0%, #07142b 55%);
-
-  color:white;
-}
-
-/* =========================
-   LOGIN
-========================= */
-
-.login-screen{
-
-  min-height:100vh;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  padding:20px;
-
-}
-
-.login-card{
-
-  width:100%;
-  max-width:420px;
-
-  background:
-  linear-gradient(
-    180deg,
-    #11295a,
-    #091733
-  );
-
-  border-radius:28px;
-
-  padding:32px;
-
-  border:1px solid rgba(255,255,255,.08);
-
-  box-shadow:
-  0 25px 45px rgba(0,0,0,.35);
-
-}
-
-.login-logo{
-  text-align:center;
-  margin-bottom:28px;
-}
-
-.login-logo h1{
-  color:var(--gold-light);
-  font-size:1.8rem;
-  margin-bottom:10px;
-}
-
-.login-logo p{
-  opacity:.75;
-  font-size:.92rem;
-}
-
-.login-input{
-
-  width:100%;
-  height:58px;
-
-  border:none;
-  outline:none;
-
-  border-radius:18px;
-
-  padding:0 18px;
-
-  font-size:1rem;
-
-  margin-bottom:18px;
-
-}
-
-.login-btn{
-
-  width:100%;
-  height:58px;
-
-  border:none;
-  border-radius:18px;
-
-  background:
-  linear-gradient(
-    90deg,
-    var(--gold),
-    var(--gold-light)
-  );
-
-  color:#000;
-
-  font-weight:900;
-
-  font-size:1rem;
-
-  cursor:pointer;
-
-}
-
-/* =========================
-   APP
-========================= */
-
-.app{
-  display:none;
-}
-
-/* =========================
-   TOPBAR
-========================= */
-
-.topbar{
-
-  position:sticky;
-  top:0;
-  z-index:999;
-
-  backdrop-filter:blur(12px);
-
-  background:rgba(7,20,43,.9);
-
-  border-bottom:1px solid rgba(255,255,255,.06);
-
-}
-
-.topbar-inner{
-
-  max-width:1500px;
-  margin:auto;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  gap:12px;
-
-  padding:16px;
-
-}
-
-.title h2{
-  color:var(--gold-light);
-  font-size:1.2rem;
-}
-
-.title p{
-  opacity:.72;
-  font-size:.84rem;
-}
-
-.user-chip{
-
-  background:rgba(255,255,255,.08);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  padding:10px 16px;
-
-  border-radius:999px;
-
-  font-size:.9rem;
-  font-weight:800;
-
-}
-
-/* =========================
-   MAIN
-========================= */
-
-.main{
-  max-width:1500px;
-  margin:auto;
-  padding:18px;
-}
-
-/* =========================
-   ACTIONS
-========================= */
-
-.actions{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(4,1fr);
-
-  gap:12px;
-
-  margin-bottom:18px;
-
-}
-
-.action-btn{
-
-  height:54px;
-
-  border:none;
-  border-radius:18px;
-
-  color:white;
-
-  font-weight:900;
-
-  font-size:.9rem;
-
-  cursor:pointer;
-
-}
-
-.save-btn{
-  background:var(--blue);
-}
-
-.lock-btn{
-  background:var(--red);
-}
-
-.unlock-btn{
-  background:#6b7280;
-}
-
-.export-btn{
-  background:var(--green);
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status{
-
-  background:rgba(255,255,255,.05);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  border-radius:18px;
-
-  padding:14px 16px;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  flex-wrap:wrap;
-
-  gap:10px;
-
-  margin-bottom:18px;
-
-}
-
-/* =========================
-   CAPTURE HEADER
-========================= */
-
-.capture-header{
-
-  background:
-  linear-gradient(
-    145deg,
-    #122d61,
-    #091733
-  );
-
-  border-radius:24px;
-
-  padding:18px;
-
-  margin-bottom:16px;
-
-  border:1px solid rgba(255,255,255,.08);
-
-}
-
-.capture-header h2{
-  color:var(--gold-light);
-  margin-bottom:10px;
-}
-
-.capture-meta{
-
-  display:flex;
-  flex-wrap:wrap;
-
-  gap:20px;
-
-  opacity:.9;
-
-  font-size:.92rem;
-
-}
-
-/* =========================
-   MATCHES
-========================= */
-
-.matches{
-
-  display:grid;
-  grid-template-columns:1fr;
-
-  gap:14px;
-
-}
-
-.match{
-
-  position:relative;
-
-  overflow:hidden;
-
-  background:
-  linear-gradient(
-    145deg,
-    #122d61,
-    #091733
-  );
-
-  border-radius:24px;
-
-  padding:18px;
-
-  border:1px solid rgba(255,255,255,.08);
-
-  box-shadow:
-  0 10px 24px rgba(0,0,0,.22);
-
-}
-
-.match::before{
-
-  content:'';
-
-  position:absolute;
-
-  top:0;
-  left:0;
-
-  width:100%;
-  height:4px;
-
-  background:
-  linear-gradient(
-    90deg,
-    #c79d32,
-    #f5dd8c,
-    #c79d32
-  );
-
-}
-
-/* =========================
-   MATCH TOP
-========================= */
-
-.match-top{
-
-  display:grid;
-
-  grid-template-columns:
-  1fr auto 1fr;
-
-  align-items:center;
-
-  gap:14px;
-
-}
-
-.team{
-
-  font-weight:900;
-  font-size:1rem;
-  line-height:1.2;
-
-}
-
-.team-left{
-  text-align:right;
-}
-
-.team-right{
-  text-align:left;
-}
-
-/* =========================
-   SCORE
-========================= */
-
-.score-center{
-
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-}
-
-.score{
-
-  width:58px;
-  height:58px;
-
-  border:none;
-  outline:none;
-
-  border-radius:16px;
-
-  background:white;
-  color:#000;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  text-align:center;
-
-  font-size:1.45rem;
-  font-weight:900;
-
-  padding:0;
-
-  appearance:none;
-  -webkit-appearance:none;
-  -moz-appearance:textfield;
-
-  font-family:Arial, sans-serif;
-
-}
-
-.score::-webkit-outer-spin-button,
-.score::-webkit-inner-spin-button{
-  -webkit-appearance:none;
-  margin:0;
-}
-
-.separator{
-
-  font-size:1.5rem;
-  font-weight:900;
-
-  color:var(--gold-light);
-
-}
-
-/* =========================
-   MATCH INFO
-========================= */
-
-.match-bottom{
-
-  margin-top:16px;
-
-  padding-top:14px;
-
-  border-top:1px solid rgba(255,255,255,.08);
-
-  display:flex;
-  flex-direction:column;
-
-  gap:6px;
-
-  font-size:.84rem;
-
-  opacity:.86;
-
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-  text-align:center;
-  padding:30px 16px;
-  opacity:.5;
-  font-size:.82rem;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:900px){
-
-  .actions{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-@media(min-width:768px){
-
-  .matches{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-@media(min-width:1250px){
-
-  .matches{
-    grid-template-columns:1fr 1fr 1fr;
-  }
-
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Exo 2', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* LOGIN */
+.login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.login-card { width: 100%; max-width: 360px; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; text-align: center; }
+.login-input { width: 100%; height: 55px; background: var(--mid); border: 2px solid var(--border); border-radius: 12px; color: #fff; font-size: 1.2rem; text-align: center; letter-spacing: 4px; margin: 20px 0; outline: none; }
+.login-btn { width: 100%; height: 55px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; cursor: pointer; }
+
+/* APP STRUCTURE */
+.topbar { position: sticky; top: 0; z-index: 100; background: rgba(10, 14, 26, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 12px 16px; }
+.topbar-inner { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
+.main { max-width: 1200px; margin: auto; padding: 16px; padding-bottom: 100px; }
+
+/* ACTIONS */
+.actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+.action-btn { height: 48px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.save-btn { background: var(--gold); color: #000; }
+.export-btn { background: var(--green); }
+.lock-btn { background: var(--red); }
+.unlock-btn { background: #4b5563; }
+
+/* MATCHES */
+.matches { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media(min-width: 768px) { .matches { grid-template-columns: 1fr 1fr; } }
+.match { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 18px; position: relative; }
+.match::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); opacity: 0.2; }
+.match.filled::before { opacity: 1; box-shadow: 0 0 15px var(--gold); }
+.match-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
+.team { font-weight: 700; font-size: 0.9rem; }
+.score { width: 50px; height: 50px; background: var(--mid); border: 2px solid var(--border); border-radius: 12px; color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; text-align: center; outline: none; }
+.score:disabled { opacity: 0.4; }
+
+/* CAPTURE HEADER (Visible solo en imagen) */
+.capture-header { display: none; background: rgba(20, 30, 50, 0.8); border-radius: 15px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border); }
+.vip-card { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #000; padding: 12px 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(245, 197, 24, 0.4); text-align: center; }
+
+/* MODAL & TOAST */
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; max-width: 340px; width: 100%; text-align: center; }
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; padding: 12px 24px; border-radius: 100px; font-weight: 700; opacity: 0; transition: 0.4s; z-index: 3000; }
+#toast.show { opacity: 1; }
 </style>
 </head>
-
 <body>
 
-<!-- =========================
-     LOGIN
-========================= -->
-
 <div class="login-screen" id="loginScreen">
-
   <div class="login-card">
-
-    <div class="login-logo">
-
-      <h1>🏆 FIFA World Cup 2026</h1>
-
-      <p>Registro Oficial de Pronósticos</p>
-
-    </div>
-
-    <input
-      type="text"
-      id="usernameInput"
-      class="login-input"
-      placeholder="Ingresa tu nombre"
-      maxlength="20"
-    >
-
-    <button
-      id="loginBtn"
-      class="login-btn"
-    >
-      INGRESAR
-    </button>
-
+    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.2rem;">WORLD CUP 2026</h1>
+    <input type="text" id="codeInput" class="login-input" maxlength="6" placeholder="CÓDIGO">
+    <div id="loginPreview" style="height: 20px; color: var(--gold); font-weight: 700;"></div>
+    <button class="login-btn" onclick="doLogin()">INGRESAR</button>
+    <div id="loginErr" style="color: var(--red); margin-top: 10px;"></div>
   </div>
-
 </div>
 
-<!-- =========================
-     APP
-========================= -->
-
-<div class="app" id="app">
-
-  <!-- TOPBAR -->
-
+<div class="app" id="app" style="display:none;">
   <div class="topbar">
-
     <div class="topbar-inner">
-
-      <div class="title">
-
-        <h2>Jornada 1 · FIFA World Cup 2026</h2>
-
-        <p>Calendario Oficial</p>
-
-      </div>
-
-      <div class="user-chip">
-
-        👤 <span id="displayUser"></span>
-
-      </div>
-
+      <h2 style="font-family: 'Bebas Neue'; color: var(--gold);">⚽ JORNADA 1</h2>
+      <div id="displayUser" style="font-weight: 700; font-size: 0.9rem;"></div>
     </div>
-
   </div>
-
-  <!-- MAIN -->
 
   <div class="main">
-
-    <!-- ACTIONS -->
-
     <div class="actions">
-
-      <button
-        id="saveBtn"
-        class="action-btn save-btn"
-      >
-        💾 GUARDAR
-      </button>
-
-      <button
-        id="lockBtn"
-        class="action-btn lock-btn"
-      >
-        🔒 BLOQUEAR
-      </button>
-
-      <button
-        id="unlockBtn"
-        class="action-btn unlock-btn"
-      >
-        🔓 DESBLOQUEAR
-      </button>
-
-      <button
-        id="exportBtn"
-        class="action-btn export-btn"
-      >
-        📸 GENERAR JPG
-      </button>
-
+      <button class="action-btn save-btn" onclick="savePicks()">💾 GUARDAR</button>
+      <button class="action-btn export-btn" onclick="handleExport()">📸 EXPORTAR</button>
+      <button class="action-btn lock-btn" onclick="handleLock()">🔒 BLOQUEAR</button>
+      <button class="action-btn unlock-btn" onclick="handleUnlock()">🔓 ADMIN</button>
     </div>
 
-    <!-- STATUS -->
-
-    <div class="status">
-
-      <div>
-
-        Estado:
-        <strong id="statusText">
-          🟢 ABIERTO
-        </strong>
-
-      </div>
-
-      <div>
-        Jornada 1 · 24 Partidos
-      </div>
-
+    <div style="background: var(--card); border: 1px solid var(--border); padding: 12px 16px; border-radius: 14px; margin-bottom: 20px; display: flex; justify-content: space-between;">
+      <div>Estado: <strong id="statusText">ABIERTO</strong></div>
+      <div id="statusProgress" style="color: var(--muted); font-size: 0.75rem;">0 / 24 completados</div>
     </div>
 
-    <!-- CAPTURE AREA -->
-
-    <div id="captureArea">
-
-      <!-- EXPORT HEADER -->
-
-      <div class="capture-header">
-
-        <h2>
-          FIFA World Cup 2026 Predictor
-        </h2>
-
-        <div class="capture-meta">
-
+    <div id="captureArea" style="padding: 10px; background: var(--bg);">
+      <div id="captureHeader" class="capture-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            👤 Participante:
-            <strong id="captureUser"></strong>
+            <div style="font-family: 'Bebas Neue'; font-size: 2.2rem; color: #fff;">FIFA WORLD CUP 2026</div>
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;">
+              <div style="font-family: 'Bebas Neue'; font-size: 1.3rem; color: var(--gold);">PRONÓSTICOS JORNADA 1</div>
+              <div id="capStatus" style="font-weight: 900; font-size: 0.7rem; padding: 3px 10px; border-radius: 4px;">ABIERTO</div>
+            </div>
           </div>
-
-          <div>
-            📌 Estado:
-            <strong id="captureStatus"></strong>
+          <div class="vip-card">
+            <div style="font-size: 0.7rem; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8;">Participante Oficial</div>
+            <div id="capUser" style="font-family: 'Bebas Neue'; font-size: 1.8rem; letter-spacing: 1px;">-</div>
           </div>
-
-          <div>
-            🏆 Jornada 1
-          </div>
-
         </div>
-
       </div>
-
-      <!-- MATCHES -->
-
-      <div
-        class="matches"
-        id="matchesContainer"
-      ></div>
-
+      <div class="matches" id="matchesContainer"></div>
     </div>
-
   </div>
-
-  <!-- FOOTER -->
-
-  <div class="footer">
-    FIFA World Cup 2026 Predictor · PWA Offline
-  </div>
-
 </div>
+
+<div class="modal-overlay" id="pwModal">
+  <div class="modal">
+    <h3 id="pwTitle" style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 1.6rem;">ADMIN ACCESO</h3>
+    <p id="pwDesc" style="font-size: 0.8rem; color: var(--muted); margin: 15px 0;">Se requiere clave para continuar</p>
+    <input type="password" id="pwInput" class="login-input" placeholder="••••">
+    <div style="display: flex; gap: 10px;">
+      <button class="action-btn unlock-btn" style="flex:1" onclick="closePwModal()">CANCELAR</button>
+      <button class="action-btn save-btn" style="flex:1" onclick="confirmPwModal()">OK</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
+const ADMIN_PASS = "AP420";
+const USER_CODES = { "JDQM26": "Juan de Dios", "ADMIN0": "Administrador" };
 
-/* =========================================
-   STORAGE
-========================================= */
-
-const STORAGE_USER =
-  "wc2026_locked_user";
-
-const STORAGE_PICKS =
-  "wc2026_predictions";
-
-const STORAGE_LOCK =
-  "wc2026_predictions_locked";
-
-/* =========================================
-   PASSWORD
-========================================= */
-
-const ADMIN_PASSWORD =
-  "AP420";
-
-/* =========================================
-   MATCHES
-========================================= */
-
+// INFORMACIÓN COMPLETA DE LA JORNADA 1 (24 PARTIDOS)
 const MATCHES = [
-
-{
-home:"México",
-away:"Sudáfrica",
-date:"11 Junio 2026 · 13:00",
-stadium:"🏟️ Estadio Azteca · Ciudad de México"
-},
-
-{
-home:"Corea del Sur",
-away:"República Checa",
-date:"11 Junio 2026 · 20:00",
-stadium:"🏟️ Estadio Akron · Guadalajara"
-},
-
-{
-home:"Canadá",
-away:"Bosnia y Herzegovina",
-date:"12 Junio 2026 · 13:00",
-stadium:"🏟️ Toronto Stadium"
-},
-
-{
-home:"Estados Unidos",
-away:"Paraguay",
-date:"12 Junio 2026 · 19:00",
-stadium:"🏟️ Los Angeles Stadium"
-},
-
-{
-home:"Qatar",
-away:"Suiza",
-date:"13 Junio 2026 · 13:00",
-stadium:"🏟️ San Francisco Bay Area Stadium"
-},
-
-{
-home:"Brasil",
-away:"Marruecos",
-date:"13 Junio 2026 · 16:00",
-stadium:"🏟️ New York New Jersey Stadium"
-},
-
-{
-home:"Haití",
-away:"Escocia",
-date:"13 Junio 2026 · 19:00",
-stadium:"🏟️ Boston Stadium"
-},
-
-{
-home:"Australia",
-away:"Turquía",
-date:"13 Junio 2026 · 22:00",
-stadium:"🏟️ BC Place · Vancouver"
-},
-
-{
-home:"Alemania",
-away:"Curazao",
-date:"14 Junio 2026 · 11:00",
-stadium:"🏟️ Houston Stadium"
-},
-
-{
-home:"Países Bajos",
-away:"Japón",
-date:"14 Junio 2026 · 14:00",
-stadium:"🏟️ Dallas Stadium"
-},
-
-{
-home:"Costa de Marfil",
-away:"Ecuador",
-date:"14 Junio 2026 · 17:00",
-stadium:"🏟️ Philadelphia Stadium"
-},
-
-{
-home:"Suecia",
-away:"Túnez",
-date:"14 Junio 2026 · 20:00",
-stadium:"🏟️ Estadio Monterrey"
-},
-
-{
-home:"España",
-away:"Cabo Verde",
-date:"15 Junio 2026 · 10:00",
-stadium:"🏟️ Atlanta Stadium"
-},
-
-{
-home:"Bélgica",
-away:"Egipto",
-date:"15 Junio 2026 · 13:00",
-stadium:"🏟️ Seattle Stadium"
-},
-
-{
-home:"Arabia Saudita",
-away:"Uruguay",
-date:"15 Junio 2026 · 16:00",
-stadium:"🏟️ Miami Stadium"
-},
-
-{
-home:"Irán",
-away:"Nueva Zelanda",
-date:"15 Junio 2026 · 19:00",
-stadium:"🏟️ Los Angeles Stadium"
-},
-
-{
-home:"Francia",
-away:"Senegal",
-date:"16 Junio 2026 · 13:00",
-stadium:"🏟️ New York New Jersey Stadium"
-},
-
-{
-home:"Argentina",
-away:"Argelia",
-date:"16 Junio 2026 · 16:00",
-stadium:"🏟️ Kansas City Stadium"
-},
-
-{
-home:"Irak",
-away:"Noruega",
-date:"16 Junio 2026 · 19:00",
-stadium:"🏟️ Boston Stadium"
-},
-
-{
-home:"Austria",
-away:"Jordania",
-date:"16 Junio 2026 · 19:00",
-stadium:"🏟️ San Francisco Bay Area Stadium"
-},
-
-{
-home:"Portugal",
-away:"RD Congo",
-date:"17 Junio 2026 · 11:00",
-stadium:"🏟️ Houston Stadium"
-},
-
-{
-home:"Ghana",
-away:"Panamá",
-date:"17 Junio 2026 · 13:00",
-stadium:"🏟️ Toronto Stadium"
-},
-
-{
-home:"Inglaterra",
-away:"Croacia",
-date:"17 Junio 2026 · 14:00",
-stadium:"🏟️ Dallas Stadium"
-},
-
-{
-home:"Uzbekistán",
-away:"Colombia",
-date:"17 Junio 2026 · 19:00",
-stadium:"🏟️ Estadio Azteca · CDMX"
-}
-
+  {h:"México",a:"Sudáfrica",d:"11 Jun · 13:00",s:"Estadio Azteca"},
+  {h:"Corea del Sur",a:"Rep. Checa",d:"11 Jun · 20:00",s:"Estadio Akron"},
+  {h:"Canadá",a:"Bosnia y Herz.",d:"12 Jun · 13:00",s:"Toronto Stadium"},
+  {h:"Estados Unidos",a:"Paraguay",d:"12 Jun · 19:00",s:"SoFi Stadium"},
+  {h:"Qatar",a:"Suiza",d:"13 Jun · 13:00",s:"Bay Area Stadium"},
+  {h:"Brasil",a:"Marruecos",d:"13 Jun · 16:00",s:"MetLife Stadium"},
+  {h:"Haití",a:"Escocia",d:"13 Jun · 19:00",s:"Gillette Stadium"},
+  {h:"Australia",a:"Turquía",d:"13 Jun · 22:00",s:"BC Place"},
+  {h:"Alemania",a:"Curazao",d:"14 Jun · 11:00",s:"NRG Stadium"},
+  {h:"Países Bajos",a:"Japón",d:"14 Jun · 14:00",s:"AT&T Stadium"},
+  {h:"Costa de Marfil",a:"Ecuador",d:"14 Jun · 17:00",s:"Lincoln Financial"},
+  {h:"Suecia",a:"Túnez",d:"14 Jun · 20:00",s:"Estadio BBVA"},
+  {h:"España",a:"Cabo Verde",d:"15 Jun · 10:00",s:"Mercedes-Benz Stadium"},
+  {h:"Bélgica",a:"Egipto",d:"15 Jun · 13:00",s:"Lumen Field"},
+  {h:"Arabia Saudita",a:"Uruguay",d:"15 Jun · 16:00",s:"Hard Rock Stadium"},
+  {h:"Irán",a:"Nueva Zelanda",d:"15 Jun · 19:00",s:"SoFi Stadium"},
+  {h:"Francia",a:"Senegal",d:"16 Jun · 13:00",s:"MetLife Stadium"},
+  {h:"Argentina",a:"Argelia",d:"16 Jun · 16:00",s:"Arrowhead Stadium"},
+  {h:"Irak",a:"Noruega",d:"16 Jun · 19:00",s:"Gillette Stadium"},
+  {h:"Austria",a:"Jordania",d:"16 Jun · 19:00",s:"Bay Area Stadium"},
+  {h:"Portugal",a:"RD Congo",d:"17 Jun · 11:00",s:"NRG Stadium"},
+  {h:"Ghana",a:"Panamá",d:"17 Jun · 13:00",s:"Toronto Stadium"},
+  {h:"Inglaterra",a:"Croacia",d:"17 Jun · 14:00",s:"AT&T Stadium"},
+  {h:"Uzbekistán",a:"Colombia",d:"17 Jun · 19:00",s:"Estadio Azteca"}
 ];
 
-/* =========================================
-   ELEMENTS
-========================================= */
+let currentUser = "", currentCode = "", locked = false, picks = {}, pwCallback = null;
 
-const loginScreen =
-document.getElementById("loginScreen");
+// INIT
+(function(){
+  const sC = localStorage.getItem("wc26_code"), sU = localStorage.getItem("wc26_user");
+  if(sC && sU){ currentCode = sC; currentUser = sU; loadData(); showApp(); }
+})();
 
-const app =
-document.getElementById("app");
-
-const loginBtn =
-document.getElementById("loginBtn");
-
-const usernameInput =
-document.getElementById("usernameInput");
-
-const displayUser =
-document.getElementById("displayUser");
-
-const captureUser =
-document.getElementById("captureUser");
-
-const captureStatus =
-document.getElementById("captureStatus");
-
-const matchesContainer =
-document.getElementById("matchesContainer");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-const lockBtn =
-document.getElementById("lockBtn");
-
-const unlockBtn =
-document.getElementById("unlockBtn");
-
-const exportBtn =
-document.getElementById("exportBtn");
-
-const statusText =
-document.getElementById("statusText");
-
-/* =========================================
-   STATE
-========================================= */
-
-let locked =
-localStorage.getItem(STORAGE_LOCK)
-=== "true";
-
-const predictions =
-JSON.parse(
-localStorage.getItem(STORAGE_PICKS)
-|| "{}"
-);
-
-/* =========================================
-   INIT
-========================================= */
-
-function init(){
-
-const savedUser =
-localStorage.getItem(STORAGE_USER);
-
-if(savedUser){
-
-showApp(savedUser);
-
-}else{
-
-loginScreen.style.display = "flex";
-app.style.display = "none";
-
+function doLogin(){
+  const c = document.getElementById("codeInput").value.toUpperCase();
+  if(USER_CODES[c]){
+    currentCode = c; currentUser = USER_CODES[c];
+    localStorage.setItem("wc26_code", c); localStorage.setItem("wc26_user", currentUser);
+    loadData(); showApp();
+  } else { document.getElementById("loginErr").textContent = "Código inválido."; }
 }
 
+function loadData(){
+  picks = JSON.parse(localStorage.getItem("wc26_picks_" + currentCode) || "{}");
+  locked = localStorage.getItem("wc26_lock_" + currentCode) === "1";
 }
 
-/* =========================================
-   LOGIN
-========================================= */
-
-loginBtn.addEventListener("click",()=>{
-
-const username =
-usernameInput.value.trim();
-
-if(username.length < 3){
-
-alert("Ingresa un nombre válido.");
-return;
-
+function showApp(){
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  document.getElementById("displayUser").textContent = "👤 " + currentUser;
+  document.getElementById("capUser").textContent = currentUser;
+  renderMatches();
+  updateStatusUI();
 }
-
-localStorage.setItem(
-STORAGE_USER,
-username
-);
-
-showApp(username);
-
-});
-
-/* =========================================
-   SHOW APP
-========================================= */
-
-function showApp(username){
-
-loginScreen.style.display = "none";
-
-app.style.display = "block";
-
-displayUser.textContent = username;
-
-captureUser.textContent = username;
-
-renderMatches();
-
-updateStatus();
-
-}
-
-/* =========================================
-   RENDER MATCHES
-========================================= */
 
 function renderMatches(){
-
-matchesContainer.innerHTML = "";
-
-MATCHES.forEach((match,index)=>{
-
-const localKey =
-`m_${index}_local`;
-
-const awayKey =
-`m_${index}_away`;
-
-const card =
-document.createElement("div");
-
-card.className = "match";
-
-card.innerHTML = `
-
-<div class="match-top">
-
-<div class="team team-left">
-${match.home}
-</div>
-
-<div class="score-center">
-
-<input
-class="score"
-type="number"
-min="0"
-value="${predictions[localKey] ?? ""}"
-data-key="${localKey}"
-${locked ? "disabled" : ""}
-/>
-
-<div class="separator">-</div>
-
-<input
-class="score"
-type="number"
-min="0"
-value="${predictions[awayKey] ?? ""}"
-data-key="${awayKey}"
-${locked ? "disabled" : ""}
-/>
-
-</div>
-
-<div class="team team-right">
-${match.away}
-</div>
-
-</div>
-
-<div class="match-bottom">
-
-<div>
-📅 ${match.date}
-</div>
-
-<div>
-${match.stadium}
-</div>
-
-</div>
-
-`;
-
-matchesContainer.appendChild(card);
-
-});
-
-/* SAVE INPUTS */
-
-document
-.querySelectorAll(".score")
-.forEach(input=>{
-
-input.addEventListener(
-"input",
-(e)=>{
-
-predictions[
-e.target.dataset.key
-] = e.target.value;
-
+  const mc = document.getElementById("matchesContainer");
+  mc.innerHTML = MATCHES.map((m, idx) => {
+    const hV = picks[`j1_${idx}_h`] || "", aV = picks[`j1_${idx}_a`] || "";
+    return `
+      <div class="match ${hV!=='' && aV!=='' ? 'filled' : ''}">
+        <div class="match-top">
+          <div class="team" style="text-align:right;">${m.h}</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input class="score" type="number" value="${hV}" ${locked?'disabled':''} oninput="updatePick(${idx},'h',this)">
+            <span style="font-family:'Bebas Neue'; color:var(--gold); opacity:0.5;">:</span>
+            <input class="score" type="number" value="${aV}" ${locked?'disabled':''} oninput="updatePick(${idx},'a',this)">
+          </div>
+          <div class="team">${m.a}</div>
+        </div>
+        <div style="margin-top:10px; font-size:0.7rem; color:var(--muted); text-align:center;">
+          ${m.d} | ${m.s}
+        </div>
+      </div>
+    `;
+  }).join('');
+  updateProgress();
 }
 
-);
-
-});
-
+function updatePick(idx, side, el){
+  picks[`j1_${idx}_${side}`] = el.value.slice(0,2);
+  const h = picks[`j1_${idx}_h`], a = picks[`j1_${idx}_a`];
+  el.closest(".match").classList.toggle("filled", (h && a));
+  updateProgress();
 }
 
-/* =========================================
-   SAVE
-========================================= */
-
-saveBtn.addEventListener("click",()=>{
-
-localStorage.setItem(
-STORAGE_PICKS,
-JSON.stringify(predictions)
-);
-
-alert(
-"Cambios guardados correctamente."
-);
-
-});
-
-/* =========================================
-   STATUS
-========================================= */
-
-function updateStatus(){
-
-if(locked){
-
-statusText.innerHTML =
-"🔒 CERRADO";
-
-captureStatus.innerHTML =
-"🔒 CERRADO";
-
-}else{
-
-statusText.innerHTML =
-"🟢 ABIERTO";
-
-captureStatus.innerHTML =
-"🟢 ABIERTO";
-
+function updateProgress(){
+  let done = 0;
+  MATCHES.forEach((m, i) => { if(picks[`j1_${i}_h`] && picks[`j1_${i}_a`]) done++; });
+  document.getElementById("statusProgress").textContent = `${done} / 24 completados`;
 }
 
+function updateStatusUI(){
+  const txt = document.getElementById("statusText");
+  txt.textContent = locked ? "CERRADO 🔒" : "ABIERTO 🟢";
+  txt.style.color = locked ? "var(--red)" : "var(--green)";
 }
 
-/* =========================================
-   LOCK
-========================================= */
-
-lockBtn.addEventListener("click",()=>{
-
-if(locked){
-
-alert(
-"Los pronósticos ya están bloqueados."
-);
-
-return;
-
+function savePicks(){
+  if(locked) return showToast("🔒 Pronósticos bloqueados");
+  localStorage.setItem("wc26_picks_" + currentCode, JSON.stringify(picks));
+  showToast("💾 Guardado correctamente");
 }
 
-const confirmLock =
-confirm(
-"¿Deseas bloquear los pronósticos?\n\nNO podrán modificarse."
-);
-
-if(!confirmLock) return;
-
-locked = true;
-
-localStorage.setItem(
-STORAGE_LOCK,
-"true"
-);
-
-localStorage.setItem(
-STORAGE_PICKS,
-JSON.stringify(predictions)
-);
-
-renderMatches();
-
-updateStatus();
-
-alert(
-"Pronósticos bloqueados."
-);
-
-});
-
-/* =========================================
-   UNLOCK
-========================================= */
-
-unlockBtn.addEventListener("click",()=>{
-
-const password =
-prompt(
-"Ingrese contraseña:"
-);
-
-if(password !== ADMIN_PASSWORD){
-
-alert(
-"Contraseña incorrecta."
-);
-
-return;
-
+function handleLock(){
+  if(locked) return;
+  if(!confirm("¿Bloquear permanentemente?")) return;
+  locked = true;
+  localStorage.setItem("wc26_lock_" + currentCode, "1");
+  savePicks(); renderMatches(); updateStatusUI();
 }
 
-locked = false;
-
-localStorage.setItem(
-STORAGE_LOCK,
-"false"
-);
-
-renderMatches();
-
-updateStatus();
-
-alert(
-"Pronósticos desbloqueados."
-);
-
-});
-
-/* =========================================
-   EXPORT JPG
-========================================= */
-
-exportBtn.addEventListener(
-"click",
-async()=>{
-
-/* =========================
-   VALIDACION SEGURIDAD
-========================= */
-
-if(!locked){
-
-const password =
-prompt(
-"Para generar la imagen debes ingresar la contraseña:"
-);
-
-if(password !== ADMIN_PASSWORD){
-
-alert(
-"No autorizado para generar imagen."
-);
-
-return;
-
+function handleUnlock(){
+  openPwModal("ADMIN: DESBLOQUEAR", "Se requiere clave para permitir cambios", function(){
+    locked = false; localStorage.setItem("wc26_lock_" + currentCode, "0");
+    renderMatches(); updateStatusUI(); showToast("🔓 Desbloqueado");
+  });
 }
 
+// LÓGICA DE EXPORTACIÓN CON VALIDACIÓN DE CONTRASEÑA
+function handleExport(){
+  if(!locked){
+    openPwModal("ADMIN: EXPORTAR", "Los pronósticos están ABIERTOS. Se requiere clave para generar la imagen.", function(){
+      doExport();
+    });
+  } else {
+    doExport();
+  }
 }
 
-/* =========================
-   CAPTURE AREA
-========================= */
+function doExport(){
+  showToast("📸 Generando imagen...");
+  const area = document.getElementById("captureArea");
+  const header = document.getElementById("captureHeader");
+  const stLabel = document.getElementById("capStatus");
+  
+  // Configurar label de estado en imagen
+  stLabel.textContent = locked ? "PRONÓSTICO CERRADO" : "PRONÓSTICO ABIERTO";
+  stLabel.style.background = locked ? "var(--red)" : "var(--green)";
+  stLabel.style.color = "#fff";
 
-const capture =
-document.getElementById(
-"captureArea"
-);
+  header.style.display = "block";
+  const inputs = area.querySelectorAll("input");
+  const backups = [];
 
-/* =========================
-   FIX HTML2CANVAS INPUT BUG
-========================= */
+  inputs.forEach(inp => {
+    const div = document.createElement("div");
+    div.className = inp.className;
+    div.style.display = "flex"; div.style.alignItems = "center"; div.style.justifyContent = "center";
+    div.textContent = inp.value || "-";
+    backups.push({original: inp, div: div});
+    inp.style.display = "none";
+    inp.parentNode.insertBefore(div, inp);
+  });
 
-const scoreInputs =
-document.querySelectorAll(".score");
-
-scoreInputs.forEach(input=>{
-
-const fake =
-document.createElement("div");
-
-fake.className = "score";
-
-fake.innerText =
-input.value || "";
-
-fake.setAttribute(
-"data-fake",
-"true"
-);
-
-fake.style.display = "flex";
-fake.style.alignItems = "center";
-fake.style.justifyContent = "center";
-
-input.style.display = "none";
-
-input.parentNode.insertBefore(
-fake,
-input
-);
-
-});
-
-/* =========================
-   GENERATE CANVAS
-========================= */
-
-const canvas =
-await html2canvas(capture,{
-
-scale:2,
-
-backgroundColor:"#07142b",
-
-useCORS:true
-
-});
-
-/* =========================
-   RESTORE INPUTS
-========================= */
-
-document
-.querySelectorAll('[data-fake="true"]')
-.forEach(fake=>{
-
-fake.remove();
-
-});
-
-scoreInputs.forEach(input=>{
-
-input.style.display = "flex";
-
-});
-
-/* =========================
-   DOWNLOAD JPG
-========================= */
-
-const link =
-document.createElement("a");
-
-link.download =
-"FIFA_WorldCup2026_Jornada1.jpg";
-
-link.href =
-canvas.toDataURL(
-"image/jpeg",
-1
-);
-
-link.click();
-
-}
-);
-
-/* =========================================
-   SERVICE WORKER
-========================================= */
-
-if("serviceWorker" in navigator){
-
-const swCode = `
-
-const CACHE_NAME = 'wc2026-cache-v1';
-
-self.addEventListener('install', event => {
-
-event.waitUntil(
-
-caches.open(CACHE_NAME)
-.then(cache => {
-
-return cache.addAll(['./']);
-
-})
-
-);
-
-});
-
-self.addEventListener('fetch', event => {
-
-event.respondWith(
-
-caches.match(event.request)
-.then(response => {
-
-return response || fetch(event.request);
-
-})
-
-);
-
-});
-
-`;
-
-const blob = new Blob(
-[swCode],
-{
-type:'application/javascript'
-}
-);
-
-const swURL =
-URL.createObjectURL(blob);
-
-navigator.serviceWorker
-.register(swURL);
-
+  html2canvas(area, { scale: 2, backgroundColor: "#0a0e1a" }).then(canvas => {
+    backups.forEach(b => { b.div.remove(); b.original.style.display = ""; });
+    header.style.display = "none";
+    const link = document.createElement("a");
+    link.download = `Pronostico_${currentUser.replace(/ /g,"_")}.jpg`;
+    link.href = canvas.toDataURL("image/jpeg", 0.9);
+    link.click();
+  });
 }
 
-/* =========================================
-   START
-========================================= */
-
-init();
-
+function openPwModal(t, d, cb){
+  document.getElementById("pwTitle").textContent = t;
+  document.getElementById("pwDesc").textContent = d;
+  document.getElementById("pwInput").value = "";
+  document.getElementById("pwModal").classList.add("show");
+  pwCallback = cb;
+}
+function closePwModal(){ document.getElementById("pwModal").classList.remove("show"); }
+function confirmPwModal(){
+  if(document.getElementById("pwInput").value === ADMIN_PASS){
+    closePwModal(); if(pwCallback) pwCallback();
+  } else { alert("Clave incorrecta"); }
+}
+function showToast(m){
+  const t = document.getElementById("toast"); t.textContent = m;
+  t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 3000);
+}
 </script>
-
 </body>
 </html>
