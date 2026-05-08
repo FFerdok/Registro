@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0a0e1a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Mundial 2026 - Pronósticos Oficiales</title>
+<meta name="theme-color" content="#121212">
+<title>FIFA World Cup 2026 - Estadio Virtual</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -18,173 +16,197 @@
   --gold2: #c9900a;
   --red: #c0392b;
   --green: #27ae60;
-  --bg: #0a0e1a;
-  --mid: #101828;
-  --card: #141e32;
-  --border: #1e2d4a;
+  --bg: #121212;      /* Gris Carbón */
+  --mid: #1a1a1a;
+  --card: #1e1e1e;
+  --border: #333333;
   --text: #e8eaf0;
-  --muted: #6a7a9a;
+  --muted: #888888;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Exo 2', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-/* ── ANIMACIÓN COPA (LOGIN) ── */
-.trophy-container { font-size: 5rem; margin-bottom: 10px; filter: drop-shadow(0 0 20px var(--gold)); animation: float 3s ease-in-out infinite; }
-@keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px var(--gold2)); }
-  50% { transform: translateY(-20px) scale(1.1); filter: drop-shadow(0 0 30px var(--gold)); }
+/* ── ILUMINACIÓN DINÁMICA DE ESTADIO (FONDO) ── */
+body::before {
+  content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at center, rgba(245,197,24,0.03) 0%, transparent 50%);
+  z-index: -1; animation: stadiumMove 20s infinite linear;
+}
+@keyframes stadiumMove {
+  0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }
 }
 
-/* ── BANNER OFICIAL FIFA ── */
-.fifa-banner {
-  background: linear-gradient(135deg, #0a1e41 0%, #060c1a 100%);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-.fifa-banner::before {
-  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle, rgba(245,197,24,0.08) 0%, transparent 70%);
-  animation: rotateBg 15s linear infinite;
-}
-@keyframes rotateBg { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* ── ANIMACIONES GLOBALES ── */
+.fade-in { animation: fadeIn 0.8s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.fifa-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: #fff; letter-spacing: 4px; line-height: 1; position: relative; z-index: 2; animation: softPulse 4s infinite ease-in-out; }
-.fifa-subtitle { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--gold); letter-spacing: 2px; position: relative; z-index: 2; opacity: 0.9; }
-@keyframes softPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.02); opacity: 0.8; } }
+.stagger-card { opacity: 0; transform: translateY(30px); animation: staggerIn 0.5s ease forwards; }
+@keyframes staggerIn { to { opacity: 1; transform: translateY(0); } }
 
 /* ── LOGIN ── */
-.login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; }
-.login-card { width: 100%; max-width: 360px; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-.login-input { width: 100%; height: 55px; background: var(--mid); border: 2px solid var(--border); border-radius: 12px; color: #fff; font-size: 1.2rem; font-weight: 700; text-align: center; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px; outline: none; transition: 0.2s; }
-.login-btn { width: 100%; height: 55px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; border-radius: 12px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; cursor: pointer; transition: 0.2s; }
+.login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.login-card { 
+  width: 100%; max-width: 360px; background: rgba(30, 30, 30, 0.9); border: 2px solid var(--border); 
+  border-radius: 28px; padding: 40px; text-align: center; backdrop-filter: blur(15px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.8); animation: cardFloat 4s infinite ease-in-out;
+}
+@keyframes cardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-/* ── TOPBAR ── */
-.topbar { position: sticky; top: 0; z-index: 100; background: rgba(10, 14, 26, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 12px 16px; }
-.topbar-inner { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
-.user-chip { background: var(--card); border: 1px solid var(--border); padding: 6px 14px; border-radius: 100px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.trophy-icon { font-size: 5rem; filter: drop-shadow(0 0 20px var(--gold)); margin-bottom: 20px; animation: trophyPulse 2s infinite; }
+@keyframes trophyPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--gold2)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 30px var(--gold)); } }
 
-/* ── MAIN ── */
-.main { max-width: 1200px; margin: auto; padding: 16px; padding-bottom: 100px; }
-.actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-.action-btn { height: 48px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.save-btn { background: var(--gold); color: #000; }
-.lock-btn { background: var(--red); }
-.unlock-btn { background: #4b5563; }
-.export-btn { background: var(--green); }
+.login-input { 
+  width: 100%; height: 60px; background: var(--mid); border: 2px solid var(--border); border-radius: 15px; 
+  color: #fff; font-size: 1.4rem; text-align: center; letter-spacing: 5px; margin-bottom: 20px; outline: none;
+  transition: all 0.3s;
+}
+.login-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(245,197,24,0.2); }
 
-/* ── TARJETAS DE PARTIDO ── */
-.matches { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.login-btn { 
+  width: 100%; height: 60px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; 
+  border-radius: 15px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.3s;
+}
+.login-btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+/* ── BANNER ESTILO TRANSMISIÓN ── */
+.fifa-banner {
+  background: linear-gradient(90deg, #000, #222, #000);
+  border: 1px solid var(--border); border-radius: 20px; padding: 40px 20px;
+  text-align: center; margin-bottom: 30px; position: relative; overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+.fifa-banner::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: skewX(-25deg); animation: lightSweep 4s infinite;
+}
+@keyframes lightSweep { 0% { left: -100%; } 30% { left: 150%; } 100% { left: 150%; } }
+
+.fifa-title { 
+  font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: #fff; line-height: 0.9;
+  background: linear-gradient(to bottom, #fff 40%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+}
+
+/* ── TARJETAS DINÁMICAS ── */
+.matches { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media(min-width: 768px) { .matches { grid-template-columns: 1fr 1fr; } }
 
-.match { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 18px; position: relative; overflow: hidden; transition: 0.3s; }
-.match::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); opacity: 0.2; transition: 0.3s; }
-.match.filled::before { opacity: 1; box-shadow: 0 0 15px var(--gold); }
+.match { 
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; 
+  position: relative; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.match:hover { transform: scale(1.02); border-color: #555; background: #252525; }
+
+.match.filled { border-color: var(--gold2); box-shadow: 0 10px 25px rgba(245,197,24,0.1); }
+.match.filled::before { 
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; 
+  background: var(--gold); animation: lineGlow 1.5s infinite alternate;
+}
+@keyframes lineGlow { from { opacity: 0.5; box-shadow: 0 0 5px var(--gold); } to { opacity: 1; box-shadow: 0 0 20px var(--gold); } }
 
 .match-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
-.team { display: flex; flex-direction: column; align-items: center; gap: 6px; font-weight: 700; font-size: 0.85rem; text-align: center; }
-.flag { width: 32px; height: 22px; object-fit: cover; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 3px 6px rgba(0,0,0,0.3); }
+.team { display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; }
+.flag { width: 42px; height: 28px; border-radius: 5px; object-fit: cover; box-shadow: 0 5px 10px rgba(0,0,0,0.5); border: 1px solid #333; }
 
-.score { width: 50px; height: 50px; background: var(--mid); border: 2px solid var(--border); border-radius: 12px; color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; text-align: center; outline: none; }
-.score:focus { border-color: var(--gold); }
-.score:disabled { opacity: 0.4; color: var(--muted); }
-.separator { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--gold); opacity: 0.5; }
+/* FIX EXPORTACIÓN (NÚMEROS) */
+.score { 
+  width: 55px; height: 55px; line-height: 55px; background: #121212; border: 2px solid #444; 
+  border-radius: 12px; color: var(--gold); font-family: 'Bebas Neue', sans-serif; 
+  font-size: 2rem; text-align: center; outline: none; transition: 0.3s;
+}
+.score:focus { border-color: var(--gold); background: #000; }
 
-.match-bottom { margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; color: var(--muted); text-align: center; }
+/* ── OVERLAY GOL & FLASH ── */
+#flash { position: fixed; inset: 0; background: #fff; z-index: 10000; opacity: 0; pointer-events: none; }
+#goalOverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999;
+  display: none; align-items: center; justify-content: center; flex-direction: column;
+}
+.goal-text { 
+  font-family: 'Bebas Neue', sans-serif; font-size: 15vw; color: var(--gold); 
+  text-shadow: 0 0 70px var(--gold); animation: goalPop 0.3s infinite alternate;
+}
+@keyframes goalPop { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-/* ── CAPTURA IMAGEN ── */
-.capture-header { display: none; margin-bottom: 25px; background: rgba(20, 30, 50, 0.6); padding: 20px; border-radius: 18px; border: 1px solid var(--border); }
-.vip-card { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #000; padding: 12px 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(245, 197, 24, 0.4); text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; }
+/* ── UI INTERACTIVA ── */
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+.action-btn { 
+  height: 55px; border: none; border-radius: 15px; font-family: 'Bebas Neue', sans-serif; 
+  font-size: 1.1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: 0.3s; position: relative; overflow: hidden;
+}
+.action-btn:active { transform: scale(0.95); }
 
-/* ── MODAL & TOAST ── */
-.modal-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 20px; }
-.modal-overlay.show { display: flex; }
-.modal { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; max-width: 340px; width: 100%; text-align: center; }
-#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; padding: 12px 24px; border-radius: 100px; font-weight: 700; opacity: 0; transition: 0.4s; z-index: 3000; pointer-events: none; }
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; padding: 12px 30px; border-radius: 100px; font-weight: 700; opacity: 0; transition: 0.4s; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 </style>
 </head>
 <body>
 
+<div id="flash"></div>
+
+<audio id="fifaSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
+</audio>
+
+<div id="goalOverlay">
+    <div class="goal-text">¡GOOOOOOOOL!</div>
+    <div style="width: 80%; height: 4px; background: var(--gold); margin: 20px 0; border-radius: 2px;"></div>
+    <p style="font-family: 'Bebas Neue'; color: #fff; font-size: 1.8rem; letter-spacing: 5px;">CAPTURANDO MOMENTO...</p>
+</div>
+
 <div class="login-screen" id="loginScreen">
-  <div class="trophy-container">🏆</div>
-  <div class="login-card">
-    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.2rem; letter-spacing: 2px;">FIFA WORLD CUP 2026</h1>
-    <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 25px;">Registro Oficial de Pronósticos</p>
-    <input type="text" id="codeInput" class="login-input" maxlength="6" placeholder="XXXXXX">
-    <div id="loginPreview" style="height: 20px; margin-bottom: 15px; font-weight: 700; color: var(--gold);"></div>
-    <button class="login-btn" onclick="doLogin()">INGRESAR AL TORNEO</button>
-    <div id="loginErr" style="color: var(--red); font-size: 0.8rem; margin-top: 12px;"></div>
+  <div class="login-card fade-in">
+    <div class="trophy-icon">🏆</div>
+    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.8rem; letter-spacing: 2px;">WORLD CUP 2026</h1>
+    <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 30px;">PREDICTOR OFICIAL</p>
+    
+    <input type="text" id="codeInput" class="login-input" maxlength="6" placeholder="CÓDIGO">
+    <div id="loginPreview" style="color: var(--gold); font-weight: 700; margin-bottom: 20px; height: 20px; font-size: 1.1rem;"></div>
+    
+    <button class="login-btn" onclick="doLogin()">SALTAR AL CAMPO</button>
+    <div id="loginErr" style="color: var(--red); margin-top: 15px; font-size: 0.85rem;"></div>
   </div>
 </div>
 
 <div class="app" id="app" style="display:none;">
-  <div class="topbar">
-    <div class="topbar-inner">
-      <h2 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 1.4rem;">⚽ WC2026 PREDICTOR</h2>
-      <div class="user-chip">
-        <span style="background: var(--gold); color: #000; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.7rem; font-weight: 900;" id="userInitial">?</span>
-        <span id="displayUser">Usuario</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="main">
-    <div class="fifa-banner">
+  <div class="main" style="max-width: 1200px; margin: auto; padding: 20px;">
+    
+    <div class="fifa-banner fade-in">
       <div class="fifa-title">MUNDIAL 2026</div>
-      <div class="fifa-subtitle">JORNADA 1 • CALENDARIO OFICIAL</div>
+      <p style="color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.5rem; letter-spacing: 5px; margin-top: 5px;">JORNADA 1 • EN VIVO</p>
     </div>
 
     <div class="actions">
-      <button class="action-btn save-btn" onclick="savePicks()">💾 GUARDAR</button>
-      <button class="action-btn export-btn" onclick="handleExport()">📸 EXPORTAR IMAGEN</button>
-      <button class="action-btn lock-btn" onclick="handleLock()">🔒 BLOQUEAR</button>
-      <button class="action-btn unlock-btn" onclick="handleUnlock()">🔓 ADMIN</button>
+      <button class="action-btn" style="background:var(--gold); color:#000" onclick="savePicks()">💾 GUARDAR</button>
+      <button class="action-btn" style="background:var(--green)" onclick="handleExport()">📸 EXPORTAR</button>
+      <button class="action-btn" style="background:var(--red)" onclick="handleLock()">🔒 BLOQUEAR</button>
+      <button class="action-btn" style="background:#4b5563" onclick="handleUnlock()">🔓 ADMIN</button>
     </div>
 
-    <div style="background: var(--card); border: 1px solid var(--border); padding: 12px 16px; border-radius: 14px; margin-bottom: 16px; font-size: 0.85rem; display: flex; justify-content: space-between;">
-      <div>Estado: <strong id="statusText">ABIERTO</strong></div>
-      <div id="statusProgress" style="color: var(--muted); font-size: 0.75rem;">0 / 24 completados</div>
+    <div style="background: var(--card); border: 1px solid var(--border); padding: 18px; border-radius: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+      <div id="statusText" style="font-weight: 800; letter-spacing: 1px;">ESTADO: ABIERTO 🟢</div>
+      <div id="displayUser" style="font-weight: 700; color: var(--gold); text-transform: uppercase; background: rgba(245,197,24,0.1); padding: 5px 15px; border-radius: 50px;"></div>
     </div>
 
-    <div id="captureArea" style="padding: 10px; background: var(--bg);">
-      
-      <div id="captureHeader" class="capture-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <div style="font-family: 'Bebas Neue'; font-size: 2.5rem; color: #fff;">FIFA WORLD CUP 2026</div>
-            <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;">
-              <div style="font-family: 'Bebas Neue'; font-size: 1.3rem; color: var(--gold);">PRONÓSTICOS JORNADA 1</div>
-              <div id="capStatus" style="font-weight: 900; font-size: 0.65rem; padding: 3px 10px; border-radius: 4px; color:#fff;">ABIERTO</div>
-            </div>
-          </div>
-          <div class="vip-card">
-            <div style="font-size: 0.65rem; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; font-family: 'Exo 2';">Participante</div>
-            <div id="capUser">-</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="matches" id="matchesContainer"></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="pwModal">
-  <div class="modal">
-    <h3 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 1.6rem;">ADMIN ACCESO</h3>
-    <p style="font-size: 0.8rem; color: var(--muted); margin: 15px 0;">Se requiere clave para continuar</p>
-    <input type="password" id="pwInput" class="login-input" placeholder="••••">
-    <div id="pwErr" style="color: var(--red); font-size: 0.75rem; margin-bottom: 10px;"></div>
-    <div style="display: flex; gap: 10px;">
-      <button class="action-btn unlock-btn" style="flex: 1;" onclick="closePwModal()">CANCELAR</button>
-      <button class="action-btn save-btn" style="flex: 1;" onclick="confirmPwModal()">OK</button>
+    <div id="captureArea" style="padding: 15px; background: var(--bg);">
+       <div id="captureHeader" style="display:none; margin-bottom: 30px; border-bottom: 2px solid var(--border); padding-bottom: 20px;">
+           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+             <div>
+               <div style="font-family:'Bebas Neue'; color: var(--gold); font-size: 3rem; line-height: 1;">FIFA WORLD CUP 2026</div>
+               <div id="capStatus" style="font-family: 'Bebas Neue'; color:#fff; font-size: 1.5rem; margin-top: 5px;">-</div>
+             </div>
+             <div style="text-align: right;">
+               <div style="color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Participante</div>
+               <div id="capUser" style="color:#fff; font-size: 1.8rem; font-family: 'Bebas Neue';"></div>
+             </div>
+           </div>
+       </div>
+       <div class="matches" id="matchesContainer"></div>
     </div>
   </div>
 </div>
@@ -193,9 +215,12 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
 
 <script>
 const ADMIN_PASS = "AP420";
-const USER_CODES = { "JDQM26": "Juan de Dios", "ADMIN0": "Administrador" };
+const USER_CODES = { 
+    "JDQM26": "Juan de Dios", 
+    "AEQM26": "Andrés Esparza",
+    "ADMIN0": "Administrador" 
+};
 
-// Mapeo banderas
 const FLAGS = {
   "México": "mx", "Sudáfrica": "za", "Corea del Sur": "kr", "Rep. Checa": "cz",
   "Canadá": "ca", "Bosnia y Herz.": "ba", "Estados Unidos": "us", "Paraguay": "py",
@@ -238,20 +263,24 @@ const MATCHES = [
   {h:"Uzbekistán",a:"Colombia",d:"17 Jun · 19:00",s:"Estadio Azteca"}
 ];
 
-let currentUser = "", currentCode = "", locked = false, picks = {}, pwCallback = null;
+let currentUser = "", currentCode = "", locked = false, picks = {};
 
-(function init(){
-  const sC = localStorage.getItem("wc26_code"), sU = localStorage.getItem("wc26_user");
-  if(sC && sU){ currentCode = sC; currentUser = sU; loadData(); showApp(); }
-})();
+document.getElementById('codeInput').addEventListener('input', function() {
+    let n = USER_CODES[this.value.toUpperCase()];
+    document.getElementById('loginPreview').textContent = n ? "HOLA, " + n + "!" : "";
+});
 
 function doLogin(){
-  const c = document.getElementById("codeInput").value.toUpperCase().trim();
+  let c = document.getElementById("codeInput").value.toUpperCase();
   if(USER_CODES[c]){
-    currentCode = c; currentUser = USER_CODES[c];
-    localStorage.setItem("wc26_code", c); localStorage.setItem("wc26_user", currentUser);
-    loadData(); showApp();
-  } else { document.getElementById("loginErr").textContent = "Código incorrecto."; }
+    document.getElementById('fifaSound').play().catch(e => {});
+    currentUser = USER_CODES[c]; currentCode = c;
+    loadData(); 
+    // Animación de salida del login
+    document.querySelector('.login-card').style.transform = "scale(0.8)";
+    document.querySelector('.login-card').style.opacity = "0";
+    setTimeout(() => { showApp(); }, 300);
+  } else { document.getElementById("loginErr").textContent = "CÓDIGO NO VÁLIDO"; }
 }
 
 function loadData(){
@@ -263,138 +292,132 @@ function showApp(){
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
   document.getElementById("displayUser").textContent = currentUser;
-  document.getElementById("capUser").textContent = currentUser;
-  document.getElementById("userInitial").textContent = currentUser.charAt(0);
   renderMatches();
   updateStatusUI();
 }
 
 function renderMatches(){
   const mc = document.getElementById("matchesContainer");
-  mc.innerHTML = MATCHES.map((m, idx) => {
-    const hV = picks[`j1_${idx}_h`] || "", aV = picks[`j1_${idx}_a`] || "";
-    const flagH = `https://flagcdn.com/w80/${FLAGS[m.h] || "un"}.png`;
-    const flagA = `https://flagcdn.com/w80/${FLAGS[m.a] || "un"}.png`;
-    return `
-      <div class="match ${hV !== '' && aV !== '' ? 'filled' : ''}">
+  mc.innerHTML = "";
+  
+  MATCHES.forEach((m, idx) => {
+    const hV = picks[`j1_${idx}_h`] || ""; const aV = picks[`j1_${idx}_a`] || "";
+    const card = document.createElement('div');
+    card.className = `match stagger-card ${hV !== '' && aV !== '' ? 'filled' : ''}`;
+    card.style.animationDelay = (idx * 0.05) + "s";
+    card.innerHTML = `
         <div class="match-top">
           <div class="team">
-            <img class="flag" src="${flagH}">
+            <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.h] || "un"}.png">
             <span>${m.h}</span>
           </div>
-          <div style="display:flex; align-items:center; gap:6px;">
+          <div style="display:flex; align-items:center; gap:10px;">
             <input class="score" type="number" value="${hV}" ${locked?'disabled':''} oninput="updatePick(${idx},'h',this)">
-            <span class="separator">:</span>
+            <span style="color:var(--gold); font-family:'Bebas Neue'; font-size: 1.5rem;">:</span>
             <input class="score" type="number" value="${aV}" ${locked?'disabled':''} oninput="updatePick(${idx},'a',this)">
           </div>
           <div class="team">
-            <img class="flag" src="${flagA}">
+            <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.a] || "un"}.png">
             <span>${m.a}</span>
           </div>
         </div>
-        <div class="match-bottom">${m.d} | ${m.s}</div>
-      </div>
+        <div style="margin-top:12px; font-size:0.7rem; color:var(--muted); text-align:center; font-weight:600;">
+          ${m.d} | ${m.s}
+        </div>
     `;
-  }).join('');
-  updateProgress();
+    mc.appendChild(card);
+  });
 }
 
 function updatePick(idx, side, el){
   picks[`j1_${idx}_${side}`] = el.value.slice(0,2);
-  const h = picks[`j1_${idx}_h`], a = picks[`j1_${idx}_a`];
-  el.closest(".match").classList.toggle("filled", (h && a));
-  updateProgress();
-}
-
-function updateProgress(){
-  let done = 0;
-  MATCHES.forEach((m, i) => { if(picks[`j1_${i}_h`] && picks[`j1_${i}_a`]) done++; });
-  document.getElementById("statusProgress").textContent = `${done} / 24 completados`;
+  const isComplete = (picks[`j1_${idx}_h`] && picks[`j1_${idx}_a`]);
+  el.closest(".match").classList.toggle("filled", isComplete);
 }
 
 function updateStatusUI(){
-  const txt = document.getElementById("statusText");
-  txt.textContent = locked ? "CERRADO 🔒" : "ABIERTO 🟢";
-  txt.style.color = locked ? "var(--red)" : "var(--green)";
+  document.getElementById("statusText").innerHTML = locked ? "ESTADO: CERRADO 🔒" : "ESTADO: ABIERTO 🟢";
+  document.getElementById("statusText").style.color = locked ? "var(--red)" : "var(--green)";
 }
 
 function savePicks(){
-  if(locked) return showToast("🔒 Pronósticos bloqueados");
+  if(locked) return showToast("🔒 REGISTRO CERRADO");
   localStorage.setItem("wc26_picks_" + currentCode, JSON.stringify(picks));
-  showToast("💾 Cambios guardados");
+  showToast("💾 PRONÓSTICOS GUARDADOS");
 }
 
 function handleLock(){
   if(locked) return;
-  if(!confirm("¿Bloquear permanentemente?")) return;
-  locked = true;
-  localStorage.setItem("wc26_lock_" + currentCode, "1");
-  savePicks(); renderMatches(); updateStatusUI();
+  if(confirm("¿BLOQUEAR PRONÓSTICOS DEFINITIVAMENTE?")) {
+    locked = true; localStorage.setItem("wc26_lock_" + currentCode, "1");
+    savePicks(); renderMatches(); updateStatusUI();
+  }
 }
 
 function handleUnlock(){
-  openPwModal("ADMIN: DESBLOQUEAR", "Se requiere clave para permitir cambios", function(){
+  let p = prompt("CLAVE ADMIN:");
+  if(p === ADMIN_PASS){
     locked = false; localStorage.setItem("wc26_lock_" + currentCode, "0");
-    renderMatches(); updateStatusUI(); showToast("🔓 Desbloqueado");
-  });
+    renderMatches(); updateStatusUI();
+    showToast("🔓 ACCESO HABILITADO");
+  }
 }
 
 function handleExport(){
   if(!locked){
-    openPwModal("ADMIN: EXPORTAR", "Estado ABIERTO. Se requiere clave para generar imagen.", function(){
-      doExport();
-    });
+    let p = prompt("INGRESA CLAVE ADMIN PARA EXPORTAR SIN BLOQUEAR:");
+    if(p === ADMIN_PASS) doExport();
   } else {
     doExport();
   }
 }
 
 function doExport(){
-  showToast("📸 Generando imagen...");
-  const area = document.getElementById("captureArea");
-  const header = document.getElementById("captureHeader");
-  const stLabel = document.getElementById("capStatus");
+  // EFECTO FLASH
+  document.getElementById('flash').style.opacity = "1";
+  setTimeout(() => { document.getElementById('flash').style.opacity = "0"; }, 150);
   
-  stLabel.textContent = locked ? "CERRADO" : "ABIERTO";
-  stLabel.style.background = locked ? "var(--red)" : "var(--green)";
-  header.style.display = "block";
+  setTimeout(() => {
+    const overlay = document.getElementById("goalOverlay");
+    overlay.style.display = "flex";
+    
+    setTimeout(() => {
+        const area = document.getElementById("captureArea");
+        const header = document.getElementById("captureHeader");
+        header.style.display = "block";
+        document.getElementById("capStatus").textContent = locked ? "PRONÓSTICO CERRADO" : "PRONÓSTICO ABIERTO";
+        document.getElementById("capUser").textContent = currentUser;
 
-  const inputs = area.querySelectorAll("input");
-  const backups = [];
-  inputs.forEach(inp => {
-    const div = document.createElement("div");
-    div.className = inp.className;
-    div.style.display = "flex"; div.style.alignItems = "center"; div.style.justifyContent = "center";
-    div.textContent = inp.value || "-";
-    backups.push({original: inp, div: div});
-    inp.style.display = "none";
-    inp.parentNode.insertBefore(div, inp);
-  });
+        // Convertir inputs a divs para evitar errores de renderizado
+        const inputs = area.querySelectorAll("input");
+        const backups = [];
+        inputs.forEach(inp => {
+          const rep = document.createElement("div");
+          rep.className = inp.className;
+          rep.style.height = "55px"; rep.style.lineHeight = "55px";
+          rep.style.display = "inline-block"; rep.style.textAlign = "center";
+          rep.textContent = inp.value || "-";
+          backups.push({orig: inp, rep: rep});
+          inp.style.display = "none";
+          inp.parentNode.insertBefore(rep, inp);
+        });
 
-  html2canvas(area, { scale: 2, backgroundColor: "#0a0e1a", useCORS: true }).then(canvas => {
-    backups.forEach(b => { b.div.remove(); b.original.style.display = ""; });
-    header.style.display = "none";
-    const link = document.createElement("a");
-    link.download = `WC26_${currentUser.replace(/ /g,"_")}.jpg`;
-    link.href = canvas.toDataURL("image/jpeg", 0.9);
-    link.click();
-  });
+        html2canvas(area, { scale: 2, backgroundColor: "#121212", useCORS: true }).then(canvas => {
+            backups.forEach(b => { b.rep.remove(); b.orig.style.display = "inline-block"; });
+            header.style.display = "none";
+            overlay.style.display = "none";
+            const link = document.createElement("a");
+            link.download = `WC26_${currentUser}.jpg`;
+            link.href = canvas.toDataURL("image/jpeg", 0.9);
+            link.click();
+        });
+    }, 1200);
+  }, 300);
 }
 
-function openPwModal(t, d, cb){
-  document.getElementById("pwInput").value = "";
-  document.getElementById("pwModal").classList.add("show");
-  pwCallback = cb;
-}
-function closePwModal(){ document.getElementById("pwModal").classList.remove("show"); }
-function confirmPwModal(){
-  if(document.getElementById("pwInput").value === ADMIN_PASS){
-    closePwModal(); if(pwCallback) pwCallback();
-  } else { alert("Clave incorrecta"); }
-}
 function showToast(m){
   const t = document.getElementById("toast"); t.textContent = m;
-  t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 3000);
+  t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2500);
 }
 </script>
 </body>
