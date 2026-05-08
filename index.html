@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#121212">
-<title>Mundial 2026 - Estadio Virtual</title>
+<title>Mundial 2026 - Predictor Pro</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -27,77 +27,90 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Exo 2', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-/* ── LUCES DE ESTADIO (VISIBLES) ── */
-.stadium-fx {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+/* ── SISTEMA DE REFLECTORES (ANIMACIÓN ALEATORIA) ── */
+.stadium-lights { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.reflector {
+  position: absolute; width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  filter: blur(60px); animation: reflectorMove 12s infinite alternate ease-in-out;
 }
-.light-beam {
-  position: absolute; width: 100vw; height: 100vh;
-  background: radial-gradient(circle at 50% -20%, rgba(255,255,255,0.08) 0%, transparent 60%);
-  animation: lightSweep 8s infinite alternate ease-in-out;
-}
-@keyframes lightSweep {
-  0% { transform: translateX(-20%) skewX(-15deg); opacity: 0.3; }
-  100% { transform: translateX(20%) skewX(15deg); opacity: 0.7; }
+.ref-1 { top: -10%; left: -10%; animation-duration: 15s; }
+.ref-2 { bottom: -10%; right: -10%; animation-duration: 18s; animation-delay: -5s; }
+.ref-3 { top: 20%; right: -20%; animation-duration: 20s; animation-delay: -2s; }
+.ref-4 { bottom: 20%; left: -20%; animation-duration: 14s; animation-delay: -8s; }
+
+@keyframes reflectorMove {
+  0% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(100px, 150px) scale(1.2); }
+  66% { transform: translate(-50px, 200px) scale(0.8); }
+  100% { transform: translate(50px, -50px) scale(1.1); }
 }
 
-/* ── FLASH DE CÁMARA (MULTIPLE) ── */
-#flash-container {
-  position: fixed; inset: 0; z-index: 10000; pointer-events: none; display: none;
+/* ── LOGIN CENTRADO Y ANIMADO ── */
+.login-screen { 
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; 
+  padding: 20px; z-index: 100; background: var(--bg);
 }
-.camera-burst {
-  position: absolute; width: 150px; height: 150px;
-  background: white; border-radius: 50%; filter: blur(50px);
-  opacity: 0; animation: burstAnim 0.3s ease-out forwards;
+.login-card { 
+  width: 100%; max-width: 380px; background: rgba(30, 30, 30, 0.95); 
+  border: 2px solid var(--border); border-radius: 30px; padding: 40px; 
+  text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px); animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-@keyframes burstAnim {
-  0% { opacity: 0; transform: scale(0.2); }
-  50% { opacity: 1; transform: scale(1.5); }
-  100% { opacity: 0; transform: scale(2); }
+@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+.trophy-container { 
+  font-size: 5rem; margin-bottom: 20px; display: inline-block;
+  filter: drop-shadow(0 0 20px var(--gold));
+  animation: trophyAction 4s infinite ease-in-out;
+}
+@keyframes trophyAction {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-20px) rotate(5deg) scale(1.1); }
 }
 
-/* ── BANNER ── */
+/* ── BANNER FIFA ── */
 .fifa-banner {
   background: linear-gradient(135deg, #000, #222);
-  border: 1px solid var(--border); border-radius: 24px; padding: 30px;
+  border: 1px solid var(--border); border-radius: 24px; padding: 35px;
   text-align: center; position: relative; overflow: hidden; margin-bottom: 25px;
   box-shadow: 0 15px 30px rgba(0,0,0,0.5);
 }
-.fifa-banner::after {
+.fifa-banner::before {
   content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   transform: skewX(-30deg); animation: shimmer 5s infinite;
 }
 @keyframes shimmer { 0% { left: -100%; } 30% { left: 150%; } 100% { left: 150%; } }
 
-/* ── GRID FORZADO DOBLE COLUMNA ── */
+/* ── LISTADO DOBLE COLUMNA FORZADA ── */
 .matches { 
   display: grid; 
-  grid-template-columns: 1fr 1fr; /* Siempre 2 columnas */
-  gap: 10px; 
+  grid-template-columns: 1fr 1fr !important; /* Siempre 2 columnas */
+  gap: 12px; 
 }
-
 .match { 
-  background: var(--card); border: 1px solid var(--border); border-radius: 15px; 
-  padding: 12px; position: relative; overflow: hidden; 
-  animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
+  padding: 15px; position: relative; overflow: hidden; 
+  animation: cardEnter 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
-@keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes cardEnter { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
+/* Detalle Dorado Lateral */
 .match::before { 
   content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; 
   background: var(--gold); opacity: 0.1;
 }
 .match.filled::before { opacity: 1; box-shadow: 0 0 10px var(--gold); }
 
-.match-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 5px; }
-.team { display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 700; font-size: 0.7rem; text-align: center; }
-.flag { width: 28px; height: 18px; border-radius: 3px; object-fit: cover; border: 1px solid #333; }
+.match-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+.team { display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 700; font-size: 0.75rem; text-align: center; }
+.flag { width: 32px; height: 20px; border-radius: 4px; object-fit: cover; border: 1px solid #333; }
 
 .score { 
-  width: 40px; height: 40px; line-height: 40px; background: var(--mid); 
+  width: 44px; height: 44px; line-height: 44px; background: var(--mid); 
   border: 2px solid var(--border); border-radius: 10px; color: var(--gold); 
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; text-align: center; outline: none;
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; text-align: center; outline: none;
 }
 
 /* ── MODALES CUSTOM ── */
@@ -107,7 +120,7 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
 }
 .modal-card { 
   background: var(--card); border: 1px solid var(--border); border-radius: 24px; 
-  padding: 30px; width: 90%; max-width: 320px; text-align: center;
+  padding: 35px; width: 90%; max-width: 320px; text-align: center;
 }
 
 /* ── OVERLAY GOL ── */
@@ -115,20 +128,25 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
   position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999;
   display: none; align-items: center; justify-content: center; flex-direction: column;
 }
-.goal-text { 
-  font-family: 'Bebas Neue', sans-serif; font-size: 12vw; color: var(--gold); 
-  text-shadow: 0 0 50px var(--gold); animation: goalAnim 0.4s infinite alternate;
+#flash-container { position: fixed; inset: 0; z-index: 10000; pointer-events: none; display: none; }
+.camera-burst {
+  position: absolute; width: 150px; height: 150px;
+  background: white; border-radius: 50%; filter: blur(50px);
+  opacity: 0; animation: burst 0.3s ease-out forwards;
 }
-@keyframes goalAnim { from { transform: scale(1); } to { transform: scale(1.15); } }
+@keyframes burst { 0% { opacity: 0; transform: scale(0.2); } 50% { opacity: 1; transform: scale(1.5); } 100% { opacity: 0; transform: scale(2); } }
 
-.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-.action-btn { height: 48px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.action-btn { height: 50px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; }
 </style>
 </head>
 <body>
 
-<div class="stadium-fx">
-    <div class="light-beam"></div>
+<div class="stadium-lights">
+    <div class="reflector ref-1"></div>
+    <div class="reflector ref-2"></div>
+    <div class="reflector ref-3"></div>
+    <div class="reflector ref-4"></div>
 </div>
 
 <div id="flash-container"></div>
@@ -138,27 +156,27 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
 </audio>
 
 <div id="goalOverlay">
-    <div class="goal-text">¡GOOOOOOOOL!</div>
-    <p style="font-family: 'Bebas Neue'; color: #fff; font-size: 1.2rem; letter-spacing: 4px;">FOTOGRAFIANDO ESTADIO...</p>
+    <div style="font-family: 'Bebas Neue'; font-size: 10vw; color: var(--gold); text-shadow: 0 0 50px var(--gold); animation: trophyAction 0.4s infinite alternate;">¡GOOOOOOOOL!</div>
+    <p style="font-family: 'Bebas Neue'; color: #fff; font-size: 1.5rem; letter-spacing: 4px;">REVELANDO PRONÓSTICOS...</p>
 </div>
 
 <div class="login-screen" id="loginScreen">
-  <div class="modal-card">
-    <div style="font-size: 3rem; margin-bottom: 10px;">🏆</div>
-    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.2rem;">MUNDIAL 2026</h1>
-    <p style="color: var(--muted); font-size: 0.75rem; margin-bottom: 20px;">PREDICTOR OFICIAL</p>
-    <input type="text" id="codeInput" class="score" style="width:100%; height:55px; letter-spacing:8px; margin-bottom:15px;" maxlength="6" placeholder="CÓDIGO">
-    <div id="loginPreview" style="color: var(--gold); font-weight: 700; margin-bottom: 15px; height: 20px;"></div>
-    <button class="action-btn" style="background:var(--gold); color:#000; width:100%;" onclick="doLogin()">INGRESAR AL CAMPO</button>
+  <div class="login-card">
+    <div class="trophy-container">🏆</div>
+    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.5rem; letter-spacing: 2px;">MUNDIAL 2026</h1>
+    <p style="color: var(--muted); font-size: 0.8rem; margin-bottom: 25px;">PREDICTOR OFICIAL</p>
+    <input type="text" id="codeInput" class="score" style="width:100%; height:60px; letter-spacing:8px; margin-bottom:15px;" maxlength="6" placeholder="CÓDIGO">
+    <div id="loginPreview" style="color: var(--gold); font-weight: 700; margin-bottom: 20px; height: 20px;"></div>
+    <button class="action-btn" style="background:var(--gold); color:#000; width:100%;" onclick="doLogin()">INGRESAR AL ESTADIO</button>
   </div>
 </div>
 
 <div class="app" id="app" style="display:none;">
-  <div class="main" style="max-width: 1200px; margin: auto; padding: 12px; position: relative; z-index: 10;">
+  <div class="main" style="max-width: 1200px; margin: auto; padding: 16px; position: relative; z-index: 10;">
     
     <div class="fifa-banner">
-      <div style="font-family: 'Bebas Neue'; font-size: 3.2rem; color: #fff; line-height: 1;">MUNDIAL 2026</div>
-      <p style="color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.2rem; letter-spacing: 4px;">JORNADA 1 • EN VIVO</p>
+      <div style="font-family: 'Bebas Neue'; font-size: 3.5rem; color: #fff; line-height: 1;">MUNDIAL 2026</div>
+      <p style="color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.5rem; letter-spacing: 5px;">JORNADA 1 • EN VIVO</p>
     </div>
 
     <div class="actions">
@@ -168,20 +186,20 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
       <button class="action-btn" style="background:#4b5563" onclick="handleUnlock()">🔓 DESBLOQUEAR</button>
     </div>
 
-    <div style="background: var(--card); border: 1px solid var(--border); padding: 12px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 0.75rem;">
+    <div style="background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 18px; margin-bottom: 20px; display: flex; justify-content: space-between; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
       <div id="statusText">ESTADO: ABIERTO 🟢</div>
       <div id="displayUser" style="font-weight: 700; color: var(--gold);"></div>
     </div>
 
-    <div id="captureArea" style="padding: 10px; background: var(--bg);">
-       <div id="captureHeader" style="display:none; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
-           <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div id="captureArea" style="padding: 15px; background: var(--bg);">
+       <div id="captureHeader" style="display:none; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 20px;">
+           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
              <div>
-               <div style="font-family:'Bebas Neue'; color: var(--gold); font-size: 2.2rem; line-height: 1;">FIFA WORLD CUP 2026</div>
-               <div id="capStatus" style="font-family: 'Bebas Neue'; color:#fff; font-size: 1rem;">-</div>
+               <div style="font-family:'Bebas Neue'; color: var(--gold); font-size: 3rem; line-height: 1;">FIFA WORLD CUP 2026</div>
+               <div id="capStatus" style="font-family: 'Bebas Neue'; color:#fff; font-size: 1.3rem;">-</div>
              </div>
              <div style="text-align: right;">
-               <div id="capUser" style="color:#fff; font-size: 1.2rem; font-family: 'Bebas Neue';"></div>
+               <div id="capUser" style="color:#fff; font-size: 1.8rem; font-family: 'Bebas Neue';"></div>
              </div>
            </div>
        </div>
@@ -194,7 +212,7 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
   <div class="modal-card">
     <h3 id="mTitle">ACCESO ADMIN</h3>
     <p id="mDesc" style="font-size: 0.8rem; color: var(--muted); margin-bottom: 20px;">Introduce la clave maestra</p>
-    <input type="password" id="mInput" class="score" style="width:100%; height:50px;" placeholder="••••">
+    <input type="password" id="mInput" class="score" style="width:100%; height:55px; letter-spacing:5px;" placeholder="••••">
     <div style="display: flex; gap: 10px; margin-top: 20px;">
       <button class="action-btn" style="background:#4b5563; flex:1" onclick="closeM()">CANCELAR</button>
       <button class="action-btn" style="background:var(--gold); color:#000; flex:1" onclick="confirmM()">OK</button>
@@ -300,7 +318,9 @@ function renderMatches(){
             <span>${m.a}</span>
           </div>
         </div>
-        <div style="margin-top:8px; font-size:0.5rem; color:var(--muted); text-align:center;">${m.d}</div>
+        <div style="margin-top:8px; font-size:0.5rem; color:var(--muted); text-align:center;">
+          ${m.d} | ${m.s}
+        </div>
       </div>
     `;
   }).join('');
@@ -353,7 +373,7 @@ function handleUnlock(){
 
 function handleExport(){
   if(!locked){
-    openM("EXPORTAR", "Registro ABIERTO. Se requiere clave para generar imagen.", doExport);
+    openM("EXPORTAR", "Pronósticos ABIERTOS. Se requiere clave para generar imagen.", doExport);
   } else {
     doExport();
   }
@@ -364,7 +384,7 @@ function doExport(){
   fContainer.style.display = "block";
   
   // RÁFAGA DE FLASHES
-  for(let i=0; i<20; i++){
+  for(let i=0; i<25; i++){
     setTimeout(() => {
         const b = document.createElement("div");
         b.className = "camera-burst";
@@ -372,7 +392,7 @@ function doExport(){
         b.style.left = Math.random() * 100 + "%";
         fContainer.appendChild(b);
         setTimeout(() => b.remove(), 300);
-    }, i * 50);
+    }, i * 40);
   }
 
   setTimeout(() => {
@@ -386,9 +406,9 @@ function doExport(){
         document.getElementById("capStatus").textContent = locked ? "PRONÓSTICO CERRADO" : "PRONÓSTICO ABIERTO";
         document.getElementById("capUser").textContent = currentUser;
 
-        // FORZAR VISIBILIDAD PARA CAPTURA (Solución error animación)
-        const allMatches = area.querySelectorAll('.match');
-        allMatches.forEach(m => {
+        // CONGELAR ANIMACIONES PARA CAPTURA LIMPIA
+        const matches = area.querySelectorAll('.match');
+        matches.forEach(m => {
             m.style.opacity = "1";
             m.style.transform = "none";
             m.style.animation = "none";
@@ -399,7 +419,7 @@ function doExport(){
         inputs.forEach(inp => {
           const rep = document.createElement("div");
           rep.className = inp.className;
-          rep.style.height = "40px"; rep.style.lineHeight = "40px";
+          rep.style.height = "44px"; rep.style.lineHeight = "44px";
           rep.style.display = "inline-block"; rep.style.textAlign = "center";
           rep.textContent = inp.value || "-";
           backups.push({orig: inp, rep: rep});
@@ -412,14 +432,14 @@ function doExport(){
             header.style.display = "none";
             overlay.style.display = "none";
             fContainer.style.display = "none";
-            renderMatches(); // Restaurar estado visual
+            renderMatches(); // Restaurar animaciones después de captura
             const link = document.createElement("a");
             link.download = `WC26_${currentUser}.jpg`;
             link.href = canvas.toDataURL("image/jpeg", 0.9);
             link.click();
         });
     }, 1200);
-  }, 500);
+  }, 400);
 }
 
 function toast(m){
