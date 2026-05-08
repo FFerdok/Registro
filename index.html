@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#121212">
-<title>FIFA World Cup 2026 - Predictor Oficial</title>
+<title>Mundial 2026 - Estadio Virtual</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -27,62 +27,75 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Exo 2', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-/* ── ANIMACIONES PROFESIONALES ── */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes sweep { 0% { left: -100%; } 30% { left: 150%; } 100% { left: 150%; } }
-@keyframes trophyFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-@keyframes pulseGlow { 0% { box-shadow: 0 0 5px var(--gold); } 100% { box-shadow: 0 0 20px var(--gold); } }
+/* ── LUCES DE ESTADIO (ANIMACIÓN DE FONDO) ── */
+.stadium-lights {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.02) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
+  z-index: 1; pointer-events: none; animation: lightMove 10s infinite alternate ease-in-out;
+}
+@keyframes lightMove { 0% { opacity: 0.3; } 100% { opacity: 0.8; } }
+
+/* ── FLASH DE CÁMARA ── */
+#cameraFlash {
+  position: fixed; inset: 0; background: #fff; z-index: 10000;
+  opacity: 0; pointer-events: none;
+}
+.flash-active { animation: flashAnim 0.3s ease-out; }
+@keyframes flashAnim { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
 
 /* ── LOGIN ── */
-.login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; position: relative; }
+.login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; position: relative; z-index: 10; }
 .login-card { 
-  width: 100%; max-width: 360px; background: var(--card); border: 2px solid var(--border); 
-  border-radius: 28px; padding: 40px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-  animation: fadeIn 0.8s ease-out;
+  width: 100%; max-width: 360px; background: rgba(30, 30, 30, 0.95); border: 2px solid var(--border); 
+  border-radius: 28px; padding: 40px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+  animation: entrance 0.8s ease-out;
 }
-.trophy-icon { font-size: 5rem; margin-bottom: 15px; filter: drop-shadow(0 0 20px var(--gold)); animation: trophyFloat 3s infinite ease-in-out; }
-.login-input { width: 100%; height: 55px; background: var(--mid); border: 2px solid var(--border); border-radius: 14px; color: #fff; font-size: 1.3rem; text-align: center; letter-spacing: 5px; margin-bottom: 20px; outline: none; }
-.login-btn { width: 100%; height: 58px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; border-radius: 14px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; cursor: pointer; }
+@keyframes entrance { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+.login-input { 
+  width: 100%; height: 60px; background: var(--mid); border: 2px solid var(--border); border-radius: 15px; 
+  color: #fff; font-size: 1.4rem; text-align: center; letter-spacing: 5px; margin-bottom: 20px; outline: none;
+}
+.login-btn { 
+  width: 100%; height: 60px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; 
+  border-radius: 15px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; cursor: pointer;
+}
 
 /* ── BANNER FIFA ── */
 .fifa-banner {
   background: linear-gradient(135deg, #000 0%, #222 100%);
-  border: 1px solid var(--border); border-radius: 24px; padding: 35px;
+  border: 1px solid var(--border); border-radius: 24px; padding: 40px;
   text-align: center; position: relative; overflow: hidden; margin-bottom: 25px;
-  animation: fadeIn 1s ease;
 }
 .fifa-banner::after {
   content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
   transform: skewX(-20deg); animation: sweep 6s infinite;
 }
+@keyframes sweep { 0% { left: -100%; } 30% { left: 150%; } 100% { left: 150%; } }
 .fifa-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: #fff; letter-spacing: 3px; line-height: 1; }
 
 /* ── TARJETAS ORIGINALES CON DETALLE DORADO ── */
 .matches { display: grid; grid-template-columns: 1fr; gap: 14px; }
 @media(min-width: 768px) { .matches { grid-template-columns: 1fr 1fr; } }
-
 .match { 
   background: var(--card); border: 1px solid var(--border); border-radius: 20px; 
-  padding: 20px; position: relative; overflow: hidden;
-  /* Animación de entrada escalonada */
-  opacity: 0; animation: fadeIn 0.5s ease forwards;
+  padding: 20px; position: relative; overflow: hidden; transition: 0.3s;
 }
-
 /* Detalle Dorado Lateral */
 .match::before { 
   content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; 
   background: var(--gold); opacity: 0.15; transition: 0.3s;
 }
-.match.filled::before { 
-  opacity: 1; animation: pulseGlow 1.5s infinite alternate; 
-}
+.match.filled::before { opacity: 1; box-shadow: 0 0 15px var(--gold); }
 
 .match-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
-.team { display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem; text-align: center; }
+.team { display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem; }
 .flag { width: 38px; height: 25px; border-radius: 4px; object-fit: cover; border: 1px solid #333; }
 
-/* Score Fix para JPG */
+/* Score Fix: Evita desplazamientos en captura */
 .score { 
   width: 52px; height: 52px; line-height: 52px; background: var(--mid); 
   border: 2px solid var(--border); border-radius: 12px; color: var(--gold); 
@@ -90,24 +103,42 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
   outline: none; padding: 0; display: inline-block; vertical-align: middle;
 }
 
+/* ── MODALES CUSTOM ── */
+.modal-overlay { 
+  position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal-card { 
+  background: var(--card); border: 1px solid var(--border); border-radius: 28px; 
+  padding: 35px; width: 100%; max-width: 320px; text-align: center;
+}
+.modal-card h3 { font-family: 'Bebas Neue', sans-serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; }
+
 /* ── GOL OVERLAY ── */
 #goalOverlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999;
   display: none; align-items: center; justify-content: center; flex-direction: column;
 }
 .goal-text { 
-  font-family: 'Bebas Neue', sans-serif; font-size: 12vw; color: var(--gold); 
-  text-shadow: 0 0 50px var(--gold); animation: trophyFloat 0.5s infinite alternate;
+  font-family: 'Bebas Neue', sans-serif; font-size: 15vw; color: var(--gold); 
+  text-shadow: 0 0 60px var(--gold); animation: goalPop 0.4s infinite alternate;
 }
+@keyframes goalPop { from { transform: scale(1); } to { transform: scale(1.1); } }
 
-/* ── UI ── */
+/* ── UI BOTONES ── */
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-.action-btn { height: 50px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.action-btn { height: 52px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+.action-btn:active { transform: scale(0.95); }
+
 #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; padding: 12px 24px; border-radius: 100px; font-weight: 700; opacity: 0; transition: 0.4s; z-index: 3000; }
-#toast.show { opacity: 1; }
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 </style>
 </head>
 <body>
+
+<div class="stadium-lights"></div>
+<div id="cameraFlash"></div>
 
 <audio id="fifaSound" preload="auto">
     <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
@@ -115,22 +146,23 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
 
 <div id="goalOverlay">
     <div class="goal-text">¡GOOOOOOOOL!</div>
-    <p style="font-family: 'Bebas Neue'; color: #fff; font-size: 1.5rem; letter-spacing: 3px;">GENERANDO IMAGEN...</p>
+    <p style="font-family: 'Bebas Neue'; color: #fff; font-size: 1.5rem; letter-spacing: 4px;">CAPTURANDO JUGADA...</p>
 </div>
 
 <div class="login-screen" id="loginScreen">
-  <div class="trophy-icon">🏆</div>
   <div class="login-card">
-    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.2rem; letter-spacing: 2px;">MUNDIAL 2026</h1>
+    <div style="font-size: 4rem; margin-bottom: 10px;">🏆</div>
+    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.5rem; letter-spacing: 2px;">MUNDIAL 2026</h1>
     <p style="color: var(--muted); font-size: 0.8rem; margin-bottom: 25px;">PREDICTOR OFICIAL FIFA</p>
-    <input type="text" id="codeInput" class="login-input" maxlength="6" placeholder="XXXXXX">
+    <input type="text" id="codeInput" class="login-input" maxlength="6" placeholder="CÓDIGO">
     <div id="loginPreview" style="color: var(--gold); font-weight: 700; margin-bottom: 15px; height: 20px;"></div>
-    <button class="login-btn" onclick="doLogin()">INGRESAR</button>
+    <button class="login-btn" onclick="doLogin()">INGRESAR AL ESTADIO</button>
+    <div id="loginErr" style="color: var(--red); margin-top: 12px; font-size: 0.8rem;"></div>
   </div>
 </div>
 
 <div class="app" id="app" style="display:none;">
-  <div class="main" style="max-width: 1200px; margin: auto; padding: 16px;">
+  <div class="main" style="max-width: 1200px; margin: auto; padding: 16px; position: relative; z-index: 10;">
     
     <div class="fifa-banner">
       <div class="fifa-title">MUNDIAL 2026</div>
@@ -141,19 +173,19 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
       <button class="action-btn" style="background:var(--gold); color:#000" onclick="savePicks()">💾 GUARDAR</button>
       <button class="action-btn" style="background:var(--green)" onclick="handleExport()">📸 EXPORTAR</button>
       <button class="action-btn" style="background:var(--red)" onclick="handleLock()">🔒 BLOQUEAR</button>
-      <button class="action-btn" style="background:#4b5563" onclick="handleUnlock()">🔓 ADMIN</button>
+      <button class="action-btn" style="background:#4b5563" onclick="handleUnlock()">🔓 DESBLOQUEAR</button>
     </div>
 
     <div style="background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 18px; margin-bottom: 20px; display: flex; justify-content: space-between; font-size: 0.85rem;">
       <div id="statusText">ESTADO: ABIERTO 🟢</div>
-      <div id="displayUser" style="font-weight: 700; color: var(--gold);"></div>
+      <div id="displayUser" style="font-weight: 700; color: var(--gold); text-transform: uppercase;"></div>
     </div>
 
     <div id="captureArea" style="padding: 15px; background: var(--bg);">
        <div id="captureHeader" style="display:none; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 20px;">
            <div style="display: flex; justify-content: space-between; align-items: center;">
              <div>
-               <div style="font-family:'Bebas Neue'; color: var(--gold); font-size: 2.5rem; line-height: 1;">FIFA WORLD CUP 2026</div>
+               <div style="font-family:'Bebas Neue'; color: var(--gold); font-size: 2.8rem; line-height: 1;">FIFA WORLD CUP 2026</div>
                <div id="capStatus" style="font-family: 'Bebas Neue'; color:#fff; font-size: 1.2rem;">-</div>
              </div>
              <div style="text-align: right;">
@@ -166,11 +198,29 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x:
   </div>
 </div>
 
+<div class="modal-overlay" id="customModal">
+  <div class="modal-card">
+    <h3 id="modalTitle">ADMIN ACCESO</h3>
+    <p id="modalDesc" style="font-size: 0.8rem; color: var(--muted); margin-bottom: 15px;">Introduce la clave maestra</p>
+    <input type="password" id="modalInput" class="login-input" placeholder="••••" style="letter-spacing: 10px;">
+    <div style="display: flex; gap: 10px;">
+      <button class="action-btn" style="background:#4b5563; flex:1" onclick="closeModal()">CANCELAR</button>
+      <button class="action-btn" style="background:var(--gold); color:#000; flex:1" onclick="confirmModal()">OK</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
+// Base de datos actualizada
 const ADMIN_PASS = "AP420";
-const USER_CODES = { "JDQM26": "Juan de Dios", "AEQM26": "Andrés Esparza", "ADMIN0": "Administrador" };
+const USER_CODES = { 
+    "JDQM26": "Juan de Dios", 
+    "AEQM26": "Andrés Esparza",
+    "FEQM26": "Fernando Esparza", // Nuevo usuario
+    "ADMIN0": "Administrador" 
+};
 
 const FLAGS = {
   "México": "mx", "Sudáfrica": "za", "Corea del Sur": "kr", "Rep. Checa": "cz",
@@ -214,8 +264,9 @@ const MATCHES = [
   {h:"Uzbekistán",a:"Colombia",d:"17 Jun · 19:00",s:"Estadio Azteca"}
 ];
 
-let currentUser = "", currentCode = "", locked = false, picks = {};
+let currentUser = "", currentCode = "", locked = false, picks = {}, modalCallback = null;
 
+// Login logic
 document.getElementById('codeInput').addEventListener('input', function() {
     let n = USER_CODES[this.value.toUpperCase()];
     document.getElementById('loginPreview').textContent = n ? "HOLA, " + n + "!" : "";
@@ -227,7 +278,7 @@ function doLogin(){
     document.getElementById('fifaSound').play().catch(e => {});
     currentUser = USER_CODES[c]; currentCode = c;
     loadData(); showApp();
-  } else { alert("CÓDIGO INVÁLIDO"); }
+  } else { document.getElementById("loginErr").textContent = "CÓDIGO INVÁLIDO"; }
 }
 
 function loadData(){
@@ -248,7 +299,7 @@ function renderMatches(){
   mc.innerHTML = MATCHES.map((m, idx) => {
     const hV = picks[`j1_${idx}_h`] || ""; const aV = picks[`j1_${idx}_a`] || "";
     return `
-      <div class="match ${hV !== '' && aV !== '' ? 'filled' : ''}" style="animation-delay: ${idx * 0.05}s">
+      <div class="match ${hV !== '' && aV !== '' ? 'filled' : ''}">
         <div class="match-top">
           <div class="team">
             <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.h] || "un"}.png">
@@ -294,64 +345,79 @@ function handleLock(){
   }
 }
 
+// ─── Lógica de Modal Personalizado ───
+function openModal(title, desc, cb) {
+    document.getElementById("modalTitle").textContent = title;
+    document.getElementById("modalDesc").textContent = desc;
+    document.getElementById("modalInput").value = "";
+    document.getElementById("customModal").classList.add("show");
+    modalCallback = cb;
+}
+function closeModal() { document.getElementById("customModal").classList.remove("show"); }
+function confirmModal() {
+    if(document.getElementById("modalInput").value === ADMIN_PASS) {
+        closeModal();
+        if(modalCallback) modalCallback();
+    } else { alert("CLAVE INCORRECTA"); }
+}
+
 function handleUnlock(){
-  let p = prompt("CLAVE ADMIN:");
-  if(p === ADMIN_PASS){
-    locked = false; localStorage.setItem("wc26_lock_" + currentCode, "0");
-    renderMatches(); updateStatusUI();
-  }
+    openModal("DESBLOQUEAR", "Ingresa la clave maestra para editar", function() {
+        locked = false; localStorage.setItem("wc26_lock_" + currentCode, "0");
+        renderMatches(); updateStatusUI();
+    });
 }
 
 function handleExport(){
   if(!locked){
-    let p = prompt("INGRESA CLAVE ADMIN PARA EXPORTAR SIN BLOQUEAR:");
-    if(p === ADMIN_PASS) doExport();
+    openModal("EXPORTAR", "Pronósticos ABIERTOS. Se requiere clave para generar imagen.", doExport);
   } else {
     doExport();
   }
 }
 
 function doExport(){
-  const overlay = document.getElementById("goalOverlay");
-  overlay.style.display = "flex";
-  
+  // FLASH DE CÁMARA
+  const flash = document.getElementById("cameraFlash");
+  flash.classList.add("flash-active");
+  setTimeout(() => flash.classList.remove("flash-active"), 300);
+
   setTimeout(() => {
-    const area = document.getElementById("captureArea");
-    const header = document.getElementById("captureHeader");
-    const capStatus = document.getElementById("capStatus");
+    const overlay = document.getElementById("goalOverlay");
+    overlay.style.display = "flex";
     
-    header.style.display = "block";
-    capStatus.textContent = locked ? "PRONÓSTICO CERRADO" : "PRONÓSTICO ABIERTO";
-    document.getElementById("capUser").textContent = "PARTICIPANTE: " + currentUser;
+    setTimeout(() => {
+        const area = document.getElementById("captureArea");
+        const header = document.getElementById("captureHeader");
+        header.style.display = "block";
+        document.getElementById("capStatus").textContent = locked ? "PRONÓSTICO CERRADO" : "PRONÓSTICO ABIERTO";
+        document.getElementById("capUser").textContent = "PARTICIPANTE: " + currentUser;
 
-    // FIX EXPORTACIÓN: Forzar visibilidad y convertir inputs
-    const cards = area.querySelectorAll(".match");
-    cards.forEach(c => { c.style.opacity = "1"; c.style.transform = "none"; c.style.animation = "none"; });
+        // Limpieza de inputs para captura limpia (evitar desplazamientos)
+        const inputs = area.querySelectorAll("input");
+        const backups = [];
+        inputs.forEach(inp => {
+          const rep = document.createElement("div");
+          rep.className = inp.className;
+          rep.style.height = "52px"; rep.style.lineHeight = "52px";
+          rep.style.display = "inline-block"; rep.style.textAlign = "center";
+          rep.textContent = inp.value || "-";
+          backups.push({orig: inp, rep: rep});
+          inp.style.display = "none";
+          inp.parentNode.insertBefore(rep, inp);
+        });
 
-    const inputs = area.querySelectorAll("input");
-    const backups = [];
-    inputs.forEach(inp => {
-      const rep = document.createElement("div");
-      rep.className = inp.className;
-      rep.style.height = "52px"; rep.style.lineHeight = "52px";
-      rep.style.display = "inline-block"; rep.style.textAlign = "center";
-      rep.textContent = inp.value || "-";
-      backups.push({orig: inp, rep: rep});
-      inp.style.display = "none";
-      inp.parentNode.insertBefore(rep, inp);
-    });
-
-    html2canvas(area, { scale: 2, backgroundColor: "#121212", useCORS: true }).then(canvas => {
-        backups.forEach(b => { b.rep.remove(); b.orig.style.display = "inline-block"; });
-        header.style.display = "none";
-        overlay.style.display = "none";
-        renderMatches(); // Restaurar animaciones
-        const link = document.createElement("a");
-        link.download = `WC26_${currentUser}.jpg`;
-        link.href = canvas.toDataURL("image/jpeg", 0.9);
-        link.click();
-    });
-  }, 1200);
+        html2canvas(area, { scale: 2, backgroundColor: "#121212", useCORS: true }).then(canvas => {
+            backups.forEach(b => { b.rep.remove(); b.orig.style.display = "inline-block"; });
+            header.style.display = "none";
+            overlay.style.display = "none";
+            const link = document.createElement("a");
+            link.download = `WC26_${currentUser}.jpg`;
+            link.href = canvas.toDataURL("image/jpeg", 0.9);
+            link.click();
+        });
+    }, 1200);
+  }, 300);
 }
 
 function showToast(m){
