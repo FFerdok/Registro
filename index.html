@@ -190,187 +190,115 @@ body.light::before{
    LOGIN
 ===================================================== */
 
-.login-screen{
+<div class="login-screen" id="loginScreen">
+
+  <div class="login-card">
 
-  position:fixed;
-  inset:0;
+    <!-- ELIMINADO EL SVG EXTERNO QUE GENERABA EL ICONO FLOTANTE -->
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    <div class="pitch-lines"></div>
 
-  padding:20px;
+    <div class="trophy-container">🏆</div>
 
-  z-index:100;
+    <h1 style="
+    font-family:'Bebas Neue';
+    font-size:3rem;
+    letter-spacing:2px;
+    color:var(--gold);
+    text-align:center;
+    position:relative;
+    z-index:5;
+    ">
+      MUNDIAL 2026
+    </h1>
 
-}
+    <p style="
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:24px;
+    letter-spacing:4px;
+    font-size:.85rem;
+    position:relative;
+    z-index:5;
+    ">
+      OFFICIAL PREDICTOR EXPERIENCE
+    </p>
 
-.login-card{
+    <!-- INPUT CORREGIDO -->
 
-  width:100%;
-  max-width:420px;
+    <input
+    type="text"
+    id="codeInput"
+    maxlength="6"
+    autocomplete="off"
+    autocapitalize="characters"
+    spellcheck="false"
+    placeholder="CÓDIGO"
 
-  background:
-  linear-gradient(
-  180deg,
-  rgba(20,20,20,.92),
-  rgba(8,8,8,.95)
-  );
+    style="
+    width:100%;
+    height:62px;
 
-  border:1px solid rgba(255,255,255,.08);
+    border:none;
+    outline:none;
 
-  border-radius:34px;
+    border-radius:18px;
 
-  padding:38px 30px;
+    background:rgba(255,255,255,.08);
 
-  position:relative;
-  overflow:hidden;
+    border:2px solid rgba(255,255,255,.08);
 
-  backdrop-filter:blur(18px);
+    color:var(--gold);
 
-  box-shadow:
-  0 25px 80px rgba(0,0,0,.65);
+    text-align:center;
 
-  animation:loginEnter .8s cubic-bezier(.2,.8,.2,1);
+    font-size:1.5rem;
+    font-family:'Bebas Neue',sans-serif;
 
-}
+    letter-spacing:8px;
 
-body.light .login-card{
+    padding:0 15px;
 
-  background:
-  linear-gradient(
-  180deg,
-  rgba(255,255,255,.94),
-  rgba(245,245,245,.96)
-  );
+    position:relative;
+    z-index:20;
 
-}
+    pointer-events:auto;
 
-.login-card::before{
+    user-select:text;
 
-  content:'';
+    margin-bottom:16px;
 
-  position:absolute;
-  inset:0;
+    transition:.25s ease;
+    ">
 
-  background:
-  linear-gradient(
-  135deg,
-  rgba(245,197,24,.12),
-  transparent 30%
-  );
+    <div id="loginPreview"
+    style="
+    text-align:center;
+    height:22px;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:20px;
+    position:relative;
+    z-index:5;
+    ">
+    </div>
 
-}
+    <button
+    class="action-btn btn-save"
+    style="
+    width:100%;
+    position:relative;
+    z-index:5;
+    "
+    onclick="doLogin()">
 
-@keyframes loginEnter{
+      🏟️ ENTRAR AL ESTADIO
 
-  from{
-    opacity:0;
-    transform:translateY(50px);
-  }
+    </button>
 
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  </div>
 
-}
-
-.pitch-lines{
-
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
-  opacity:.06;
-
-}
-
-.pitch-lines::before{
-
-  content:'';
-
-  position:absolute;
-
-  left:20%;
-  right:20%;
-  top:0;
-  bottom:0;
-
-  border:2px solid #fff;
-  border-radius:18px;
-
-}
-
-.pitch-lines::after{
-
-  content:'';
-
-  position:absolute;
-
-  width:130px;
-  height:130px;
-
-  border:2px solid #fff;
-  border-radius:50%;
-
-  left:50%;
-  top:50%;
-
-  transform:translate(-50%,-50%);
-
-}
-
-.fifa-logo{
-
-  width:110px;
-
-  display:block;
-  margin:auto;
-
-  margin-bottom:14px;
-
-  filter:
-  drop-shadow(0 0 20px rgba(245,197,24,.35));
-
-  animation:logoFloat 5s infinite ease-in-out;
-
-}
-
-@keyframes logoFloat{
-
-  0%,100%{
-    transform:translateY(0);
-  }
-
-  50%{
-    transform:translateY(-8px);
-  }
-
-}
-
-.trophy-container{
-
-  font-size:4rem;
-  text-align:center;
-
-  margin-bottom:10px;
-
-  animation:trophyMove 4s infinite ease-in-out;
-
-}
-
-@keyframes trophyMove{
-
-  0%,100%{
-    transform:translateY(0);
-  }
-
-  50%{
-    transform:translateY(-12px) rotate(5deg);
-  }
-
-}
+</div>
 
 /* =====================================================
    APP
@@ -2118,6 +2046,34 @@ function toast(m){
     t.style.display = "none";
 
   },2500);
+
+}
+
+/* =====================================================
+   FIX INPUT LOGIN
+===================================================== */
+
+.login-card *{
+  position:relative;
+}
+
+.login-card::before{
+  pointer-events:none;
+}
+
+.pitch-lines{
+  pointer-events:none;
+}
+
+#codeInput:focus{
+
+  border-color:var(--gold);
+
+  box-shadow:
+  0 0 0 4px rgba(245,197,24,.15),
+  0 0 20px rgba(245,197,24,.25);
+
+  background:rgba(255,255,255,.12);
 
 }
 
