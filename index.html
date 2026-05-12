@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="theme-color" content="#0f172a" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f172a">
 
-<title>Mundial 2026 - QUINIELA</title>
+<title>Mundial 2026 - Predictor Pro</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,18 +17,18 @@
 :root{
 
   --gold:#f5c518;
-  --gold2:#c9900a;
+  --gold2:#d4a017;
 
   --bg:#090909;
   --bg2:#101010;
 
   --card:#171717;
-  --card2:#1d1d1d;
+  --card2:#1e1e1e;
 
-  --line:#2f2f2f;
+  --line:#2d2d2d;
 
   --text:#f5f5f5;
-  --muted:#8f8f8f;
+  --muted:#8b8b8b;
 
   --green:#16a34a;
   --red:#dc2626;
@@ -71,9 +71,9 @@ body{
 
 }
 
-/* =====================================================
+/* =========================================================
    FONDO ESTADIO
-===================================================== */
+========================================================= */
 
 body::before{
 
@@ -83,7 +83,7 @@ body::before{
   inset:0;
 
   background:
-  linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.84)),
+  linear-gradient(rgba(0,0,0,.70),rgba(0,0,0,.84)),
   url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1920&auto=format&fit=crop');
 
   background-size:cover;
@@ -91,17 +91,11 @@ body::before{
 
   z-index:-3;
 
-  animation:stadiumMove 28s infinite alternate ease-in-out;
+  animation:stadiumZoom 28s infinite alternate ease-in-out;
 
 }
 
-body.light::before{
-
-  filter:brightness(1.08);
-
-}
-
-@keyframes stadiumMove{
+@keyframes stadiumZoom{
 
   from{
     transform:scale(1);
@@ -113,9 +107,9 @@ body.light::before{
 
 }
 
-/* =====================================================
+/* =========================================================
    REFLECTORES
-===================================================== */
+========================================================= */
 
 .stadium-lights{
 
@@ -123,6 +117,7 @@ body.light::before{
   inset:0;
 
   pointer-events:none;
+
   z-index:-2;
 
 }
@@ -136,14 +131,14 @@ body.light::before{
 
   border-radius:50%;
 
-  filter:blur(90px);
-
   background:
   radial-gradient(circle,
   rgba(255,255,255,.12),
   transparent 70%);
 
-  animation:moveLight 15s infinite alternate ease-in-out;
+  filter:blur(90px);
+
+  animation:lightMove 16s infinite alternate ease-in-out;
 
 }
 
@@ -159,156 +154,309 @@ body.light::before{
 }
 
 .ref-3{
-  top:20%;
+  top:15%;
   right:-15%;
-  animation-duration:20s;
+  animation-duration:22s;
 }
 
 .ref-4{
   left:-15%;
-  bottom:10%;
-  animation-duration:16s;
+  bottom:15%;
+  animation-duration:14s;
 }
 
-@keyframes moveLight{
+@keyframes lightMove{
 
   0%{
     transform:translate(0,0) scale(1);
   }
 
   50%{
-    transform:translate(120px,90px) scale(1.2);
+    transform:translate(120px,100px) scale(1.15);
   }
 
   100%{
-    transform:translate(-80px,140px) scale(.85);
+    transform:translate(-60px,180px) scale(.9);
   }
 
 }
 
-/* =====================================================
+/* =========================================================
    LOGIN
-===================================================== */
+========================================================= */
 
-<div class="login-screen" id="loginScreen">
+.login-screen{
 
-  <div class="login-card">
+  position:fixed;
+  inset:0;
 
-    <!-- ELIMINADO EL SVG EXTERNO QUE GENERABA EL ICONO FLOTANTE -->
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-    <div class="pitch-lines"></div>
+  padding:20px;
 
-    <div class="trophy-container">🏆</div>
+  z-index:100;
 
-    <h1 style="
-    font-family:'Bebas Neue';
-    font-size:3rem;
-    letter-spacing:2px;
-    color:var(--gold);
-    text-align:center;
-    position:relative;
-    z-index:5;
-    ">
-      MUNDIAL 2026
-    </h1>
+}
 
-    <p style="
-    text-align:center;
-    color:var(--muted);
-    margin-bottom:24px;
-    letter-spacing:4px;
-    font-size:.85rem;
-    position:relative;
-    z-index:5;
-    ">
-      OFFICIAL PREDICTOR EXPERIENCE
-    </p>
+.login-card{
 
-    <!-- INPUT CORREGIDO -->
+  width:100%;
+  max-width:420px;
 
-    <input
-    type="text"
-    id="codeInput"
-    maxlength="6"
-    autocomplete="off"
-    autocapitalize="characters"
-    spellcheck="false"
-    placeholder="CÓDIGO"
+  position:relative;
+  overflow:hidden;
 
-    style="
-    width:100%;
-    height:62px;
+  border-radius:34px;
 
-    border:none;
-    outline:none;
+  padding:40px 30px;
 
-    border-radius:18px;
+  background:
+  linear-gradient(
+  180deg,
+  rgba(20,20,20,.94),
+  rgba(8,8,8,.96)
+  );
 
-    background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.08);
 
-    border:2px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
 
-    color:var(--gold);
+  box-shadow:
+  0 30px 80px rgba(0,0,0,.65);
 
-    text-align:center;
+  animation:loginEnter .8s cubic-bezier(.2,.8,.2,1);
 
-    font-size:1.5rem;
-    font-family:'Bebas Neue',sans-serif;
+}
 
-    letter-spacing:8px;
+body.light .login-card{
 
-    padding:0 15px;
+  background:
+  linear-gradient(
+  180deg,
+  rgba(255,255,255,.95),
+  rgba(245,245,245,.98)
+  );
 
-    position:relative;
-    z-index:20;
+}
 
-    pointer-events:auto;
+.login-card::before{
 
-    user-select:text;
+  content:'';
 
-    margin-bottom:16px;
+  position:absolute;
+  inset:0;
 
-    transition:.25s ease;
-    ">
+  background:
+  linear-gradient(
+  135deg,
+  rgba(245,197,24,.12),
+  transparent 30%
+  );
 
-    <div id="loginPreview"
-    style="
-    text-align:center;
-    height:22px;
-    color:var(--gold);
-    font-weight:700;
-    margin-bottom:20px;
-    position:relative;
-    z-index:5;
-    ">
-    </div>
+  pointer-events:none;
 
-    <button
-    class="action-btn btn-save"
-    style="
-    width:100%;
-    position:relative;
-    z-index:5;
-    "
-    onclick="doLogin()">
+}
 
-      🏟️ ENTRAR AL ESTADIO
+@keyframes loginEnter{
 
-    </button>
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
 
-  </div>
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 
-</div>
+}
 
-/* =====================================================
-   APP
-===================================================== */
+.pitch-lines{
 
-.app{
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  opacity:.06;
+
+}
+
+.pitch-lines::before{
+
+  content:'';
+
+  position:absolute;
+
+  top:0;
+  bottom:0;
+  left:18%;
+  right:18%;
+
+  border:2px solid #fff;
+  border-radius:20px;
+
+}
+
+.pitch-lines::after{
+
+  content:'';
+
+  position:absolute;
+
+  width:120px;
+  height:120px;
+
+  border:2px solid #fff;
+  border-radius:50%;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+}
+
+.trophy-container{
+
+  font-size:4.8rem;
+
+  text-align:center;
+
+  margin-bottom:10px;
+
+  filter:drop-shadow(0 0 20px rgba(245,197,24,.4));
+
+  animation:trophyMove 4s infinite ease-in-out;
 
   position:relative;
   z-index:5;
 
+}
+
+@keyframes trophyMove{
+
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-12px) rotate(4deg);
+  }
+
+}
+
+.login-title{
+
+  font-family:'Bebas Neue';
+
+  font-size:3rem;
+
+  color:var(--gold);
+
+  text-align:center;
+
+  letter-spacing:2px;
+
+  position:relative;
+  z-index:5;
+
+}
+
+.login-sub{
+
+  text-align:center;
+
+  color:var(--muted);
+
+  margin-bottom:25px;
+
+  letter-spacing:4px;
+
+  font-size:.82rem;
+
+  position:relative;
+  z-index:5;
+
+}
+
+/* INPUT CORREGIDO */
+
+.login-input{
+
+  width:100%;
+  height:64px;
+
+  border-radius:18px;
+
+  border:2px solid rgba(255,255,255,.08);
+
+  background:rgba(255,255,255,.06);
+
+  color:var(--gold);
+
+  text-align:center;
+
+  font-size:1.6rem;
+  font-family:'Bebas Neue',sans-serif;
+
+  letter-spacing:8px;
+
+  outline:none;
+
+  padding:0 18px;
+
+  margin-bottom:18px;
+
+  position:relative;
+  z-index:10;
+
+  transition:.25s ease;
+
+}
+
+.login-input:focus{
+
+  border-color:var(--gold);
+
+  box-shadow:
+  0 0 0 4px rgba(245,197,24,.12),
+  0 0 20px rgba(245,197,24,.18);
+
+}
+
+.login-input::placeholder{
+
+  color:rgba(245,197,24,.55);
+
+}
+
+#loginPreview{
+
+  text-align:center;
+
+  height:22px;
+
+  color:var(--gold);
+
+  font-weight:700;
+
+  margin-bottom:20px;
+
+  position:relative;
+  z-index:5;
+
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+  position:relative;
+  z-index:5;
 }
 
 .main{
@@ -316,13 +464,14 @@ body.light::before{
   max-width:1300px;
 
   margin:auto;
+
   padding:18px;
 
 }
 
-/* =====================================================
-   BANNER FIFA
-===================================================== */
+/* =========================================================
+   BANNER
+========================================================= */
 
 .fifa-banner{
 
@@ -340,25 +489,14 @@ body.light::before{
   background:
   linear-gradient(
   135deg,
-  rgba(0,0,0,.85),
-  rgba(18,18,18,.95)
+  rgba(0,0,0,.86),
+  rgba(16,16,16,.96)
   );
 
   backdrop-filter:blur(12px);
 
   box-shadow:
   0 20px 50px rgba(0,0,0,.4);
-
-}
-
-body.light .fifa-banner{
-
-  background:
-  linear-gradient(
-  135deg,
-  rgba(255,255,255,.94),
-  rgba(245,245,245,.96)
-  );
 
 }
 
@@ -390,18 +528,18 @@ body.light .fifa-banner{
   }
 
   30%{
-    transform:translateX(140%);
+    transform:translateX(150%);
   }
 
   100%{
-    transform:translateX(140%);
+    transform:translateX(150%);
   }
 
 }
 
-/* =====================================================
+/* =========================================================
    BOTONES
-===================================================== */
+========================================================= */
 
 .actions{
 
@@ -418,17 +556,18 @@ body.light .fifa-banner{
 
 .action-btn{
 
-  height:64px;
+  height:62px;
 
   border:none;
+
   border-radius:22px;
 
   color:#fff;
 
   cursor:pointer;
 
-  font-weight:800;
   font-size:.9rem;
+  font-weight:800;
 
   display:flex;
   align-items:center;
@@ -438,21 +577,19 @@ body.light .fifa-banner{
   position:relative;
   overflow:hidden;
 
-  backdrop-filter:blur(14px);
-
   transition:
   transform .25s ease,
   box-shadow .25s ease;
 
   box-shadow:
-  0 12px 30px rgba(0,0,0,.28);
+  0 12px 30px rgba(0,0,0,.25);
 
 }
 
 .action-btn:hover{
 
   transform:
-  translateY(-4px)
+  translateY(-3px)
   scale(1.02);
 
 }
@@ -467,51 +604,9 @@ body.light .fifa-banner{
   background:
   linear-gradient(
   135deg,
-  rgba(255,255,255,.18),
-  transparent 50%
+  rgba(255,255,255,.16),
+  transparent 55%
   );
-
-}
-
-.action-btn::after{
-
-  content:'';
-
-  position:absolute;
-
-  top:0;
-  left:-120%;
-
-  width:50%;
-  height:100%;
-
-  background:
-  linear-gradient(
-  90deg,
-  transparent,
-  rgba(255,255,255,.22),
-  transparent
-  );
-
-  transform:skewX(-20deg);
-
-  animation:btnShine 6s infinite;
-
-}
-
-@keyframes btnShine{
-
-  0%{
-    left:-120%;
-  }
-
-  30%{
-    left:150%;
-  }
-
-  100%{
-    left:150%;
-  }
 
 }
 
@@ -535,9 +630,9 @@ body.light .fifa-banner{
   background:linear-gradient(135deg,#7c3aed,#5b21b6);
 }
 
-/* =====================================================
+/* =========================================================
    STATUS
-===================================================== */
+========================================================= */
 
 .status-bar{
 
@@ -564,20 +659,9 @@ body.light .fifa-banner{
 
 }
 
-body.light .status-bar{
-
-  background:
-  linear-gradient(
-  180deg,
-  rgba(255,255,255,.92),
-  rgba(245,245,245,.98)
-  );
-
-}
-
-/* =====================================================
-   PARTIDOS
-===================================================== */
+/* =========================================================
+   MATCHES
+========================================================= */
 
 .matches{
 
@@ -586,7 +670,7 @@ body.light .status-bar{
   grid-template-columns:
   repeat(2,minmax(0,1fr));
 
-  gap:14px;
+  gap:12px;
 
 }
 
@@ -595,36 +679,25 @@ body.light .status-bar{
   position:relative;
   overflow:hidden;
 
+  border-radius:24px;
+
+  padding:12px;
+
   background:
   linear-gradient(
   180deg,
-  rgba(25,25,25,.96),
+  rgba(24,24,24,.96),
   rgba(12,12,12,.98)
   );
 
   border:1px solid rgba(255,255,255,.08);
-
-  border-radius:24px;
-
-  padding:14px;
 
   backdrop-filter:blur(12px);
 
   box-shadow:
   0 12px 28px rgba(0,0,0,.28);
 
-  animation:cardEnter .6s cubic-bezier(.23,1,.32,1);
-
-}
-
-body.light .match{
-
-  background:
-  linear-gradient(
-  180deg,
-  rgba(255,255,255,.94),
-  rgba(245,245,245,.98)
-  );
+  animation:cardEnter .5s cubic-bezier(.23,1,.32,1);
 
 }
 
@@ -698,43 +771,30 @@ body.light .match{
 
 .team span{
 
-  font-size:.72rem;
-  font-weight:700;
+  width:100%;
 
   text-align:center;
+
+  font-size:.68rem;
+  font-weight:700;
 
   line-height:1.1;
 
   overflow:hidden;
   text-overflow:ellipsis;
 
-  width:100%;
-
 }
 
 .flag{
 
-  width:34px;
-  height:22px;
+  width:32px;
+  height:20px;
 
   border-radius:5px;
 
   object-fit:cover;
 
   border:1px solid rgba(255,255,255,.15);
-
-  transition:
-  transform .25s ease,
-  box-shadow .25s ease;
-
-}
-
-.match:hover .flag{
-
-  transform:scale(1.08);
-
-  box-shadow:
-  0 0 16px rgba(255,255,255,.18);
 
 }
 
@@ -748,10 +808,10 @@ body.light .match{
 
 .score{
 
-  width:42px;
-  height:42px;
+  width:38px;
+  height:38px;
 
-  border-radius:12px;
+  border-radius:10px;
 
   border:2px solid rgba(255,255,255,.08);
 
@@ -761,17 +821,10 @@ body.light .match{
 
   text-align:center;
 
-  font-size:1.3rem;
-
+  font-size:1.1rem;
   font-family:'Bebas Neue',sans-serif;
 
   outline:none;
-
-}
-
-body.light .score{
-
-  background:#fff;
 
 }
 
@@ -781,7 +834,7 @@ body.light .score{
 
   text-align:center;
 
-  font-size:.55rem;
+  font-size:.52rem;
 
   color:var(--muted);
 
@@ -789,16 +842,16 @@ body.light .score{
 
 }
 
-/* =====================================================
+/* =========================================================
    MODAL
-===================================================== */
+========================================================= */
 
 .modal-overlay{
 
   position:fixed;
   inset:0;
 
-  background:rgba(0,0,0,.82);
+  background:rgba(0,0,0,.85);
 
   backdrop-filter:blur(8px);
 
@@ -816,6 +869,10 @@ body.light .score{
   width:90%;
   max-width:340px;
 
+  border-radius:28px;
+
+  padding:30px;
+
   background:
   linear-gradient(
   180deg,
@@ -825,28 +882,13 @@ body.light .score{
 
   border:1px solid rgba(255,255,255,.08);
 
-  border-radius:28px;
-
-  padding:30px;
-
   text-align:center;
 
 }
 
-body.light .modal-card{
-
-  background:
-  linear-gradient(
-  180deg,
-  rgba(255,255,255,.94),
-  rgba(245,245,245,.98)
-  );
-
-}
-
-/* =====================================================
-   GOAL OVERLAY
-===================================================== */
+/* =========================================================
+   GOAL
+========================================================= */
 
 #goalOverlay{
 
@@ -870,9 +912,9 @@ body.light .modal-card{
   position:fixed;
   inset:0;
 
-  pointer-events:none;
-
   display:none;
+
+  pointer-events:none;
 
   z-index:10001;
 
@@ -885,9 +927,9 @@ body.light .modal-card{
   width:160px;
   height:160px;
 
-  background:#fff;
-
   border-radius:50%;
+
+  background:#fff;
 
   filter:blur(50px);
 
@@ -916,9 +958,9 @@ body.light .modal-card{
 
 }
 
-/* =====================================================
+/* =========================================================
    TOAST
-===================================================== */
+========================================================= */
 
 #toast{
 
@@ -929,13 +971,13 @@ body.light .modal-card{
 
   transform:translateX(-50%);
 
-  padding:12px 22px;
-
-  border-radius:999px;
-
   background:#16a34a;
 
   color:#fff;
+
+  padding:12px 22px;
+
+  border-radius:999px;
 
   display:none;
 
@@ -945,9 +987,9 @@ body.light .modal-card{
 
 }
 
-/* =====================================================
+/* =========================================================
    MOBILE
-===================================================== */
+========================================================= */
 
 @media(max-width:820px){
 
@@ -961,38 +1003,26 @@ body.light .modal-card{
   }
 
   .match{
-
     padding:10px;
-
-    border-radius:20px;
-
   }
 
   .team span{
-
-    font-size:.6rem;
-
+    font-size:.58rem;
   }
 
   .flag{
-
     width:28px;
     height:18px;
-
   }
 
   .score{
-
     width:34px;
     height:34px;
-
     font-size:1rem;
   }
 
   .match-info{
-
-    font-size:.48rem;
-
+    font-size:.46rem;
   }
 
 }
@@ -1008,9 +1038,9 @@ body.light .modal-card{
 
   .action-btn{
 
-    height:58px;
+    height:56px;
 
-    font-size:.75rem;
+    font-size:.74rem;
 
   }
 
@@ -1052,54 +1082,27 @@ body.light .modal-card{
 
     <div class="pitch-lines"></div>
 
-    <img
-    class="fifa-logo"
-    src="https://upload.wikimedia.org/wikipedia/commons/a/a9/FIFA_World_Cup_2026_logo.svg">
-
     <div class="trophy-container">🏆</div>
 
-    <h1 style="
-    font-family:'Bebas Neue';
-    font-size:3rem;
-    letter-spacing:2px;
-    color:var(--gold);
-    text-align:center;
-    ">
+    <div class="login-title">
       MUNDIAL 2026
-    </h1>
+    </div>
 
-    <p style="
-    text-align:center;
-    color:var(--muted);
-    margin-bottom:24px;
-    letter-spacing:4px;
-    font-size:.85rem;
-    ">
+    <div class="login-sub">
       OFFICIAL PREDICTOR EXPERIENCE
-    </p>
+    </div>
 
     <input
     type="text"
     id="codeInput"
-    class="score"
+    class="login-input"
     maxlength="6"
-    placeholder="CÓDIGO"
-    style="
-    width:100%;
-    height:58px;
-    letter-spacing:8px;
-    margin-bottom:16px;
-    ">
+    autocomplete="off"
+    autocapitalize="characters"
+    spellcheck="false"
+    placeholder="CÓDIGO">
 
-    <div id="loginPreview"
-    style="
-    text-align:center;
-    height:22px;
-    color:var(--gold);
-    font-weight:700;
-    margin-bottom:20px;
-    ">
-    </div>
+    <div id="loginPreview"></div>
 
     <button
     class="action-btn btn-save"
@@ -1120,11 +1123,7 @@ body.light .modal-card{
 
   <div class="main">
 
-    <!-- BANNER -->
-
     <div class="fifa-banner">
-
-      <div class="pitch-lines"></div>
 
       <div style="
       display:flex;
@@ -1135,12 +1134,12 @@ body.light .modal-card{
       z-index:2;
       ">
 
-        <img
-        src="https://upload.wikimedia.org/wikipedia/commons/a/a9/FIFA_World_Cup_2026_logo.svg"
-        style="
-        width:85px;
-        filter:drop-shadow(0 0 20px rgba(245,197,24,.3));
+        <div style="
+        font-size:4rem;
+        filter:drop-shadow(0 0 20px rgba(245,197,24,.4));
         ">
+          ⚽
+        </div>
 
         <div>
 
@@ -1273,10 +1272,7 @@ body.light .modal-card{
 
   <div class="modal-card">
 
-    <h3 id="mTitle"
-    style="
-    margin-bottom:10px;
-    ">
+    <h3 id="mTitle" style="margin-bottom:10px;">
       ADMIN
     </h3>
 
@@ -1291,12 +1287,12 @@ body.light .modal-card{
     <input
     type="password"
     id="mInput"
-    class="score"
+    class="login-input"
     placeholder="••••"
     style="
-    width:100%;
-    height:55px;
+    height:56px;
     letter-spacing:5px;
+    margin-bottom:0;
     ">
 
     <div style="
@@ -1309,14 +1305,18 @@ body.light .modal-card{
       class="action-btn btn-lock"
       style="flex:1;height:50px;"
       onclick="closeM()">
+
         CANCELAR
+
       </button>
 
       <button
       class="action-btn btn-save"
       style="flex:1;height:50px;"
       onclick="confirmM()">
+
         OK
+
       </button>
 
     </div>
@@ -1353,9 +1353,9 @@ body.light .modal-card{
 
 <script>
 
-/* =====================================================
+/* =========================================================
    CONFIG
-===================================================== */
+========================================================= */
 
 const ADMIN_PASS = "AP420";
 
@@ -1368,9 +1368,9 @@ const USER_CODES = {
 
 };
 
-/* =====================================================
+/* =========================================================
    FLAGS
-===================================================== */
+========================================================= */
 
 const FLAGS = {
 
@@ -1425,9 +1425,9 @@ const FLAGS = {
 
 };
 
-/* =====================================================
-   PARTIDOS
-===================================================== */
+/* =========================================================
+   MATCHES
+========================================================= */
 
 const MATCHES = [
 
@@ -1458,9 +1458,9 @@ const MATCHES = [
 
 ];
 
-/* =====================================================
+/* =========================================================
    STATE
-===================================================== */
+========================================================= */
 
 let currentUser = "";
 let currentCode = "";
@@ -1471,9 +1471,9 @@ let picks = {};
 
 let mCallback = null;
 
-/* =====================================================
+/* =========================================================
    LOGIN PREVIEW
-===================================================== */
+========================================================= */
 
 document.getElementById("codeInput")
 .addEventListener("input",function(){
@@ -1487,15 +1487,16 @@ document.getElementById("codeInput")
 
 });
 
-/* =====================================================
+/* =========================================================
    LOGIN
-===================================================== */
+========================================================= */
 
 function doLogin(){
 
   const c =
   document.getElementById("codeInput")
-  .value.toUpperCase();
+  .value.toUpperCase()
+  .trim();
 
   if(USER_CODES[c]){
 
@@ -1529,7 +1530,17 @@ function doLogin(){
 
     setTimeout(()=>{
 
-      showApp();
+      login.style.display = "none";
+
+      document.getElementById("app")
+      .style.display = "block";
+
+      document.getElementById("displayUser")
+      .textContent = currentUser;
+
+      renderMatches();
+
+      updateStatusUI();
 
     },650);
 
@@ -1541,9 +1552,9 @@ function doLogin(){
 
 }
 
-/* =====================================================
+/* =========================================================
    LOAD
-===================================================== */
+========================================================= */
 
 function loadData(){
 
@@ -1561,30 +1572,9 @@ function loadData(){
 
 }
 
-/* =====================================================
-   SHOW APP
-===================================================== */
-
-function showApp(){
-
-  document.getElementById("loginScreen")
-  .style.display = "none";
-
-  document.getElementById("app")
-  .style.display = "block";
-
-  document.getElementById("displayUser")
-  .textContent = currentUser;
-
-  renderMatches();
-
-  updateStatusUI();
-
-}
-
-/* =====================================================
-   RENDER
-===================================================== */
+/* =========================================================
+   RENDER MATCHES
+========================================================= */
 
 function renderMatches(){
 
@@ -1602,8 +1592,7 @@ function renderMatches(){
 
     return `
 
-    <div class="match ${hV !== '' && aV !== '' ? 'filled':''}"
-    style="animation-delay:${idx * .04}s">
+    <div class="match ${hV !== '' && aV !== '' ? 'filled':''}">
 
       <div class="match-top">
 
@@ -1667,10 +1656,6 @@ function renderMatches(){
 
 }
 
-/* =====================================================
-   PICKS
-===================================================== */
-
 function updatePick(idx,side,el){
 
   picks[`j1_${idx}_${side}`] =
@@ -1685,9 +1670,9 @@ function updatePick(idx,side,el){
 
 }
 
-/* =====================================================
+/* =========================================================
    STATUS
-===================================================== */
+========================================================= */
 
 function updateStatusUI(){
 
@@ -1706,9 +1691,9 @@ function updateStatusUI(){
 
 }
 
-/* =====================================================
+/* =========================================================
    SAVE
-===================================================== */
+========================================================= */
 
 function savePicks(){
 
@@ -1728,9 +1713,9 @@ function savePicks(){
 
 }
 
-/* =====================================================
+/* =========================================================
    LOCK
-===================================================== */
+========================================================= */
 
 function handleLock(){
 
@@ -1751,15 +1736,13 @@ function handleLock(){
 
     updateStatusUI();
 
-    toast("🔒 PRONÓSTICOS BLOQUEADOS");
-
   }
 
 }
 
-/* =====================================================
+/* =========================================================
    MODAL
-===================================================== */
+========================================================= */
 
 function openM(title,desc,cb){
 
@@ -1806,9 +1789,9 @@ function confirmM(){
 
 }
 
-/* =====================================================
+/* =========================================================
    UNLOCK
-===================================================== */
+========================================================= */
 
 function handleUnlock(){
 
@@ -1829,15 +1812,13 @@ function handleUnlock(){
 
     updateStatusUI();
 
-    toast("🔓 PRONÓSTICOS ABIERTOS");
-
   });
 
 }
 
-/* =====================================================
+/* =========================================================
    EXPORT
-===================================================== */
+========================================================= */
 
 function handleExport(){
 
@@ -1846,7 +1827,6 @@ function handleExport(){
     openM(
     "EXPORTAR",
     "Pronósticos ABIERTOS. Se requiere clave.",
-
     doExport
     );
 
@@ -1934,8 +1914,8 @@ function doExport(){
 
         rep.className = inp.className;
 
-        rep.style.height = "42px";
-        rep.style.lineHeight = "42px";
+        rep.style.height = "38px";
+        rep.style.lineHeight = "38px";
 
         rep.style.display = "inline-block";
 
@@ -1998,9 +1978,9 @@ function doExport(){
 
 }
 
-/* =====================================================
+/* =========================================================
    THEME
-===================================================== */
+========================================================= */
 
 function toggleTheme(){
 
@@ -2015,10 +1995,6 @@ function toggleTheme(){
 
 }
 
-/* =====================================================
-   LOAD THEME
-===================================================== */
-
 if(
 localStorage.getItem("wc26_theme")
 === "light"
@@ -2028,9 +2004,9 @@ localStorage.getItem("wc26_theme")
 
 }
 
-/* =====================================================
+/* =========================================================
    TOAST
-===================================================== */
+========================================================= */
 
 function toast(m){
 
@@ -2046,34 +2022,6 @@ function toast(m){
     t.style.display = "none";
 
   },2500);
-
-}
-
-/* =====================================================
-   FIX INPUT LOGIN
-===================================================== */
-
-.login-card *{
-  position:relative;
-}
-
-.login-card::before{
-  pointer-events:none;
-}
-
-.pitch-lines{
-  pointer-events:none;
-}
-
-#codeInput:focus{
-
-  border-color:var(--gold);
-
-  box-shadow:
-  0 0 0 4px rgba(245,197,24,.15),
-  0 0 20px rgba(245,197,24,.25);
-
-  background:rgba(255,255,255,.12);
 
 }
 
