@@ -3,228 +3,1101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#121212">
-<title>Mundial 2026 - Predictor Pro</title>
+<meta name="theme-color" content="#121212" id="themeMeta">
+
+<title>Mundial 2026 - Predictor Pro X</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-:root {
-  --gold: #f5c518;
-  --gold2: #c9900a;
-  --red: #c0392b;
-  --green: #27ae60;
-  --bg: #121212;
-  --mid: #1a1a1a;
-  --card: #1e1e1e;
-  --border: #333333;
-  --text: #e8eaf0;
-  --muted: #888888;
+
+:root{
+  --gold:#f5c518;
+  --gold2:#c9900a;
+  --green:#22c55e;
+  --red:#ef4444;
+
+  --bg:#0f0f10;
+  --card:#1a1a1d;
+  --card2:#222226;
+  --mid:#171717;
+
+  --text:#f4f4f5;
+  --muted:#a1a1aa;
+  --border:#34343a;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Exo 2', sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+body.light{
+  --bg:#f4f6fa;
+  --card:#ffffff;
+  --card2:#f7f8fb;
+  --mid:#ffffff;
 
-/* ── SISTEMA DE REFLECTORES (ANIMACIÓN ALEATORIA) ── */
-.stadium-lights { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.reflector {
-  position: absolute; width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-  filter: blur(60px); animation: reflectorMove 12s infinite alternate ease-in-out;
-}
-.ref-1 { top: -10%; left: -10%; animation-duration: 15s; }
-.ref-2 { bottom: -10%; right: -10%; animation-duration: 18s; animation-delay: -5s; }
-.ref-3 { top: 20%; right: -20%; animation-duration: 20s; animation-delay: -2s; }
-.ref-4 { bottom: 20%; left: -20%; animation-duration: 14s; animation-delay: -8s; }
-
-@keyframes reflectorMove {
-  0% { transform: translate(0,0) scale(1); }
-  33% { transform: translate(100px, 150px) scale(1.2); }
-  66% { transform: translate(-50px, 200px) scale(0.8); }
-  100% { transform: translate(50px, -50px) scale(1.1); }
+  --text:#121212;
+  --muted:#6b7280;
+  --border:#dfe3ea;
 }
 
-/* ── LOGIN CENTRADO Y ANIMADO ── */
-.login-screen { 
-  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; 
-  padding: 20px; z-index: 100; background: var(--bg);
-}
-.login-card { 
-  width: 100%; max-width: 380px; background: rgba(30, 30, 30, 0.95); 
-  border: 2px solid var(--border); border-radius: 30px; padding: 40px; 
-  text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-  backdrop-filter: blur(10px); animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-
-.trophy-container { 
-  font-size: 5rem; margin-bottom: 20px; display: inline-block;
-  filter: drop-shadow(0 0 20px var(--gold));
-  animation: trophyAction 4s infinite ease-in-out;
-}
-@keyframes trophyAction {
-  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-  50% { transform: translateY(-20px) rotate(5deg) scale(1.1); }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+  font-family:'Exo 2',sans-serif;
 }
 
-/* ── BANNER FIFA ── */
-.fifa-banner {
-  background: linear-gradient(135deg, #000, #222);
-  border: 1px solid var(--border); border-radius: 24px; padding: 35px;
-  text-align: center; position: relative; overflow: hidden; margin-bottom: 25px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-}
-.fifa-banner::before {
-  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  transform: skewX(-30deg); animation: shimmer 5s infinite;
-}
-@keyframes shimmer { 0% { left: -100%; } 30% { left: 150%; } 100% { left: 150%; } }
-
-/* ── LISTADO DOBLE COLUMNA FORZADA ── */
-.matches { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr !important; /* Siempre 2 columnas */
-  gap: 12px; 
-}
-.match { 
-  background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
-  padding: 15px; position: relative; overflow: hidden; 
-  animation: cardEnter 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
-}
-@keyframes cardEnter { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Detalle Dorado Lateral */
-.match::before { 
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; 
-  background: var(--gold); opacity: 0.1;
-}
-.match.filled::before { opacity: 1; box-shadow: 0 0 10px var(--gold); }
-
-.match-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
-.team { display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 700; font-size: 0.75rem; text-align: center; }
-.flag { width: 32px; height: 20px; border-radius: 4px; object-fit: cover; border: 1px solid #333; }
-
-.score { 
-  width: 44px; height: 44px; line-height: 44px; background: var(--mid); 
-  border: 2px solid var(--border); border-radius: 10px; color: var(--gold); 
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; text-align: center; outline: none;
+html{
+  scroll-behavior:smooth;
 }
 
-/* ── MODALES CUSTOM ── */
-.modal-overlay { 
-  position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 5000;
-  display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
-}
-.modal-card { 
-  background: var(--card); border: 1px solid var(--border); border-radius: 24px; 
-  padding: 35px; width: 90%; max-width: 320px; text-align: center;
+body{
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100vh;
+  transition:.35s ease;
 }
 
-/* ── OVERLAY GOL ── */
-#goalOverlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999;
-  display: none; align-items: center; justify-content: center; flex-direction: column;
-}
-#flash-container { position: fixed; inset: 0; z-index: 10000; pointer-events: none; display: none; }
-.camera-burst {
-  position: absolute; width: 150px; height: 150px;
-  background: white; border-radius: 50%; filter: blur(50px);
-  opacity: 0; animation: burst 0.3s ease-out forwards;
-}
-@keyframes burst { 0% { opacity: 0; transform: scale(0.2); } 50% { opacity: 1; transform: scale(1.5); } 100% { opacity: 0; transform: scale(2); } }
+/* =========================
+   ATMOSFERA FIFA
+========================= */
 
-.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.action-btn { height: 50px; border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.stadium-lights{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:0;
+  pointer-events:none;
+}
+
+.reflector{
+  position:absolute;
+  width:700px;
+  height:700px;
+  border-radius:50%;
+  filter:blur(100px);
+
+  background:
+  radial-gradient(circle,
+  rgba(255,255,255,.08),
+  transparent 70%);
+
+  animation:moveLight 18s infinite alternate ease-in-out;
+}
+
+.ref-1{top:-20%;left:-10%;}
+.ref-2{bottom:-20%;right:-10%;animation-duration:22s;}
+.ref-3{top:20%;right:-20%;animation-duration:16s;}
+.ref-4{bottom:10%;left:-20%;animation-duration:25s;}
+
+@keyframes moveLight{
+  0%{transform:translate(0,0) scale(1);}
+  100%{transform:translate(120px,80px) scale(1.25);}
+}
+
+/* =========================
+   INTRO CINEMATICA
+========================= */
+
+#cinematicIntro{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:99999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  transition:1s ease;
+}
+
+.intro-logo{
+  font-family:'Bebas Neue';
+  font-size:min(14vw,8rem);
+  color:#fff;
+  letter-spacing:8px;
+
+  text-shadow:
+  0 0 25px var(--gold),
+  0 0 60px var(--gold);
+
+  animation:introPulse 2s infinite alternate;
+}
+
+.intro-sub{
+  color:var(--gold);
+  letter-spacing:6px;
+  margin-top:10px;
+}
+
+@keyframes introPulse{
+  from{
+    transform:scale(1);
+    opacity:.8;
+  }
+  to{
+    transform:scale(1.06);
+    opacity:1;
+  }
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen{
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+  z-index:100;
+}
+
+.login-card{
+  width:100%;
+  max-width:380px;
+
+  background:rgba(20,20,20,.92);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:32px;
+
+  padding:40px;
+
+  backdrop-filter:blur(16px);
+
+  box-shadow:
+  0 20px 60px rgba(0,0,0,.6);
+
+  animation:slideUp .8s cubic-bezier(.2,.8,.2,1);
+}
+
+body.light .login-card{
+  background:rgba(255,255,255,.92);
+}
+
+@keyframes slideUp{
+  from{
+    opacity:0;
+    transform:translateY(50px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.trophy-container{
+  font-size:5rem;
+  text-align:center;
+  margin-bottom:15px;
+
+  filter:drop-shadow(0 0 25px var(--gold));
+
+  animation:trophyFloat 4s infinite ease-in-out;
+}
+
+@keyframes trophyFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-12px);
+  }
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+  position:relative;
+  z-index:10;
+}
+
+.main{
+  max-width:1400px;
+  margin:auto;
+  padding:16px;
+}
+
+/* =========================
+   BANNER
+========================= */
+
+.fifa-banner{
+  position:relative;
+  overflow:hidden;
+
+  border-radius:28px;
+
+  padding:34px;
+
+  margin-bottom:20px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #000,
+    #18181b,
+    #262626
+  );
+
+  border:1px solid rgba(255,255,255,.06);
+
+  box-shadow:
+  0 20px 50px rgba(0,0,0,.35);
+}
+
+body.light .fifa-banner{
+  background:
+  linear-gradient(
+    135deg,
+    #ffffff,
+    #f5f5f5,
+    #eef1f6
+  );
+}
+
+.fifa-banner::before{
+  content:'';
+  position:absolute;
+
+  top:0;
+  left:-120%;
+
+  width:60%;
+  height:100%;
+
+  background:
+  linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.15),
+    transparent
+  );
+
+  transform:skewX(-25deg);
+
+  animation:shimmer 5s infinite;
+}
+
+@keyframes shimmer{
+  0%{left:-120%;}
+  35%{left:150%;}
+  100%{left:150%;}
+}
+
+/* =========================
+   BOTONES NUEVOS
+========================= */
+
+.actions{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+
+  overflow-x:auto;
+  padding-bottom:4px;
+
+  scrollbar-width:none;
+}
+
+.actions::-webkit-scrollbar{
+  display:none;
+}
+
+.action-btn{
+  min-width:135px;
+  height:56px;
+
+  border:none;
+  border-radius:18px;
+
+  padding:0 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  cursor:pointer;
+
+  font-size:.88rem;
+  font-weight:800;
+
+  position:relative;
+  overflow:hidden;
+
+  transition:
+  transform .22s ease,
+  box-shadow .22s ease;
+
+  box-shadow:
+  0 10px 24px rgba(0,0,0,.25),
+  inset 0 1px 0 rgba(255,255,255,.12);
+
+  color:#fff;
+}
+
+.action-btn::before{
+  content:'';
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.15),
+    transparent 60%
+  );
+}
+
+.action-btn:hover{
+  transform:translateY(-2px);
+}
+
+.action-btn:active{
+  transform:scale(.97);
+}
+
+.action-btn span{
+  font-size:1.15rem;
+}
+
+.btn-save{
+  background:linear-gradient(135deg,#f5c518,#d69d00);
+  color:#000;
+}
+
+.btn-export{
+  background:linear-gradient(135deg,#22c55e,#15803d);
+}
+
+.btn-lock{
+  background:linear-gradient(135deg,#ef4444,#991b1b);
+}
+
+.btn-unlock{
+  background:linear-gradient(135deg,#64748b,#334155);
+}
+
+.btn-theme{
+  background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status-bar{
+  background:var(--card);
+
+  border:1px solid var(--border);
+
+  border-radius:18px;
+
+  padding:15px 18px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:20px;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.18);
+}
+
+/* =========================
+   PARTIDOS OPTIMIZADOS
+========================= */
+
+.matches{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.match{
+  position:relative;
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+    180deg,
+    rgba(36,36,36,.96),
+    rgba(24,24,24,.98)
+  );
+
+  border:1px solid rgba(255,255,255,.06);
+
+  border-radius:22px;
+
+  padding:12px;
+
+  min-width:0;
+
+  transition:
+  transform .22s ease,
+  border-color .22s ease;
+
+  box-shadow:
+  0 10px 24px rgba(0,0,0,.2);
+}
+
+body.light .match{
+  background:
+  linear-gradient(
+    180deg,
+    #ffffff,
+    #f7f7f9
+  );
+}
+
+.match:hover{
+  transform:translateY(-2px);
+
+  border-color:
+  rgba(245,197,24,.25);
+}
+
+.match::before{
+  content:'';
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:4px;
+
+  background:var(--gold);
+
+  opacity:.12;
+}
+
+.match.filled::before{
+  opacity:1;
+
+  box-shadow:
+  0 0 18px var(--gold);
+}
+
+.match-top{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+
+  gap:8px;
+
+  align-items:center;
+}
+
+.team{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  min-width:0;
+}
+
+.team span{
+  width:100%;
+
+  text-align:center;
+
+  font-size:.72rem;
+  font-weight:800;
+  line-height:1.08;
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+
+  min-height:30px;
+}
+
+.flag{
+  width:34px;
+  height:22px;
+
+  object-fit:cover;
+
+  border-radius:5px;
+
+  margin-bottom:5px;
+
+  border:1px solid rgba(255,255,255,.14);
+
+  box-shadow:
+  0 2px 6px rgba(0,0,0,.3);
+}
+
+.score-wrap{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.score{
+  width:38px;
+  height:42px;
+
+  border-radius:12px;
+
+  border:2px solid var(--border);
+
+  background:var(--mid);
+
+  color:var(--gold);
+
+  font-family:'Bebas Neue';
+  font-size:1.35rem;
+
+  text-align:center;
+
+  outline:none;
+
+  transition:.2s ease;
+}
+
+.score:focus{
+  border-color:var(--gold);
+
+  box-shadow:
+  0 0 12px rgba(245,197,24,.25);
+}
+
+.match-info{
+  margin-top:10px;
+
+  text-align:center;
+
+  font-size:.58rem;
+  line-height:1.3;
+
+  color:var(--muted);
+}
+
+/* =========================
+   CAPTURA
+========================= */
+
+#captureArea{
+  background:transparent;
+  padding:10px;
+}
+
+.capture-watermark{
+  margin-top:25px;
+
+  text-align:center;
+
+  font-size:.7rem;
+
+  opacity:.55;
+
+  letter-spacing:3px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.9);
+
+  z-index:5000;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  backdrop-filter:blur(8px);
+}
+
+.modal-card{
+  width:90%;
+  max-width:320px;
+
+  border-radius:26px;
+
+  padding:30px;
+
+  background:var(--card);
+
+  border:1px solid var(--border);
+}
+
+/* =========================
+   GOAL OVERLAY
+========================= */
+
+#goalOverlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.95);
+
+  z-index:9999;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  backdrop-filter:blur(10px);
+}
+
+.goal-title{
+  font-family:'Bebas Neue';
+
+  font-size:min(16vw,8rem);
+
+  color:var(--gold);
+
+  text-shadow:
+  0 0 25px var(--gold),
+  0 0 80px var(--gold);
+
+  animation:goalPulse .3s infinite alternate;
+}
+
+@keyframes goalPulse{
+  from{transform:scale(1);}
+  to{transform:scale(1.08);}
+}
+
+/* =========================
+   FLASH
+========================= */
+
+#flash-container{
+  position:fixed;
+  inset:0;
+
+  pointer-events:none;
+
+  z-index:10000;
+
+  display:none;
+}
+
+.camera-burst{
+  position:absolute;
+
+  width:180px;
+  height:180px;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  filter:blur(50px);
+
+  opacity:0;
+
+  animation:burst .25s ease-out forwards;
+}
+
+@keyframes burst{
+  0%{
+    opacity:0;
+    transform:scale(.2);
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.5);
+  }
+  100%{
+    opacity:0;
+    transform:scale(2);
+  }
+}
+
+/* =========================
+   TOAST
+========================= */
+
+#toast{
+  position:fixed;
+
+  bottom:20px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  background:var(--green);
+
+  color:#fff;
+
+  padding:12px 20px;
+
+  border-radius:999px;
+
+  display:none;
+
+  z-index:7000;
+
+  font-weight:700;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:820px){
+
+  .matches{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .match{
+    padding:10px;
+  }
+
+  .team span{
+    font-size:.64rem;
+    min-height:28px;
+  }
+
+  .flag{
+    width:30px;
+    height:19px;
+  }
+
+  .score{
+    width:34px;
+    height:38px;
+    font-size:1.15rem;
+  }
+
+  .match-info{
+    font-size:.52rem;
+  }
+}
+
+@media(max-width:560px){
+
+  .matches{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .action-btn{
+    min-width:120px;
+    height:52px;
+    font-size:.78rem;
+  }
+
+  .fifa-banner{
+    padding:24px;
+  }
+
+  .team span{
+    font-size:.6rem;
+  }
+}
+
 </style>
 </head>
+
 <body>
 
+<!-- INTRO -->
+
+<div id="cinematicIntro">
+  <div class="intro-logo">WORLD CUP 2026</div>
+  <div class="intro-sub">PREDICTOR PRO X</div>
+</div>
+
+<!-- LUCES -->
+
 <div class="stadium-lights">
-    <div class="reflector ref-1"></div>
-    <div class="reflector ref-2"></div>
-    <div class="reflector ref-3"></div>
-    <div class="reflector ref-4"></div>
+  <div class="reflector ref-1"></div>
+  <div class="reflector ref-2"></div>
+  <div class="reflector ref-3"></div>
+  <div class="reflector ref-4"></div>
 </div>
 
 <div id="flash-container"></div>
 
+<!-- AUDIO -->
+
 <audio id="fifaSound" preload="auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
 </audio>
 
+<audio id="clickSound" preload="auto">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="crowdSound" preload="auto">
+  <source src="https://assets.mixkit.co/active_storage/sfx/210/210-preview.mp3" type="audio/mpeg">
+</audio>
+
+<!-- GOAL -->
+
 <div id="goalOverlay">
-    <div style="font-family: 'Bebas Neue'; font-size: 10vw; color: var(--gold); text-shadow: 0 0 50px var(--gold); animation: trophyAction 0.4s infinite alternate;">¡GOOOOOOOOL!</div>
-    <p style="font-family: 'Bebas Neue'; color: #fff; font-size: 1.5rem; letter-spacing: 4px;">REVELANDO PRONÓSTICOS...</p>
+  <div class="goal-title">¡GOOOOOL!</div>
+  <div style="color:#fff;letter-spacing:6px;">GENERANDO EXPERIENCIA FIFA...</div>
 </div>
+
+<!-- LOGIN -->
 
 <div class="login-screen" id="loginScreen">
+
   <div class="login-card">
+
     <div class="trophy-container">🏆</div>
-    <h1 style="font-family: 'Bebas Neue'; color: var(--gold); font-size: 2.5rem; letter-spacing: 2px;">MUNDIAL 2026</h1>
-    <p style="color: var(--muted); font-size: 0.8rem; margin-bottom: 25px;">PREDICTOR OFICIAL</p>
-    <input type="text" id="codeInput" class="score" style="width:100%; height:60px; letter-spacing:8px; margin-bottom:15px;" maxlength="6" placeholder="CÓDIGO">
-    <div id="loginPreview" style="color: var(--gold); font-weight: 700; margin-bottom: 20px; height: 20px;"></div>
-    <button class="action-btn" style="background:var(--gold); color:#000; width:100%;" onclick="doLogin()">INGRESAR AL ESTADIO</button>
+
+    <h1 style="font-family:'Bebas Neue';font-size:3rem;color:var(--gold);text-align:center;">
+      MUNDIAL 2026
+    </h1>
+
+    <p style="text-align:center;color:var(--muted);margin-bottom:25px;">
+      PREDICTOR PRO X
+    </p>
+
+    <input
+    type="text"
+    id="codeInput"
+    class="score"
+    maxlength="6"
+    placeholder="CÓDIGO"
+    style="width:100%;height:60px;letter-spacing:8px;margin-bottom:14px;">
+
+    <div id="loginPreview"
+    style="height:22px;text-align:center;color:var(--gold);font-weight:700;margin-bottom:18px;"></div>
+
+    <button
+    class="action-btn btn-save"
+    style="width:100%;justify-content:center;"
+    onclick="doLogin()">
+      INGRESAR AL ESTADIO
+    </button>
+
   </div>
 </div>
+
+<!-- APP -->
 
 <div class="app" id="app" style="display:none;">
-  <div class="main" style="max-width: 1200px; margin: auto; padding: 16px; position: relative; z-index: 10;">
-    
+
+  <div class="main">
+
+    <!-- BANNER -->
+
     <div class="fifa-banner">
-      <div style="font-family: 'Bebas Neue'; font-size: 3.5rem; color: #fff; line-height: 1;">MUNDIAL 2026</div>
-      <p style="color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.5rem; letter-spacing: 5px;">JORNADA 1 • EN VIVO</p>
+
+      <div style="font-family:'Bebas Neue';font-size:clamp(2.2rem,7vw,5rem);line-height:1;">
+        FIFA WORLD CUP 2026
+      </div>
+
+      <div style="font-family:'Bebas Neue';font-size:1.3rem;color:var(--gold);letter-spacing:5px;">
+        MATCHDAY 1 • LIVE EXPERIENCE
+      </div>
+
     </div>
+
+    <!-- BOTONES -->
 
     <div class="actions">
-      <button class="action-btn" style="background:var(--gold); color:#000" onclick="savePicks()">💾 GUARDAR</button>
-      <button class="action-btn" style="background:var(--green)" onclick="handleExport()">📸 EXPORTAR</button>
-      <button class="action-btn" style="background:var(--red)" onclick="handleLock()">🔒 BLOQUEAR</button>
-      <button class="action-btn" style="background:#4b5563" onclick="handleUnlock()">🔓 DESBLOQUEAR</button>
+
+      <button class="action-btn btn-save" onclick="savePicks()">
+        <span>💾</span>
+        GUARDAR
+      </button>
+
+      <button class="action-btn btn-export" onclick="handleExport()">
+        <span>📸</span>
+        EXPORTAR
+      </button>
+
+      <button class="action-btn btn-lock" onclick="handleLock()">
+        <span>🔒</span>
+        BLOQUEAR
+      </button>
+
+      <button class="action-btn btn-unlock" onclick="handleUnlock()">
+        <span>🔓</span>
+        ABRIR
+      </button>
+
+      <button class="action-btn btn-theme" onclick="toggleTheme()">
+        <span>🌗</span>
+        MODO
+      </button>
+
     </div>
 
-    <div style="background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 18px; margin-bottom: 20px; display: flex; justify-content: space-between; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-      <div id="statusText">ESTADO: ABIERTO 🟢</div>
-      <div id="displayUser" style="font-weight: 700; color: var(--gold);"></div>
+    <!-- STATUS -->
+
+    <div class="status-bar">
+
+      <div id="statusText">
+        ESTADO: ABIERTO 🟢
+      </div>
+
+      <div id="displayUser"
+      style="font-weight:800;color:var(--gold);">
+      </div>
+
     </div>
 
-    <div id="captureArea" style="padding: 15px; background: var(--bg);">
-       <div id="captureHeader" style="display:none; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 20px;">
-           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-             <div>
-               <div style="font-family:'Bebas Neue'; color: var(--gold); font-size: 3rem; line-height: 1;">FIFA WORLD CUP 2026</div>
-               <div id="capStatus" style="font-family: 'Bebas Neue'; color:#fff; font-size: 1.3rem;">-</div>
-             </div>
-             <div style="text-align: right;">
-               <div id="capUser" style="color:#fff; font-size: 1.8rem; font-family: 'Bebas Neue';"></div>
-             </div>
-           </div>
-       </div>
-       <div class="matches" id="matchesContainer"></div>
+    <!-- CAPTURE -->
+
+    <div id="captureArea">
+
+      <div id="captureHeader"
+      style="display:none;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);">
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;">
+
+          <div>
+
+            <div style="font-family:'Bebas Neue';font-size:3rem;color:var(--gold);line-height:1;">
+              FIFA WORLD CUP 2026
+            </div>
+
+            <div id="capStatus"
+            style="font-family:'Bebas Neue';font-size:1.4rem;">
+            </div>
+
+          </div>
+
+          <div style="text-align:right;">
+
+            <div id="capUser"
+            style="font-family:'Bebas Neue';font-size:2rem;">
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PARTIDOS -->
+
+      <div class="matches" id="matchesContainer"></div>
+
+      <div class="capture-watermark">
+        OFFICIAL PREDICTOR EXPERIENCE
+      </div>
+
     </div>
+
   </div>
 </div>
+
+<!-- MODAL -->
 
 <div class="modal-overlay" id="masterModal">
+
   <div class="modal-card">
-    <h3 id="mTitle">ACCESO ADMIN</h3>
-    <p id="mDesc" style="font-size: 0.8rem; color: var(--muted); margin-bottom: 20px;">Introduce la clave maestra</p>
-    <input type="password" id="mInput" class="score" style="width:100%; height:55px; letter-spacing:5px;" placeholder="••••">
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button class="action-btn" style="background:#4b5563; flex:1" onclick="closeM()">CANCELAR</button>
-      <button class="action-btn" style="background:var(--gold); color:#000; flex:1" onclick="confirmM()">OK</button>
+
+    <h3 id="mTitle">ADMIN</h3>
+
+    <p id="mDesc"
+    style="font-size:.8rem;color:var(--muted);margin:15px 0 18px;">
+    </p>
+
+    <input
+    type="password"
+    id="mInput"
+    class="score"
+    placeholder="••••"
+    style="width:100%;height:56px;letter-spacing:5px;">
+
+    <div style="display:flex;gap:10px;margin-top:20px;">
+
+      <button class="action-btn btn-unlock"
+      style="flex:1;"
+      onclick="closeM()">
+        CANCELAR
+      </button>
+
+      <button class="action-btn btn-save"
+      style="flex:1;"
+      onclick="confirmM()">
+        OK
+      </button>
+
     </div>
+
   </div>
 </div>
 
-<div id="toast" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--green); color:#fff; padding:10px 20px; border-radius:50px; display:none; z-index:6000;"></div>
+<div id="toast"></div>
 
 <script>
+
+/* =========================
+   INTRO
+========================= */
+
+window.addEventListener("load",()=>{
+
+  setTimeout(()=>{
+
+    document.getElementById("cinematicIntro").style.opacity="0";
+
+    setTimeout(()=>{
+      document.getElementById("cinematicIntro").style.display="none";
+    },1000);
+
+  },2200);
+});
+
+/* =========================
+   PROTECCION
+========================= */
+
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+document.addEventListener("keydown",function(e){
+
+  if(
+    e.key==="F12" ||
+    (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
+    (e.ctrlKey && e.key==="u")
+  ){
+    e.preventDefault();
+    toast("🔒 ACCIÓN BLOQUEADA");
+  }
+});
+
+/* =========================
+   CONFIG
+========================= */
+
 const ADMIN_PASS = "AP420";
-const USER_CODES = { "JDQM26": "Juan de Dios", "AEQM26": "Andrés Esparza", "FEQM26": "Fernando Esparza", "ADMIN0": "Administrador" };
+
+const USER_CODES = {
+  "JDQM26": "Juan de Dios",
+  "AEQM26": "Andrés Esparza",
+  "FEQM26": "Fernando Esparza",
+  "ADMIN0": "Administrador"
+};
 
 const FLAGS = {
   "México": "mx", "Sudáfrica": "za", "Corea del Sur": "kr", "Rep. Checa": "cz",
@@ -268,184 +1141,526 @@ const MATCHES = [
   {h:"Uzbekistán",a:"Colombia",d:"17 Jun · 19:00",s:"Estadio Azteca"}
 ];
 
-let currentUser = "", currentCode = "", locked = false, picks = {}, mCallback = null;
+let currentUser = "";
+let currentCode = "";
+let locked = false;
+let picks = {};
+let mCallback = null;
 
-document.getElementById('codeInput').addEventListener('input', function() {
-    let n = USER_CODES[this.value.toUpperCase()];
-    document.getElementById('loginPreview').textContent = n ? "HOLA, " + n + "!" : "";
+/* =========================
+   THEME
+========================= */
+
+if(localStorage.getItem("wc_theme")==="light"){
+  document.body.classList.add("light");
+}
+
+function toggleTheme(){
+
+  playClick();
+
+  document.body.classList.toggle("light");
+
+  const isLight =
+  document.body.classList.contains("light");
+
+  localStorage.setItem(
+    "wc_theme",
+    isLight ? "light":"dark"
+  );
+
+  document.getElementById("themeMeta")
+  .setAttribute(
+    "content",
+    isLight ? "#ffffff":"#121212"
+  );
+
+  toast(
+    isLight
+    ? "☀️ MODO CLARO"
+    : "🌙 MODO OSCURO"
+  );
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+document.getElementById("codeInput")
+.addEventListener("input",function(){
+
+  let n = USER_CODES[this.value.toUpperCase()];
+
+  document.getElementById("loginPreview")
+  .textContent = n ? "HOLA, " + n + "!" : "";
 });
 
 function doLogin(){
-  let c = document.getElementById("codeInput").value.toUpperCase();
+
+  let c =
+  document.getElementById("codeInput")
+  .value.toUpperCase();
+
   if(USER_CODES[c]){
-    document.getElementById('fifaSound').play().catch(e => {});
-    currentUser = USER_CODES[c]; currentCode = c;
-    loadData(); showApp();
-  } else { alert("CÓDIGO INVÁLIDO"); }
-}
 
-function loadData(){
-  picks = JSON.parse(localStorage.getItem("wc26_picks_" + currentCode) || "{}");
-  locked = localStorage.getItem("wc26_lock_" + currentCode) === "1";
-}
+    document.getElementById("fifaSound")
+    .play()
+    .catch(()=>{});
 
-function showApp(){
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  document.getElementById("displayUser").textContent = currentUser;
-  renderMatches();
-  updateStatusUI();
-}
+    document.getElementById("crowdSound")
+    .play()
+    .catch(()=>{});
 
-function renderMatches(){
-  const mc = document.getElementById("matchesContainer");
-  mc.innerHTML = MATCHES.map((m, idx) => {
-    const hV = picks[`j1_${idx}_h`] || ""; const aV = picks[`j1_${idx}_a`] || "";
-    return `
-      <div class="match ${hV !== '' && aV !== '' ? 'filled' : ''}" style="animation-delay: ${idx * 0.05}s">
-        <div class="match-top">
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.h] || "un"}.png">
-            <span>${m.h}</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:5px;">
-            <input class="score" type="number" value="${hV}" ${locked?'disabled':''} oninput="updatePick(${idx},'h',this)">
-            <span style="color:var(--gold); font-family:'Bebas Neue'">:</span>
-            <input class="score" type="number" value="${aV}" ${locked?'disabled':''} oninput="updatePick(${idx},'a',this)">
-          </div>
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.a] || "un"}.png">
-            <span>${m.a}</span>
-          </div>
-        </div>
-        <div style="margin-top:8px; font-size:0.5rem; color:var(--muted); text-align:center;">
-          ${m.d} | ${m.s}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
+    currentUser = USER_CODES[c];
+    currentCode = c;
 
-function updatePick(idx, side, el){
-  picks[`j1_${idx}_${side}`] = el.value.slice(0,2);
-  el.closest(".match").classList.toggle("filled", (picks[`j1_${idx}_h`] && picks[`j1_${idx}_a`]));
-}
+    loadData();
 
-function updateStatusUI(){
-  document.getElementById("statusText").innerHTML = locked ? "ESTADO: CERRADO 🔒" : "ESTADO: ABIERTO 🟢";
-  document.getElementById("statusText").style.color = locked ? "var(--red)" : "var(--green)";
-}
+    showApp();
 
-function savePicks(){
-  if(locked) return toast("🔒 PRONÓSTICOS CERRADOS");
-  localStorage.setItem("wc26_picks_" + currentCode, JSON.stringify(picks));
-  toast("💾 GUARDADO");
-}
-
-function handleLock(){
-  if(locked) return;
-  if(confirm("¿BLOQUEAR PRONÓSTICOS?")) {
-    locked = true; localStorage.setItem("wc26_lock_" + currentCode, "1");
-    savePicks(); renderMatches(); updateStatusUI();
+  }else{
+    alert("CÓDIGO INVÁLIDO");
   }
 }
 
-function openM(title, desc, cb) {
-    document.getElementById("mTitle").textContent = title;
-    document.getElementById("mDesc").textContent = desc;
-    document.getElementById("mInput").value = "";
-    document.getElementById("masterModal").style.display = "flex";
-    mCallback = cb;
+/* =========================
+   DATA
+========================= */
+
+function loadData(){
+
+  picks = JSON.parse(
+    localStorage.getItem(
+      "wc26_picks_" + currentCode
+    ) || "{}"
+  );
+
+  locked =
+  localStorage.getItem(
+    "wc26_lock_" + currentCode
+  ) === "1";
 }
-function closeM() { document.getElementById("masterModal").style.display = "none"; }
-function confirmM() {
-    if(document.getElementById("mInput").value === ADMIN_PASS) {
-        closeM(); if(mCallback) mCallback();
-    } else { alert("CLAVE INCORRECTA"); }
+
+/* =========================
+   SHOW APP
+========================= */
+
+function showApp(){
+
+  document.getElementById("loginScreen")
+  .style.display = "none";
+
+  document.getElementById("app")
+  .style.display = "block";
+
+  document.getElementById("displayUser")
+  .textContent = currentUser;
+
+  renderMatches();
+
+  updateStatusUI();
 }
+
+/* =========================
+   RENDER MATCHES
+========================= */
+
+function renderMatches(){
+
+  const mc =
+  document.getElementById("matchesContainer");
+
+  mc.innerHTML = MATCHES.map((m,idx)=>{
+
+    const hV =
+    picks[`j1_${idx}_h`] || "";
+
+    const aV =
+    picks[`j1_${idx}_a`] || "";
+
+    return `
+
+    <div class="match ${hV!=='' && aV!=='' ? 'filled':''}">
+
+      <div class="match-top">
+
+        <div class="team">
+
+          <img class="flag"
+          src="https://flagcdn.com/w80/${FLAGS[m.h] || 'un'}.png">
+
+          <span>${m.h}</span>
+
+        </div>
+
+        <div class="score-wrap">
+
+          <input
+          class="score"
+          type="number"
+          value="${hV}"
+          ${locked?'disabled':''}
+          oninput="updatePick(${idx},'h',this)">
+
+          <span style="font-family:'Bebas Neue';color:var(--gold);">:</span>
+
+          <input
+          class="score"
+          type="number"
+          value="${aV}"
+          ${locked?'disabled':''}
+          oninput="updatePick(${idx},'a',this)">
+
+        </div>
+
+        <div class="team">
+
+          <img class="flag"
+          src="https://flagcdn.com/w80/${FLAGS[m.a] || 'un'}.png">
+
+          <span>${m.a}</span>
+
+        </div>
+
+      </div>
+
+      <div class="match-info">
+        ${m.d} • ${m.s}
+      </div>
+
+    </div>
+
+    `;
+
+  }).join("");
+}
+
+/* =========================
+   PICKS
+========================= */
+
+function updatePick(idx,side,el){
+
+  picks[`j1_${idx}_${side}`] =
+  el.value.slice(0,2);
+
+  el.closest(".match")
+  .classList.toggle(
+    "filled",
+    picks[`j1_${idx}_h`] &&
+    picks[`j1_${idx}_a`]
+  );
+}
+
+/* =========================
+   STATUS
+========================= */
+
+function updateStatusUI(){
+
+  const st =
+  document.getElementById("statusText");
+
+  st.innerHTML = locked
+  ? "ESTADO: CERRADO 🔒"
+  : "ESTADO: ABIERTO 🟢";
+
+  st.style.color = locked
+  ? "var(--red)"
+  : "var(--green)";
+}
+
+/* =========================
+   SAVE
+========================= */
+
+function savePicks(){
+
+  playClick();
+
+  if(locked){
+    return toast("🔒 PRONÓSTICOS CERRADOS");
+  }
+
+  localStorage.setItem(
+    "wc26_picks_" + currentCode,
+    JSON.stringify(picks)
+  );
+
+  toast("💾 GUARDADO");
+}
+
+/* =========================
+   LOCK
+========================= */
+
+function handleLock(){
+
+  playClick();
+
+  if(locked) return;
+
+  if(confirm("¿BLOQUEAR PRONÓSTICOS?")){
+
+    locked = true;
+
+    localStorage.setItem(
+      "wc26_lock_" + currentCode,
+      "1"
+    );
+
+    savePicks();
+
+    renderMatches();
+
+    updateStatusUI();
+  }
+}
+
+/* =========================
+   MODAL
+========================= */
+
+function openM(title,desc,cb){
+
+  document.getElementById("mTitle")
+  .textContent = title;
+
+  document.getElementById("mDesc")
+  .textContent = desc;
+
+  document.getElementById("mInput")
+  .value = "";
+
+  document.getElementById("masterModal")
+  .style.display = "flex";
+
+  mCallback = cb;
+}
+
+function closeM(){
+
+  document.getElementById("masterModal")
+  .style.display = "none";
+}
+
+function confirmM(){
+
+  if(
+    document.getElementById("mInput").value
+    === ADMIN_PASS
+  ){
+
+    closeM();
+
+    if(mCallback) mCallback();
+
+  }else{
+    alert("CLAVE INCORRECTA");
+  }
+}
+
+/* =========================
+   UNLOCK
+========================= */
 
 function handleUnlock(){
-    openM("DESBLOQUEAR", "Ingresa clave de administración", function() {
-        locked = false; localStorage.setItem("wc26_lock_" + currentCode, "0");
-        renderMatches(); updateStatusUI();
-    });
+
+  playClick();
+
+  openM(
+    "DESBLOQUEAR",
+    "Ingresa clave administrativa",
+    function(){
+
+      locked = false;
+
+      localStorage.setItem(
+        "wc26_lock_" + currentCode,
+        "0"
+      );
+
+      renderMatches();
+
+      updateStatusUI();
+    }
+  );
 }
 
+/* =========================
+   EXPORT
+========================= */
+
 function handleExport(){
+
+  playClick();
+
   if(!locked){
-    openM("EXPORTAR", "Pronósticos ABIERTOS. Se requiere clave para generar imagen.", doExport);
-  } else {
+
+    openM(
+      "EXPORTAR",
+      "PRONÓSTICOS ABIERTOS. CLAVE REQUERIDA.",
+      doExport
+    );
+
+  }else{
     doExport();
   }
 }
 
 function doExport(){
-  const fContainer = document.getElementById("flash-container");
-  fContainer.style.display = "block";
-  
-  // RÁFAGA DE FLASHES
-  for(let i=0; i<25; i++){
-    setTimeout(() => {
-        const b = document.createElement("div");
-        b.className = "camera-burst";
-        b.style.top = Math.random() * 100 + "%";
-        b.style.left = Math.random() * 100 + "%";
-        fContainer.appendChild(b);
-        setTimeout(() => b.remove(), 300);
-    }, i * 40);
+
+  const overlay =
+  document.getElementById("goalOverlay");
+
+  const flash =
+  document.getElementById("flash-container");
+
+  flash.style.display = "block";
+
+  for(let i=0;i<35;i++){
+
+    setTimeout(()=>{
+
+      const b =
+      document.createElement("div");
+
+      b.className = "camera-burst";
+
+      b.style.top =
+      Math.random()*100 + "%";
+
+      b.style.left =
+      Math.random()*100 + "%";
+
+      flash.appendChild(b);
+
+      setTimeout(()=>b.remove(),300);
+
+    },i*40);
   }
 
-  setTimeout(() => {
-    const overlay = document.getElementById("goalOverlay");
-    overlay.style.display = "flex";
-    
-    setTimeout(() => {
-        const area = document.getElementById("captureArea");
-        const header = document.getElementById("captureHeader");
-        header.style.display = "block";
-        document.getElementById("capStatus").textContent = locked ? "PRONÓSTICO CERRADO" : "PRONÓSTICO ABIERTO";
-        document.getElementById("capUser").textContent = currentUser;
+  overlay.style.display = "flex";
 
-        // CONGELAR ANIMACIONES PARA CAPTURA LIMPIA
-        const matches = area.querySelectorAll('.match');
-        matches.forEach(m => {
-            m.style.opacity = "1";
-            m.style.transform = "none";
-            m.style.animation = "none";
-        });
+  setTimeout(()=>{
 
-        const inputs = area.querySelectorAll("input");
-        const backups = [];
-        inputs.forEach(inp => {
-          const rep = document.createElement("div");
-          rep.className = inp.className;
-          rep.style.height = "44px"; rep.style.lineHeight = "44px";
-          rep.style.display = "inline-block"; rep.style.textAlign = "center";
-          rep.textContent = inp.value || "-";
-          backups.push({orig: inp, rep: rep});
-          inp.style.display = "none";
-          inp.parentNode.insertBefore(rep, inp);
-        });
+    const area =
+    document.getElementById("captureArea");
 
-        html2canvas(area, { scale: 2, backgroundColor: "#121212", useCORS: true }).then(canvas => {
-            backups.forEach(b => { b.rep.remove(); b.orig.style.display = "inline-block"; });
-            header.style.display = "none";
-            overlay.style.display = "none";
-            fContainer.style.display = "none";
-            renderMatches(); // Restaurar animaciones después de captura
-            const link = document.createElement("a");
-            link.download = `WC26_${currentUser}.jpg`;
-            link.href = canvas.toDataURL("image/jpeg", 0.9);
-            link.click();
-        });
-    }, 1200);
-  }, 400);
+    const header =
+    document.getElementById("captureHeader");
+
+    header.style.display = "block";
+
+    document.getElementById("capStatus")
+    .textContent =
+    locked
+    ? "PRONÓSTICO CERRADO"
+    : "PRONÓSTICO ABIERTO";
+
+    document.getElementById("capUser")
+    .textContent = currentUser;
+
+    const inputs =
+    area.querySelectorAll("input");
+
+    const backups = [];
+
+    inputs.forEach(inp=>{
+
+      const rep =
+      document.createElement("div");
+
+      rep.className = inp.className;
+
+      rep.style.display = "flex";
+      rep.style.alignItems = "center";
+      rep.style.justifyContent = "center";
+
+      rep.textContent =
+      inp.value || "-";
+
+      backups.push({
+        orig:inp,
+        rep:rep
+      });
+
+      inp.style.display = "none";
+
+      inp.parentNode.insertBefore(rep,inp);
+    });
+
+    html2canvas(area,{
+      scale:3,
+      useCORS:true,
+      backgroundColor:null
+    }).then(canvas=>{
+
+      backups.forEach(b=>{
+
+        b.rep.remove();
+
+        b.orig.style.display =
+        "inline-block";
+      });
+
+      overlay.style.display = "none";
+
+      flash.style.display = "none";
+
+      header.style.display = "none";
+
+      const link =
+      document.createElement("a");
+
+      link.download =
+      `WC26_${currentUser}.png`;
+
+      link.href =
+      canvas.toDataURL("image/png",1);
+
+      link.click();
+
+      renderMatches();
+
+    });
+
+  },1400);
 }
+
+/* =========================
+   AUDIO
+========================= */
+
+function playClick(){
+
+  const a =
+  document.getElementById("clickSound");
+
+  a.currentTime = 0;
+
+  a.play().catch(()=>{});
+}
+
+/* =========================
+   TOAST
+========================= */
 
 function toast(m){
-  const t = document.getElementById("toast"); t.textContent = m;
-  t.style.display = "block"; setTimeout(()=>t.style.display="none", 2500);
+
+  const t =
+  document.getElementById("toast");
+
+  t.textContent = m;
+
+  t.style.display = "block";
+
+  setTimeout(()=>{
+    t.style.display = "none";
+  },2500);
 }
+
 </script>
+
 </body>
 </html>
