@@ -1207,7 +1207,17 @@ body::after{
 
   display:flex;
   align-items:center;
-  gap:4px;
+  justify-content:center;
+  gap:8px;
+
+}
+
+.score-team{
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
 
 }
 
@@ -1922,6 +1932,7 @@ const USER_CODES = {
   "IDNS59": "Dianita Serrano",
   "OAJN35": "Joan",
   "ANTO87": "Ana Ortíz",
+  "MATE07": "Mateo Rdz",
   "IACC74": "Abuid Contreras"
 
 };
@@ -2154,50 +2165,59 @@ function renderMatches(){
 
       <div class="match-top">
 
-        <div class="team">
+  <div class="team">
 
-          <img class="flag"
-          src="https://flagcdn.com/w80/${FLAGS[m.h] || "un"}.png">
+    <img class="flag"
+    src="https://flagcdn.com/w80/${FLAGS[m.h] || "un"}.png">
 
-          <span>${m.h}</span>
+    <span>${m.h}</span>
 
-        </div>
+  </div>
 
-        <div class="score-area">
+  <div class="score-area">
 
-          <input
-          class="score"
-          type="number"
-          value="${hV}"
-          ${locked ? 'disabled':''}
-          oninput="updatePick(${idx},'h',this)">
+    <div class="score-team">
 
-          <span style="
-          color:var(--gold);
-          font-family:'Bebas Neue';
-          ">
-            :
-          </span>
+      <input
+      class="score"
+      type="number"
+      value="${hV}"
+      ${locked ? 'disabled':''}
+      oninput="updatePick(${idx},'h',this)">
 
-          <input
-          class="score"
-          type="number"
-          value="${aV}"
-          ${locked ? 'disabled':''}
-          oninput="updatePick(${idx},'a',this)">
+    </div>
 
-        </div>
+    <span style="
+    color:var(--gold);
+    font-family:'Bebas Neue';
+    font-size:1.2rem;
+    ">
+      :
+    </span>
 
-        <div class="team">
+    <div class="score-team">
 
-          <img class="flag"
-          src="https://flagcdn.com/w80/${FLAGS[m.a] || "un"}.png">
+      <input
+      class="score"
+      type="number"
+      value="${aV}"
+      ${locked ? 'disabled':''}
+      oninput="updatePick(${idx},'a',this)">
 
-          <span>${m.a}</span>
+    </div>
 
-        </div>
+  </div>
 
-      </div>
+  <div class="team">
+
+    <img class="flag"
+    src="https://flagcdn.com/w80/${FLAGS[m.a] || "un"}.png">
+
+    <span>${m.a}</span>
+
+  </div>
+
+</div>
 
       <div class="match-info">
 
