@@ -844,7 +844,7 @@ body::after{
         </div>
         <div class="live-badge">
           <span class="live-dot"></span>
-          JORNADA 2
+          JORNADA 1
         </div>
       </div>
     </div>
@@ -975,6 +975,7 @@ const USER_CODES = {
   "JIVO12":"Iván Trejo",
   "JGMR16":"Jorge Moreno",
   "HOSS30":"Joshua",
+  "LEIN58":"Ing. Rentería",
   "DIOR76":"Ricardo Olvera",
   "NESA26":"Wendy Casillas",
   "VALD72":"Valeria de Luna",
@@ -1014,42 +1015,34 @@ const FLAGS = {
 };
 
 /* =========================================================
-   MATCHES — JORNADA 2  (18–23 Jun · hora México CDT)
+   MATCHES — JORNADA 1  (11–17 Jun · hora México CDT)
 ========================================================= */
 
 const MATCHES = [
-  /* 18 Jun */
-  {h:"Sudáfrica",    a:"Rep. Checa",    d:"18 Jun · 11:00", s:"Mercedes-Benz Stadium, Atlanta"},
-  {h:"Suiza",        a:"Bosnia y Herz.",d:"18 Jun · 14:00", s:"SoFi Stadium, Inglewood"},
-  {h:"Canadá",       a:"Qatar",         d:"18 Jun · 17:00", s:"BC Place, Vancouver"},
-  {h:"México",       a:"Corea del Sur", d:"18 Jun · 20:00", s:"Estadio Akron, Guadalajara"},
-  /* 18–19 Jun (medianoche) */
-  {h:"Paraguay",     a:"Turquía",       d:"19 Jun · 23:00", s:"Levi's Stadium, Santa Clara"},
-  /* 19 Jun */
-  {h:"Escocia",      a:"Marruecos",     d:"19 Jun · 14:00", s:"Gillette Stadium, Foxborough"},
-  {h:"Estados Unidos",a:"Australia",    d:"19 Jun · 14:00", s:"Lumen Field, Seattle"},
-  {h:"Brasil",       a:"Haití",         d:"19 Jun · 20:00", s:"Lincoln Financial Field, Filadelfia"},
-  /* 19–20 Jun (medianoche) */
-  {h:"Túnez",        a:"Japón",         d:"20 Jun · 23:00", s:"Estadio BBVA, Monterrey"},
-  /* 20 Jun */
-  {h:"Países Bajos", a:"Suecia",        d:"20 Jun · 12:00", s:"NRG Stadium, Houston"},
-  {h:"Alemania",     a:"Costa de Marfil",d:"20 Jun · 15:00",s:"BMO Field, Toronto"},
-  {h:"Ecuador",      a:"Curazao",       d:"20 Jun · 19:00", s:"Arrowhead Stadium, Kansas City"},
-  /* 21 Jun */
-  {h:"España",       a:"Arabia Saudita",d:"21 Jun · 11:00", s:"Mercedes-Benz Stadium, Atlanta"},
-  {h:"Bélgica",      a:"Irán",          d:"21 Jun · 14:00", s:"SoFi Stadium, Inglewood"},
-  {h:"Uruguay",      a:"Cabo Verde",    d:"21 Jun · 17:00", s:"Hard Rock Stadium, Miami"},
-  {h:"Nueva Zelanda",a:"Egipto",        d:"21 Jun · 20:00", s:"BC Place, Vancouver"},
-  /* 22 Jun */
-  {h:"Argentina",    a:"Austria",       d:"22 Jun · 12:00", s:"AT&T Stadium, Arlington"},
-  {h:"Francia",      a:"Irak",          d:"22 Jun · 16:00", s:"Lincoln Financial Field, Filadelfia"},
-  {h:"Noruega",      a:"Senegal",       d:"22 Jun · 19:00", s:"MetLife Stadium, East Rutherford"},
-  {h:"Jordania",     a:"Argelia",       d:"22 Jun · 22:00", s:"Levi's Stadium, Santa Clara"},
-  /* 23 Jun */
-  {h:"Portugal",     a:"Uzbekistán",    d:"23 Jun · 12:00", s:"NRG Stadium, Houston"},
-  {h:"Inglaterra",   a:"Ghana",         d:"23 Jun · 15:00", s:"Gillette Stadium, Foxborough"},
-  {h:"Panamá",       a:"Croacia",       d:"23 Jun · 18:00", s:"BMO Field, Toronto"},
-  {h:"Colombia",     a:"R.D. Congo",    d:"23 Jun · 21:00", s:"Estadio Akron, Guadalajara"}
+  {h:"México",         a:"Sudáfrica",     d:"11 Jun · 13:00", s:"Estadio Azteca"},
+  {h:"Corea del Sur",  a:"Rep. Checa",    d:"11 Jun · 20:00", s:"Estadio Akron"},
+  {h:"Canadá",         a:"Bosnia y Herz.",d:"12 Jun · 13:00", s:"Toronto Stadium"},
+  {h:"Estados Unidos", a:"Paraguay",      d:"12 Jun · 19:00", s:"SoFi Stadium"},
+  {h:"Qatar",          a:"Suiza",         d:"13 Jun · 13:00", s:"Bay Area Stadium"},
+  {h:"Brasil",         a:"Marruecos",     d:"13 Jun · 16:00", s:"MetLife Stadium"},
+  {h:"Haití",          a:"Escocia",       d:"13 Jun · 19:00", s:"Gillette Stadium"},
+  {h:"Australia",      a:"Turquía",       d:"13 Jun · 22:00", s:"BC Place"},
+  {h:"Alemania",       a:"Curazao",       d:"14 Jun · 11:00", s:"NRG Stadium"},
+  {h:"Países Bajos",   a:"Japón",         d:"14 Jun · 14:00", s:"AT&T Stadium"},
+  {h:"Costa de Marfil",a:"Ecuador",       d:"14 Jun · 17:00", s:"Lincoln Financial"},
+  {h:"Suecia",         a:"Túnez",         d:"14 Jun · 20:00", s:"Estadio BBVA"},
+  {h:"España",         a:"Cabo Verde",    d:"15 Jun · 10:00", s:"Mercedes-Benz Stadium"},
+  {h:"Bélgica",        a:"Egipto",        d:"15 Jun · 13:00", s:"Lumen Field"},
+  {h:"Arabia Saudita", a:"Uruguay",       d:"15 Jun · 16:00", s:"Hard Rock Stadium"},
+  {h:"Irán",           a:"Nueva Zelanda", d:"15 Jun · 19:00", s:"SoFi Stadium"},
+  {h:"Francia",        a:"Senegal",       d:"16 Jun · 13:00", s:"MetLife Stadium"},
+  {h:"Argentina",      a:"Argelia",       d:"16 Jun · 16:00", s:"Arrowhead Stadium"},
+  {h:"Irak",           a:"Noruega",       d:"16 Jun · 19:00", s:"Gillette Stadium"},
+  {h:"Austria",        a:"Jordania",      d:"16 Jun · 19:00", s:"Bay Area Stadium"},
+  {h:"Portugal",       a:"RD Congo",      d:"17 Jun · 11:00", s:"NRG Stadium"},
+  {h:"Ghana",          a:"Panamá",        d:"17 Jun · 13:00", s:"Toronto Stadium"},
+  {h:"Inglaterra",     a:"Croacia",       d:"17 Jun · 14:00", s:"AT&T Stadium"},
+  {h:"Uzbekistán",     a:"Colombia",      d:"17 Jun · 19:00", s:"Estadio Azteca"}
 ];
 
 /* =========================================================
@@ -1109,8 +1102,8 @@ function doLogin(){
 ========================================================= */
 
 function loadData(){
-  picks  = JSON.parse(localStorage.getItem("wc26_picks_j2_" + currentCode) || "{}");
-  locked = localStorage.getItem("wc26_lock_j2_" + currentCode) === "1";
+  picks  = JSON.parse(localStorage.getItem("wc26_picks_j1_" + currentCode) || "{}");
+  locked = localStorage.getItem("wc26_lock_j1_" + currentCode) === "1";
 }
 
 /* =========================================================
@@ -1122,8 +1115,8 @@ function renderMatches(){
 
   mc.innerHTML = MATCHES.map((m, idx) => {
 
-    const hV = picks[`j2_${idx}_h`] ?? "";
-    const aV = picks[`j2_${idx}_a`] ?? "";
+    const hV = picks[`j1_${idx}_h`] ?? "";
+    const aV = picks[`j1_${idx}_a`] ?? "";
     const isFilled = hV !== "" && aV !== "";
 
     return `
@@ -1172,8 +1165,8 @@ function renderMatches(){
 function updateCounter(){
   const total     = MATCHES.length;
   const completed = MATCHES.filter((_,i) =>
-    picks[`j2_${i}_h`] !== "" && picks[`j2_${i}_h`] !== undefined &&
-    picks[`j2_${i}_a`] !== "" && picks[`j2_${i}_a`] !== undefined
+    picks[`j1_${i}_h`] !== "" && picks[`j1_${i}_h`] !== undefined &&
+    picks[`j1_${i}_a`] !== "" && picks[`j1_${i}_a`] !== undefined
   ).length;
   const label = `${completed}/${total}`;
   const el    = document.getElementById("counterText");
@@ -1184,11 +1177,11 @@ function updateCounter(){
 }
 
 function updatePick(idx, side, el){
-  picks[`j2_${idx}_${side}`] = el.value.slice(0,2);
+  picks[`j1_${idx}_${side}`] = el.value.slice(0,2);
   el.closest(".match").classList.toggle(
     "filled",
-    picks[`j2_${idx}_h`] !== "" && picks[`j2_${idx}_h`] !== undefined &&
-    picks[`j2_${idx}_a`] !== "" && picks[`j2_${idx}_a`] !== undefined
+    picks[`j1_${idx}_h`] !== "" && picks[`j1_${idx}_h`] !== undefined &&
+    picks[`j1_${idx}_a`] !== "" && picks[`j1_${idx}_a`] !== undefined
   );
   updateCounter();
 }
@@ -1209,7 +1202,7 @@ function updateStatusUI(){
 
 function savePicks(){
   if(locked){ toast("🔒 PRONÓSTICOS CERRADOS"); return; }
-  localStorage.setItem("wc26_picks_j2_" + currentCode, JSON.stringify(picks));
+  localStorage.setItem("wc26_picks_j1_" + currentCode, JSON.stringify(picks));
   toast("💾 PRONÓSTICOS GUARDADOS");
 }
 
@@ -1221,7 +1214,7 @@ function handleLock(){
   if(locked) return;
   if(confirm("¿BLOQUEAR PRONÓSTICOS?")){
     locked = true;
-    localStorage.setItem("wc26_lock_j2_" + currentCode, "1");
+    localStorage.setItem("wc26_lock_j1_" + currentCode, "1");
     savePicks();
     renderMatches();
     updateStatusUI();
@@ -1260,7 +1253,7 @@ function confirmM(){
 function handleUnlock(){
   openM("DESBLOQUEAR","Ingresa clave de administración", function(){
     locked = false;
-    localStorage.setItem("wc26_lock_j2_" + currentCode, "0");
+    localStorage.setItem("wc26_lock_j1_" + currentCode, "0");
     renderMatches();
     updateStatusUI();
   });
@@ -1326,8 +1319,8 @@ function doExport(){
       document.getElementById("capTimestamp").textContent = getTimestamp();
       const _total = MATCHES.length;
       const _done  = MATCHES.filter((_,i) =>
-        picks[`j2_${i}_h`] !== "" && picks[`j2_${i}_h`] !== undefined &&
-        picks[`j2_${i}_a`] !== "" && picks[`j2_${i}_a`] !== undefined
+        picks[`j1_${i}_h`] !== "" && picks[`j1_${i}_h`] !== undefined &&
+        picks[`j1_${i}_a`] !== "" && picks[`j1_${i}_a`] !== undefined
       ).length;
       document.getElementById("capCounter").textContent = `${_done}/${_total}`;
 
@@ -1362,7 +1355,7 @@ function doExport(){
         flashes.style.display = "none";
 
         const link    = document.createElement("a");
-        link.download = `WC26_J2_${currentUser}.jpg`;
+        link.download = `WC26_J1_${currentUser}.jpg`;
         link.href     = canvas.toDataURL("image/jpeg", .95);
         link.click();
       });
