@@ -142,7 +142,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
 </div>
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
 <button class="groups-btn" onclick="openGroupsPopup()"><span>📋</span>GRUPOS</button>
-<div class="live-badge"><span class="live-dot"></span>JORNADA 3</div>
+<div class="live-badge"><span class="live-dot"></span>PARTIDO ÚNICO</div>
 </div>
 </div>
 </div>
@@ -154,7 +154,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
 </div>
 <div class="status-bar">
 <div id="statusText">ESTADO: ABIERTO 🟢</div>
-<div id="counterText" style="font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--muted);">0/24</div>
+<div id="counterText" style="font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--muted);">0/1</div>
 <div id="displayUser" style="font-weight:800;color:var(--gold);"></div>
 </div>
 <div id="captureArea">
@@ -210,30 +210,7 @@ const GROUPS_STANDINGS = {
 "L":[{team:"Inglaterra",mp:1,w:1,d:0,l:0,gf:4,ga:2,gd:2,pts:3},{team:"Ghana",mp:1,w:1,d:0,l:0,gf:1,ga:0,gd:1,pts:3},{team:"Panamá",mp:1,w:0,d:0,l:1,gf:0,ga:1,gd:-1,pts:0},{team:"Croacia",mp:1,w:0,d:0,l:1,gf:2,ga:4,gd:-2,pts:0}]
 };
 const MATCHES = [
-{h:"Suiza",a:"Canadá",d:"24 Jun · 14:00",s:"BC Place, Vancouver"},
-{h:"Bosnia y Herz.",a:"Qatar",d:"24 Jun · 14:00",s:"Lumen Field, Seattle"},
-{h:"Escocia",a:"Brasil",d:"24 Jun · 17:00",s:"Hard Rock Stadium, Miami"},
-{h:"Marruecos",a:"Haití",d:"24 Jun · 17:00",s:"Mercedes-Benz Stadium, Atlanta"},
-{h:"Rep. Checa",a:"México",d:"24 Jun · 20:00",s:"Estadio Azteca, CDMX"},
-{h:"Sudáfrica",a:"Corea del Sur",d:"24 Jun · 20:00",s:"Estadio BBVA, Monterrey"},
-{h:"Curazao",a:"Costa de Marfil",d:"25 Jun · 15:00",s:"Lincoln Financial Field, Filadelfia"},
-{h:"Ecuador",a:"Alemania",d:"25 Jun · 15:00",s:"MetLife Stadium, East Rutherford"},
-{h:"Japón",a:"Suecia",d:"25 Jun · 18:00",s:"AT&T Stadium, Arlington"},
-{h:"Túnez",a:"Países Bajos",d:"25 Jun · 18:00",s:"Arrowhead Stadium, Kansas City"},
-{h:"Turquía",a:"Estados Unidos",d:"25 Jun · 21:00",s:"SoFi Stadium, Inglewood"},
-{h:"Paraguay",a:"Australia",d:"25 Jun · 21:00",s:"Levi's Stadium, Santa Clara"},
-{h:"Noruega",a:"Francia",d:"26 Jun · 14:00",s:"Gillette Stadium, Foxborough"},
-{h:"Senegal",a:"Irak",d:"26 Jun · 14:00",s:"BMO Field, Toronto"},
-{h:"Cabo Verde",a:"Arabia Saudita",d:"26 Jun · 19:00",s:"NRG Stadium, Houston"},
-{h:"Uruguay",a:"España",d:"26 Jun · 19:00",s:"Estadio Akron, Guadalajara"},
-{h:"Egipto",a:"Irán",d:"26 Jun · 22:00",s:"Lumen Field, Seattle"},
-{h:"Nueva Zelanda",a:"Bélgica",d:"26 Jun · 22:00",s:"BC Place, Vancouver"},
-{h:"Panamá",a:"Inglaterra",d:"27 Jun · 16:00",s:"MetLife Stadium, East Rutherford"},
-{h:"Croacia",a:"Ghana",d:"27 Jun · 16:00",s:"Lincoln Financial Field, Filadelfia"},
-{h:"Colombia",a:"Portugal",d:"27 Jun · 18:30",s:"Hard Rock Stadium, Miami"},
-{h:"R.D. Congo",a:"Uzbekistán",d:"27 Jun · 18:30",s:"Mercedes-Benz Stadium, Atlanta"},
-{h:"Argelia",a:"Austria",d:"27 Jun · 21:00",s:"Arrowhead Stadium, Kansas City"},
-{h:"Jordania",a:"Argentina",d:"27 Jun · 21:00",s:"AT&T Stadium, Arlington"}
+{h:"Sudáfrica",a:"Canadá",d:"28 Jun · 20:00",s:"Estadio Azteca, CDMX"}
 ];
 let currentUser = "", currentCode = "", locked = false, picks = {}, mCallback = null;
 document.getElementById("codeInput").addEventListener("input", function(){const n = USER_CODES[this.value.toUpperCase()]; document.getElementById("loginPreview").textContent = n ? "HOLA, " + n + "!" : "";});
