@@ -88,7 +88,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#16a34a;color:#fff;padding:12px 22px;border-radius:999px;display:none;z-index:12000;font-weight:700;white-space:nowrap;}
 #capTimestamp{font-family:'Bebas Neue';font-size:1rem;color:var(--gold);letter-spacing:2px;opacity:.85;}
 
-/* BRACKET POPUP */
+/* BRACKET POPUP - ESTILO FIFA REFERENCIA */
 #bracketPopup{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;z-index:20000;padding:20px;}
 .bracket-card{width:100%;max-width:1200px;max-height:92vh;overflow-y:auto;border-radius:24px;padding:0;background:#f0f2f5;box-shadow:0 40px 100px rgba(0,0,0,.8);position:relative;}
 .bracket-card::-webkit-scrollbar{width:8px;}.bracket-card::-webkit-scrollbar-track{background:transparent;}.bracket-card::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
@@ -165,7 +165,6 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
   .actions{grid-template-columns:repeat(2,minmax(0,1fr));}.wc-action{height:76px;padding:0 16px;gap:12px;}.wc-icon{width:48px;height:48px;min-width:48px;font-size:1.3rem;}.wc-btn-content span{font-size:.88rem;}.wc-btn-content small{font-size:.64rem;}.matches{gap:10px;}.match{padding:18px 14px 14px;gap:10px;}.flag{width:40px;height:26px;}.score{width:44px;height:40px;font-size:1.3rem;}.team-name{font-size:.72rem;}.match-info{font-size:.65rem;}.score-sep{font-size:1.6rem;}.bracket-title{font-size:1.5rem;}.banner-title{font-size:clamp(1.8rem,6vw,3rem);}.bracket-header{padding:18px 15px;}
 }
 </style>
-<base target="_blank">
 </head>
 <body>
 <div class="stadium-lights"><div class="reflector ref-1"></div><div class="reflector ref-2"></div><div class="reflector ref-3"></div><div class="reflector ref-4"></div></div>
@@ -180,381 +179,441 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
     <div class="trophy-container">🏆</div>
     <div class="login-title">MUNDIAL 2026</div>
     <div class="login-sub">QUINIELA 8VOS DE FINAL</div>
-    <input type="text" id="codeInput" class="login-input" maxlength="6" autocomplete="off" placeholder="CÓDIGO" oninput="this.value=this.value.toUpperCase();checkLogin(this.value)">
+    <input type="text" id="codeInput" class="login-input" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CÓDIGO">
     <div id="loginPreview"></div>
+    <button class="wc-action save-btn" style="width:100%;justify-content:center;" onclick="doLogin()">
+      <div class="wc-icon">🏟️</div>
+      <div class="wc-btn-content"><span>ENTRA AL CAMPO</span><small>&nbsp;</small></div>
+    </button>
   </div>
 </div>
 
-<div class="app" id="app" style="display:none">
+<div class="app" id="app" style="display:none;">
   <div class="main">
     <div class="fifa-banner">
-      <div class="banner-glow"></div>
       <div class="banner-particles"><span></span><span></span><span></span><span></span><span></span></div>
-      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
-        <div class="wc-logo-container">
-          <div class="wc-pulse"></div>
-          <div class="wc-ball">⚽</div>
+      <div class="banner-glow"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:2;">
+        <div style="display:flex;align-items:center;gap:18px;">
+          <div class="wc-logo-container"><div class="wc-pulse"></div><div class="wc-ball">⚽</div></div>
+          <div>
+            <div class="banner-title">FIFA WORLD CUP 2026</div>
+            <div class="banner-subtitle">QUINIELA 8VOS DE FINAL</div>
+          </div>
         </div>
-        <div>
-          <div class="banner-title">MUNDIAL 2026</div>
-          <div class="banner-subtitle">OCTAVOS DE FINAL</div>
-        </div>
-        <div style="flex:1;min-width:140px"></div>
-        <div class="live-badge">
-          <div class="live-dot"></div>
-          <span id="liveText">QUINIELA ACTIVA</span>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <button class="bracket-btn" onclick="openBracketPopup()"><span>🏆</span>LLAVES</button>
+          <div class="live-badge"><span class="live-dot"></span>8VOS DE FINAL</div>
         </div>
       </div>
     </div>
 
     <div class="actions">
-      <button class="wc-action save-btn" onclick="saveAll()">
-        <div class="wc-icon">💾</div>
-        <div class="wc-btn-content"><span>GUARDAR</span><small>Guardar quiniela</small></div>
-      </button>
-      <button class="wc-action export-btn" onclick="exportImage()">
-        <div class="wc-icon">📸</div>
-        <div class="wc-btn-content"><span>CAPTURAR</span><small>Exportar imagen</small></div>
-      </button>
-      <button class="wc-action lock-btn" onclick="lockAll()">
-        <div class="wc-icon">🔒</div>
-        <div class="wc-btn-content"><span>BLOQUEAR</span><small>Congelar resultados</small></div>
-      </button>
-      <button class="wc-action unlock-btn" onclick="unlockAll()">
-        <div class="wc-icon">🔓</div>
-        <div class="wc-btn-content"><span>DESBLOQUEAR</span><small>Editar resultados</small></div>
-      </button>
-      <button class="wc-action bracket-btn" onclick="openBracket()" style="background:linear-gradient(135deg,rgba(245,197,24,.15),rgba(245,197,24,.05));">
-        <div class="wc-icon">🏆</div>
-        <div class="wc-btn-content"><span>BRACKET</span><small>Ver cuadro completo</small></div>
-      </button>
+      <button class="wc-action save-btn" onclick="savePicks()"><div class="wc-icon">💾</div><div class="wc-btn-content"><span>GUARDAR</span><small>Guardar quiniela</small></div></button>
+      <button class="wc-action export-btn" onclick="handleExport()"><div class="wc-icon">📸</div><div class="wc-btn-content"><span>EXPORTAR</span><small>Generar imagen</small></div></button>
+      <button class="wc-action lock-btn" onclick="handleLock()"><div class="wc-icon">🔒</div><div class="wc-btn-content"><span>BLOQUEAR</span><small>Cerrar pronósticos</small></div></button>
+      <button class="wc-action unlock-btn" onclick="handleUnlock()"><div class="wc-icon">🔓</div><div class="wc-btn-content"><span>MODIFICAR</span><small>Editar resultados</small></div></button>
     </div>
 
     <div class="status-bar">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div id="statusDot" style="width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;"></div>
-        <span id="statusText" style="font-weight:700;font-size:.9rem;">QUINIELA ABIERTA</span>
-      </div>
-      <div id="capTimestamp"></div>
+      <div id="statusText">ESTADO: ABIERTO 🟢</div>
+      <div id="counterText" style="font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--muted);">0/4</div>
+      <div id="displayUser" style="font-weight:800;color:var(--gold);"></div>
     </div>
 
-    <div class="matches" id="matches">
-      <!-- PARTIDO 1: LUNES 6 JULIO -->
-      <div class="match" data-match="1" data-locked="false">
-        <div class="match-teams">
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/pt.png" alt="Portugal">
-            <div class="team-name">Portugal</div>
+    <div id="captureArea">
+      <div id="captureHeader" style="display:none;margin-bottom:20px;padding-bottom:18px;border-bottom:2px solid rgba(255,255,255,.08);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <div style="font-family:'Bebas Neue';font-size:3rem;color:var(--gold);">FIFA WORLD CUP 2026</div>
+            <div id="capStatus" style="font-family:'Bebas Neue';letter-spacing:3px;"></div>
+            <div id="capUser" style="font-family:'Bebas Neue';font-size:1.8rem;margin-top:4px;"></div>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <input type="number" class="score" data-team="home" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-            <div class="score-sep">:</div>
-            <input type="number" class="score" data-team="away" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-          </div>
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/es.png" alt="España">
-            <div class="team-name">España</div>
+          <div style="text-align:right;padding-top:6px;">
+            <div style="font-family:'Bebas Neue';font-size:.85rem;color:var(--muted);letter-spacing:2px;">GENERADO</div>
+            <div id="capTimestamp"></div>
+            <div style="font-family:'Bebas Neue';font-size:.8rem;color:var(--muted);letter-spacing:2px;margin-top:4px;">PREDICCIONES</div>
+            <div id="capCounter" style="font-family:'Bebas Neue';font-size:1.4rem;color:var(--gold);letter-spacing:3px;"></div>
           </div>
         </div>
-        <div class="match-info">Lunes 6 de Julio · 14:00 (UTC-5) · AT&T Stadium · Dallas, Texas</div>
       </div>
-
-      <!-- PARTIDO 2: LUNES 6 JULIO -->
-      <div class="match" data-match="2" data-locked="false">
-        <div class="match-teams">
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/us.png" alt="Estados Unidos">
-            <div class="team-name">Estados Unidos</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <input type="number" class="score" data-team="home" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-            <div class="score-sep">:</div>
-            <input type="number" class="score" data-team="away" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-          </div>
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/be.png" alt="Bélgica">
-            <div class="team-name">Bélgica</div>
-          </div>
-        </div>
-        <div class="match-info">Lunes 6 de Julio · 17:00 (UTC-7) · Lumen Field · Seattle, Washington</div>
-      </div>
-
-      <!-- PARTIDO 3: MARTES 7 JULIO -->
-      <div class="match" data-match="3" data-locked="false">
-        <div class="match-teams">
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/ar.png" alt="Argentina">
-            <div class="team-name">Argentina</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <input type="number" class="score" data-team="home" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-            <div class="score-sep">:</div>
-            <input type="number" class="score" data-team="away" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-          </div>
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/eg.png" alt="Egipto">
-            <div class="team-name">Egipto</div>
-          </div>
-        </div>
-        <div class="match-info">Martes 7 de Julio · 12:00 (UTC-4) · Mercedes-Benz Stadium · Atlanta, Georgia</div>
-      </div>
-
-      <!-- PARTIDO 4: MARTES 7 JULIO -->
-      <div class="match" data-match="4" data-locked="false">
-        <div class="match-teams">
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/ch.png" alt="Suiza">
-            <div class="team-name">Suiza</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <input type="number" class="score" data-team="home" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-            <div class="score-sep">:</div>
-            <input type="number" class="score" data-team="away" min="0" max="99" placeholder="-" oninput="validateScore(this);checkMatch(this)">
-          </div>
-          <div class="team">
-            <img class="flag" src="https://flagcdn.com/w160/co.png" alt="Colombia">
-            <div class="team-name">Colombia</div>
-          </div>
-        </div>
-        <div class="match-info">Martes 7 de Julio · 13:00 (UTC-7) · BC Place · Vancouver, Canadá</div>
-      </div>
+      <div class="matches" id="matchesContainer"></div>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal">
+<div class="modal-overlay" id="masterModal">
   <div class="modal-card">
-    <div style="font-size:3.5rem;margin-bottom:12px;">⚽</div>
-    <h3 style="font-family:'Bebas Neue';font-size:1.8rem;color:var(--gold);letter-spacing:2px;margin-bottom:8px;">QUINIELA GUARDADA</h3>
-    <p id="modalText" style="color:var(--muted);font-size:.9rem;margin-bottom:20px;"></p>
-    <button onclick="closeModal()" style="padding:12px 28px;border-radius:999px;border:none;background:linear-gradient(135deg,#f5c518,#c9900a);color:#000;font-weight:800;font-size:1rem;cursor:pointer;">ENTENDIDO</button>
+    <h3 id="mTitle" style="margin-bottom:10px;">ADMIN</h3>
+    <p id="mDesc" style="font-size:.8rem;color:var(--muted);margin-bottom:18px;"></p>
+    <input type="password" id="mInput" class="login-input" placeholder="••••" style="height:56px;letter-spacing:5px;">
+    <div style="display:flex;gap:10px;margin-top:18px;">
+      <button class="wc-action lock-btn" style="flex:1;height:50px;justify-content:center;" onclick="closeM()">CANCELAR</button>
+      <button class="wc-action save-btn" style="flex:1;height:50px;justify-content:center;" onclick="confirmM()">OK</button>
+    </div>
   </div>
 </div>
 
 <div id="goalOverlay">
-  <div style="font-size:6rem;animation:goalAnim 1.2s ease-out forwards;">⚽</div>
-  <div style="font-family:'Bebas Neue';font-size:2.5rem;color:var(--gold);letter-spacing:4px;margin-top:10px;animation:goalText 1s ease-out .3s both;">¡GOOOL!</div>
+  <div style="font-family:'Bebas Neue';font-size:10vw;color:var(--gold);text-shadow:0 0 40px var(--gold);animation:trophyMove .5s infinite alternate;">¡GOOOOOOOL!</div>
+  <div style="font-family:'Bebas Neue';letter-spacing:5px;font-size:1.4rem;">GENERANDO EXPERIENCIA FIFA...</div>
 </div>
-
-<div id="toast"></div>
 
 <div id="bracketPopup">
   <div class="bracket-card">
-    <button class="bracket-close" onclick="closeBracket()">✕</button>
+    <button class="bracket-close" onclick="closeBracketPopup()">✕</button>
     <div class="bracket-header">
-      <div class="bracket-title">BRACKET MUNDIAL 2026</div>
-      <div class="bracket-subtitle">OCTAVOS DE FINAL EN ADELANTE</div>
+      <div class="bracket-title">🏆 FIFA WORLD CUP 2026</div>
+      <div class="bracket-subtitle">LLAVES DE ELIMINATORIA</div>
     </div>
     <div class="bracket-body">
-      <div class="bracket-tree">
-        <div class="bracket-col octavos">
-          <div class="bracket-match-fifa">
-            <div class="match-fifa-date">SÁB 4 JUL · 12:00</div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/ma.png" alt=""><span class="match-fifa-name">Marruecos</span><span class="match-fifa-score">3</span></div>
-            <div class="match-fifa-row winner"><img src="https://flagcdn.com/w160/au.png" alt=""><span class="match-fifa-name">Australia</span><span class="match-fifa-score">2</span></div>
-          </div>
-          <div class="bracket-match-fifa">
-            <div class="match-fifa-date">SÁB 4 JUL · 16:00</div>
-            <div class="match-fifa-row winner"><img src="https://flagcdn.com/w160/fr.png" alt=""><span class="match-fifa-name">Francia</span><span class="match-fifa-score">1</span></div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/ca.png" alt=""><span class="match-fifa-name">Canadá</span><span class="match-fifa-score">0</span></div>
-          </div>
-          <div class="bracket-match-fifa">
-            <div class="match-fifa-date">DOM 5 JUL</div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/de.png" alt=""><span class="match-fifa-name">Alemania</span><span class="match-fifa-score">-</span></div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/nl.png" alt=""><span class="match-fifa-name">Países Bajos</span><span class="match-fifa-score">-</span></div>
-          </div>
-          <div class="bracket-match-fifa">
-            <div class="match-fifa-date">DOM 5 JUL</div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/br.png" alt=""><span class="match-fifa-name">Brasil</span><span class="match-fifa-score">-</span></div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/uy.png" alt=""><span class="match-fifa-name">Uruguay</span><span class="match-fifa-score">-</span></div>
-          </div>
-        </div>
-        <div class="bracket-col cuartos">
-          <div class="bracket-match-fifa">
-            <div class="match-fifa-date">CUARTOS</div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/ma.png" alt=""><span class="match-fifa-name">Marruecos</span><span class="match-fifa-score">-</span></div>
-            <div class="match-fifa-row"><img src="https://flagcdn.com/w160/fr.png" alt=""><span class="match-fifa-name">Francia</span><span class="match-fifa-score">-</span></div>
-          </div>
-          <div class="bracket-match-fifa" style="margin-top:60px;">
-            <div class="match-fifa-date">CUARTOS</div>
-            <div class="match-fifa-row"><span class="match-fifa-name">Por definir</span><span class="match-fifa-score">-</span></div>
-            <div class="match-fifa-row"><span class="match-fifa-name">Por definir</span><span class="match-fifa-score">-</span></div>
-          </div>
-        </div>
-        <div class="bracket-col semis">
-          <div class="bracket-match-fifa">
-            <div class="match-fifa-date">SEMIFINAL</div>
-            <div class="match-fifa-row"><span class="match-fifa-name">Por definir</span><span class="match-fifa-score">-</span></div>
-            <div class="match-fifa-row"><span class="match-fifa-name">Por definir</span><span class="match-fifa-score">-</span></div>
-          </div>
-        </div>
-        <div class="bracket-col final">
-          <div class="final-box">
-            <div class="final-trophy">🏆</div>
-            <div class="final-title">FINAL</div>
-            <div class="final-date">Domingo 19 de Julio</div>
-            <div class="final-vs">MetLife Stadium · New Jersey</div>
-            <div class="final-teams">
-              <div class="final-team"><img src="https://flagcdn.com/w160/xx.png" alt=""><span>Por definir</span></div>
-              <div class="final-team"><img src="https://flagcdn.com/w160/xx.png" alt=""><span>Por definir</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="bracket-tree" id="bracketTree"></div>
     </div>
   </div>
 </div>
 
+<div id="toast"></div>
+
 <script>
-const codes = {
-  'MARIO':'MARIO','LUIS':'LUIS','PEDRO':'PEDRO','JUAN':'JUAN','CARLOS':'CARLOS',
-  'ANDRES':'ANDRES','DIEGO':'DIEGO','JORGE':'JORGE','RAUL':'RAUL','OMAR':'OMAR',
-  'ALAN':'ALAN','IVAN':'IVAN','ERICK':'ERICK','SAUL':'SAUL','MIGUEL':'MIGUEL',
-  'JESUS':'JESUS','DANIEL':'DANIEL','ROBERTO':'ROBERTO','MARTIN':'MARTIN','TONY':'TONY'
+const ADMIN_PASS = "AP420";
+const USER_CODES = {"ADMIN0":"Administrador","JUDI97":"Juan de Dios","NDZA11":"Fernando Esparza","NNPR19":"Andrés Esparza","RRMO22":"Marco Moran","UARR92":"Saul Rdz","AAOT34":"古本 剛啓","ARKK33":"Eduardo Kiko","NNQE99":"Sandy Vazquez","EDDS40":"Eddy Esqueda","FFAE15":"Fer Bernal","UERO53":"Jesus Tiscareño","GTMT19":"Goyito Mtz","MABR63":"Ramon Bernal","LJCC73":"Julio César","DAPU34":"Alejandro Puga","IVMM57":"Victor M.","OSGG56":"Nestor G.","AACC63":"Juan Carlos","JIVO12":"Iván Trejo","JGMR16":"Jorge Moreno","HOSS30":"Joshua","DIOR76":"Ricardo Olvera","NESA26":"Wendy Casillas","VALD72":"Valeria de Luna","MMEE93":"Memo Gómez","LEIN58":"Fuera de Juego","CCOI79":"Carlos Molina","CHPR10":"Conchas Press","HNLI51":"Panchito Pillo","DCIG50":"Ricardo Rodriguez","DISS54":"Dania SV","GNMM49":"Angel M.","ANLE26":"Renata Lemos","IDNS59":"Dianita Serrano","OAJN35":"Joan","ANTO87":"Ana Ortíz","URPS41":"Uriel Esparza","MATE07":"Mateo Rdz","DRZG39":"Ricardo Zúñiga","IACC74":"Abuid Contreras"};
+
+const FLAGS = {"México":"mx","Canadá":"ca","Brasil":"br","Australia":"au","Alemania":"de","Japón":"jp","Bélgica":"be","Cabo Verde":"cv","Suiza":"ch","Sudáfrica":"za","Estados Unidos":"us","Marruecos":"ma","Países Bajos":"nl","Costa de Marfil":"ci","España":"es","Egipto":"eg","Francia":"fr","Austria":"at","Colombia":"co","Croacia":"hr","Argentina":"ar","Noruega":"no","Inglaterra":"gb-eng","Portugal":"pt","R.D. Congo":"cd","Ghana":"gh","Panamá":"pa","Uzbekistán":"uz","Costa Rica":"cr","Irán":"ir","Corea del Sur":"kr","Senegal":"sn","Túnez":"tn","Qatar":"qa","Arabia Saudita":"sa","Irak":"iq","Jordania":"jo","Nueva Zelanda":"nz","Haití":"ht","Escocia":"gb-sct","Turquía":"tr","Paraguay":"py","Bosnia y Herz.":"ba","Rep. Checa":"cz","Suecia":"se","Ecuador":"ec","Curazao":"cw","Uruguay":"uy","Argelia":"dz"};
+
+// 4 PARTIDOS OFICIALES DE 8VOS - LUNES Y MARTES (HORA MÉXICO CDT/UTC-6)
+const MATCHES = [
+  {h:"España",a:"Austria",d:"Lun 7 Jul · 13:00",s:"SoFi Stadium, Inglewood · EU"},
+  {h:"Portugal",a:"Croacia",d:"Lun 7 Jul · 17:00",s:"BMO Field, Toronto · CA"},
+  {h:"Argentina",a:"Cabo Verde",d:"Mar 8 Jul · 10:00",s:"Hard Rock Stadium, Miami Gardens · EU"},
+  {h:"Suiza",a:"Colombia",d:"Mar 8 Jul · 21:00",s:"BC Place, Vancouver · CA"}
+];
+
+const BRACKET_FULL = {
+  left: {
+    octavos: [
+      {h:"Paraguay", a:"Francia", date:"4 Jul · 13:00", hScore:null, aScore:null},
+      {h:"Canadá", a:"Marruecos", date:"4 Jul · 11:00", hScore:null, aScore:null},
+      {h:"España", a:"Austria", date:"7 Jul · 13:00", hScore:null, aScore:null},
+      {h:"Portugal", a:"Croacia", date:"7 Jul · 17:00", hScore:null, aScore:null}
+    ],
+    cuartos: [
+      {h:"W49", a:"W50", date:"9 Jul · 14:00"},
+      {h:"W53", a:"W54", date:"10 Jul · 13:00"}
+    ],
+    semis: [
+      {h:"W57", a:"W58", date:"14 Jul · 13:00"}
+    ]
+  },
+  right: {
+    octavos: [
+      {h:"Brasil", a:"Noruega", date:"5 Jul · 14:00", hScore:null, aScore:null},
+      {h:"México", a:"Inglaterra", date:"5 Jul · 18:00", hScore:null, aScore:null},
+      {h:"Argentina", a:"Cabo Verde", date:"8 Jul · 10:00", hScore:null, aScore:null},
+      {h:"Suiza", a:"Colombia", date:"8 Jul · 21:00", hScore:null, aScore:null}
+    ],
+    cuartos: [
+      {h:"W51", a:"W52", date:"11 Jul · 15:00"},
+      {h:"W55", a:"W56", date:"11 Jul · 19:00"}
+    ],
+    semis: [
+      {h:"W59", a:"W60", date:"15 Jul · 13:00"}
+    ]
+  },
+  final: {h:"W61", a:"W62", date:"19 Jul · 13:00"}
 };
-let currentUser = null;
-let isLocked = false;
 
-function checkLogin(v){
-  const p = document.getElementById('loginPreview');
-  if(v.length < 2){p.textContent='';return;}
-  const m = Object.keys(codes).find(c=>c.startsWith(v));
-  p.textContent = m ? m : '';
-  if(v.length === 6 && codes[v]){
-    currentUser = codes[v];
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('app').style.display='block';
-    document.getElementById('stadiumIntro').play().catch(()=>{});
-    loadSaved();
+let currentUser = "", currentCode = "", locked = false, picks = {}, mCallback = null;
+
+document.getElementById("codeInput").addEventListener("input", function(){
+  const n = USER_CODES[this.value.toUpperCase()];
+  document.getElementById("loginPreview").textContent = n ? "HOLA, " + n + "!" : "";
+});
+
+function doLogin(){
+  const c = document.getElementById("codeInput").value.toUpperCase().trim();
+  if(USER_CODES[c]){
+    document.getElementById("stadiumIntro").play().catch(()=>{});
+    setTimeout(()=>{document.getElementById("fifaSound").play().catch(()=>{});},400);
+    currentUser = USER_CODES[c];
+    currentCode = c;
+    loadData();
+    const login = document.getElementById("loginScreen");
+    login.style.transition = ".7s cubic-bezier(.2,.8,.2,1)";
+    login.style.opacity = "0";
+    login.style.transform = "scale(1.08)";
+    setTimeout(()=>{
+      login.style.display = "none";
+      document.getElementById("app").style.display = "block";
+      document.getElementById("displayUser").textContent = currentUser;
+      renderMatches();
+      updateStatusUI();
+    },650);
+  } else {
+    alert("CÓDIGO INVÁLIDO");
   }
 }
 
-function validateScore(el){
-  let v = el.value.replace(/\D/g,'');
-  if(v.length>2)v=v.slice(0,2);
-  el.value = v;
+function loadData(){
+  picks = JSON.parse(localStorage.getItem("wc26_picks_r8_" + currentCode) || "{}");
+  locked = localStorage.getItem("wc26_lock_r8_" + currentCode) === "1";
 }
 
-function checkMatch(el){
-  const match = el.closest('.match');
-  const scores = match.querySelectorAll('.score');
-  const filled = Array.from(scores).every(s=>s.value.trim()!=='');
-  if(filled) match.classList.add('filled'); else match.classList.remove('filled');
+function renderMatches(){
+  const mc = document.getElementById("matchesContainer");
+  mc.innerHTML = MATCHES.map((m,idx)=>{
+    const hV = picks[`r8_${idx}_h`] ?? "";
+    const aV = picks[`r8_${idx}_a`] ?? "";
+    const isFilled = hV !== "" && aV !== "";
+    return `<div class="match ${isFilled ? 'filled' : ''}">
+      <div class="match-teams">
+        <div class="team">
+          <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.h]||"un"}.png" alt="${m.h}">
+          <span class="team-name">${m.h}</span>
+          <input class="score" type="number" min="0" max="99" value="${hV}" ${locked?"disabled":""} oninput="updatePick(${idx},'h',this)">
+        </div>
+        <span class="score-sep">:</span>
+        <div class="team">
+          <img class="flag" src="https://flagcdn.com/w80/${FLAGS[m.a]||"un"}.png" alt="${m.a}">
+          <span class="team-name">${m.a}</span>
+          <input class="score" type="number" min="0" max="99" value="${aV}" ${locked?"disabled":""} oninput="updatePick(${idx},'a',this)">
+        </div>
+      </div>
+      <div class="match-info">📅 ${m.d}<br>🏟 ${m.s}</div>
+    </div>`;
+  }).join("");
+  updateCounter();
 }
 
-function saveAll(){
-  if(!currentUser)return;
-  const data = [];
-  document.querySelectorAll('.match').forEach(m=>{
-    const s = m.querySelectorAll('.score');
-    data.push({home:s[0].value,away:s[1].value,locked:m.dataset.locked==='true'});
+function updateCounter(){
+  const total = MATCHES.length;
+  const completed = MATCHES.filter((_,i)=>picks[`r8_${i}_h`]!==""&&picks[`r8_${i}_h`]!==undefined&&picks[`r8_${i}_a`]!==""&&picks[`r8_${i}_a`]!==undefined).length;
+  const el = document.getElementById("counterText");
+  if(el){
+    el.textContent = `${completed}/${total}`;
+    el.style.color = completed===total?"var(--gold)":"var(--muted)";
+  }
+}
+
+function updatePick(idx,side,el){
+  picks[`r8_${idx}_${side}`] = el.value.slice(0,2);
+  el.closest(".match").classList.toggle("filled",picks[`r8_${idx}_h`]!==""&&picks[`r8_${idx}_h`]!==undefined&&picks[`r8_${idx}_a`]!==""&&picks[`r8_${idx}_a`]!==undefined);
+  updateCounter();
+}
+
+function updateStatusUI(){
+  const s = document.getElementById("statusText");
+  s.innerHTML = locked?"ESTADO: CERRADO 🔒":"ESTADO: ABIERTO 🟢";
+  s.style.color = locked?"var(--red)":"var(--green)";
+}
+
+function savePicks(){
+  if(locked){toast("🔒 PRONÓSTICOS CERRADOS"); return;}
+  localStorage.setItem("wc26_picks_r8_" + currentCode, JSON.stringify(picks));
+  toast("💾 PRONÓSTICOS GUARDADOS");
+}
+
+function handleLock(){
+  if(locked) return;
+  if(confirm("¿BLOQUEAR PRONÓSTICOS?")){
+    locked = true;
+    localStorage.setItem("wc26_lock_r8_" + currentCode, "1");
+    savePicks();
+    renderMatches();
+    updateStatusUI();
+  }
+}
+
+function openM(title,desc,cb){
+  document.getElementById("mTitle").textContent = title;
+  document.getElementById("mDesc").textContent = desc;
+  document.getElementById("mInput").value = "";
+  document.getElementById("masterModal").style.display = "flex";
+  mCallback = cb;
+}
+
+function closeM(){document.getElementById("masterModal").style.display = "none";}
+
+function confirmM(){
+  if(document.getElementById("mInput").value === ADMIN_PASS){
+    closeM();
+    if(mCallback) mCallback();
+  } else {
+    alert("CLAVE INCORRECTA");
+  }
+}
+
+function handleUnlock(){
+  openM("DESBLOQUEAR","Ingresa clave de administración", function(){
+    locked = false;
+    localStorage.setItem("wc26_lock_r8_" + currentCode, "0");
+    renderMatches();
+    updateStatusUI();
   });
-  localStorage.setItem('quiniela2026_'+currentUser,JSON.stringify(data));
-  showModal('Quiniela de <b>'+currentUser+'</b> guardada correctamente.');
-  playSound('fifaSound');
 }
 
-function loadSaved(){
-  if(!currentUser)return;
-  const raw = localStorage.getItem('quiniela2026_'+currentUser);
-  if(!raw)return;
-  const data = JSON.parse(raw);
-  document.querySelectorAll('.match').forEach((m,i)=>{
-    if(!data[i])return;
-    const s = m.querySelectorAll('.score');
-    s[0].value = data[i].home; s[1].value = data[i].away;
-    if(data[i].locked){m.dataset.locked='true';s.forEach(x=>x.disabled=true);m.style.opacity='0.6';}
-    checkMatch(s[0]);
-  });
-}
-
-function lockAll(){
-  document.querySelectorAll('.match').forEach(m=>{
-    m.dataset.locked='true';
-    m.querySelectorAll('.score').forEach(s=>s.disabled=true);
-    m.style.opacity='0.6';
-  });
-  isLocked=true;
-  document.getElementById('statusDot').style.background='#dc2626';
-  document.getElementById('statusDot').style.boxShadow='0 0 10px #dc2626';
-  document.getElementById('statusText').textContent='QUINIELA BLOQUEADA';
-  document.getElementById('liveText').textContent='QUINIELA CERRADA';
-  document.getElementById('liveDot').style.background='#dc2626';
-  document.getElementById('liveDot').style.boxShadow='0 0 18px #dc2626';
-  saveAll();
-  showToast('🔒 Quiniela bloqueada');
-}
-
-function unlockAll(){
-  document.querySelectorAll('.match').forEach(m=>{
-    m.dataset.locked='false';
-    m.querySelectorAll('.score').forEach(s=>s.disabled=false);
-    m.style.opacity='1';
-  });
-  isLocked=false;
-  document.getElementById('statusDot').style.background='#22c55e';
-  document.getElementById('statusDot').style.boxShadow='0 0 10px #22c55e';
-  document.getElementById('statusText').textContent='QUINIELA ABIERTA';
-  document.getElementById('liveText').textContent='QUINIELA ACTIVA';
-  document.getElementById('liveDot').style.background='#22c55e';
-  document.getElementById('liveDot').style.boxShadow='0 0 18px #22c55e';
-  showToast('🔓 Quiniela desbloqueada');
-}
-
-function exportImage(){
-  const el = document.getElementById('matches');
+function getTimestamp(){
   const now = new Date();
-  document.getElementById('capTimestamp').textContent = now.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  html2canvas(el,{backgroundColor:'#090909',scale:2}).then(c=>{
-    const link = document.createElement('a');
-    link.download = 'Quiniela_'+currentUser+'_'+now.toISOString().slice(0,10)+'.png';
-    link.href = c.toDataURL();link.click();
-    showToast('📸 Captura guardada');
-    flashEffect();
-  });
+  const dias = ["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
+  const meses = ["ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC"];
+  return `${dias[now.getDay()]} ${String(now.getDate()).padStart(2,"0")} ${meses[now.getMonth()]} ${now.getFullYear()}  ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
 }
 
-function flashEffect(){
-  const fc = document.getElementById('flash-container');
-  fc.style.display='block';
-  for(let i=0;i<3;i++){
-    const b=document.createElement('div');b.className='camera-burst';
-    b.style.left=(30+i*20)+'%';b.style.top=(30+i*15)+'%';b.style.animationDelay=(i*0.1)+'s';
-    fc.appendChild(b);
+function handleExport(){
+  if(!locked){
+    openM("EXPORTAR","Pronósticos ABIERTOS. Se requiere clave.", doExport);
+  } else {
+    doExport();
   }
-  setTimeout(()=>{fc.style.display='none';fc.innerHTML='';},1000);
 }
 
-function showModal(t){
-  document.getElementById('modalText').innerHTML = t;
-  document.getElementById('modal').style.display='flex';
+function doExport(){
+  document.getElementById("transitionSound").play().catch(()=>{});
+  const flashes = document.getElementById("flash-container");
+  flashes.style.display = "block";
+  for(let i=0;i<28;i++){
+    setTimeout(()=>{
+      const b=document.createElement("div");
+      b.className="camera-burst";
+      b.style.top=Math.random()*100+"%";
+      b.style.left=Math.random()*100+"%";
+      flashes.appendChild(b);
+      setTimeout(()=>b.remove(),300);
+    },i*35);
+  }
+  setTimeout(()=>{
+    const overlay=document.getElementById("goalOverlay");
+    overlay.style.display="flex";
+    setTimeout(()=>{
+      const area=document.getElementById("captureArea");
+      const header=document.getElementById("captureHeader");
+      header.style.display="block";
+      document.getElementById("capStatus").textContent=locked?"PRONÓSTICO CERRADO":"PRONÓSTICO ABIERTO";
+      document.getElementById("capUser").textContent=currentUser;
+      document.getElementById("capTimestamp").textContent=getTimestamp();
+      const _total=MATCHES.length;
+      const _done=MATCHES.filter((_,i)=>picks[`r8_${i}_h`]!==""&&picks[`r8_${i}_h`]!==undefined&&picks[`r8_${i}_a`]!==""&&picks[`r8_${i}_a`]!==undefined).length;
+      document.getElementById("capCounter").textContent=`${_done}/${_total}`;
+      const inputs=area.querySelectorAll("input");
+      const backups=[];
+      inputs.forEach(inp=>{
+        const rep=document.createElement("div");
+        rep.className=inp.className;
+        rep.style.height="40px";
+        rep.style.lineHeight="40px";
+        rep.style.display="inline-block";
+        rep.textContent=inp.value||"-";
+        backups.push({orig:inp,rep});
+        inp.style.display="none";
+        inp.parentNode.insertBefore(rep,inp);
+      });
+      html2canvas(area,{scale:2,backgroundColor:"#090909",useCORS:true}).then(canvas=>{
+        backups.forEach(b=>{
+          b.rep.remove();
+          b.orig.style.display="inline-block";
+        });
+        header.style.display="none";
+        overlay.style.display="none";
+        flashes.style.display="none";
+        const link=document.createElement("a");
+        link.download=`WC26_R8_${currentUser}.jpg`;
+        link.href=canvas.toDataURL("image/jpeg",.95);
+        link.click();
+      });
+    },1200);
+  },350);
 }
 
-function closeModal(){document.getElementById('modal').style.display='none';}
-
-function showToast(m){
-  const t=document.getElementById('toast');t.textContent=m;t.style.display='block';
-  setTimeout(()=>t.style.display='none',2500);
+function createMatchCard(m, showScore){
+  const hFlag = FLAGS[m.h] || "un";
+  const aFlag = FLAGS[m.a] || "un";
+  const hWin = m.hScore !== null && m.aScore !== null && m.hScore > m.aScore;
+  const aWin = m.hScore !== null && m.aScore !== null && m.aScore > m.hScore;
+  const hPen = m.hPen !== undefined ? `(${m.hPen})` : '';
+  const aPen = m.aPen !== undefined ? `(${m.aPen})` : '';
+  return `<div class="bracket-match-fifa">
+    <div class="match-fifa-date">${m.date}</div>
+    <div class="match-fifa-row ${hWin?'winner':''}">
+      <img src="https://flagcdn.com/w40/${hFlag}.png">
+      <span class="match-fifa-name">${m.h}</span>
+      ${showScore && m.hScore!==null ? `<span class="match-fifa-score">${m.hScore}<span class="match-fifa-pen">${hPen}</span></span>` : ''}
+    </div>
+    <div class="match-fifa-row ${aWin?'winner':''}">
+      <img src="https://flagcdn.com/w40/${aFlag}.png">
+      <span class="match-fifa-name">${m.a}</span>
+      ${showScore && m.aScore!==null ? `<span class="match-fifa-score">${m.aScore}<span class="match-fifa-pen">${aPen}</span></span>` : ''}
+    </div>
+  </div>`;
 }
 
-function playSound(id){
-  const a=document.getElementById(id);if(a){a.currentTime=0;a.play().catch(()=>{});}
+function createPlaceholderCard(m){
+  return `<div class="bracket-match-fifa" style="opacity:.7;">
+    <div class="match-fifa-date">${m.date}</div>
+    <div class="match-fifa-row"><span style="opacity:.5;font-size:.8rem;">${m.h}</span></div>
+    <div class="match-fifa-row"><span style="opacity:.5;font-size:.8rem;">${m.a}</span></div>
+  </div>`;
 }
 
-function openBracket(){document.getElementById('bracketPopup').style.display='flex';}
-function closeBracket(){document.getElementById('bracketPopup').style.display='none';}
+function openBracketPopup(){
+  const tree = document.getElementById("bracketTree");
+  
+  // LEFT SIDE
+  let leftHTML = `<div class="bracket-col octavos">`;
+  BRACKET_FULL.left.octavos.forEach(m => leftHTML += createMatchCard(m, false));
+  leftHTML += `</div>`;
+  
+  leftHTML += `<div class="bracket-col cuartos">`;
+  BRACKET_FULL.left.cuartos.forEach(m => leftHTML += createPlaceholderCard(m));
+  leftHTML += `</div>`;
+  
+  leftHTML += `<div class="bracket-col semis">`;
+  BRACKET_FULL.left.semis.forEach(m => leftHTML += createPlaceholderCard(m));
+  leftHTML += `</div>`;
+  
+  // CENTER FINAL
+  const centerHTML = `<div class="bracket-col final">
+    <div class="final-box">
+      <div class="final-trophy">🏆</div>
+      <div class="final-title">GRAN FINAL</div>
+      <div class="final-date">${BRACKET_FULL.final.date}</div>
+      <div class="final-vs">VS</div>
+      <div class="final-teams">
+        <div class="final-team"><img src="https://flagcdn.com/w80/un.png"><span>${BRACKET_FULL.final.h}</span></div>
+        <div class="final-team"><img src="https://flagcdn.com/w80/un.png"><span>${BRACKET_FULL.final.a}</span></div>
+      </div>
+    </div>
+  </div>`;
+  
+  // RIGHT SIDE
+  let rightHTML = `<div class="bracket-col semis">`;
+  BRACKET_FULL.right.semis.forEach(m => rightHTML += createPlaceholderCard(m));
+  rightHTML += `</div>`;
+  
+  rightHTML += `<div class="bracket-col cuartos">`;
+  BRACKET_FULL.right.cuartos.forEach(m => rightHTML += createPlaceholderCard(m));
+  rightHTML += `</div>`;
+  
+  rightHTML += `<div class="bracket-col octavos">`;
+  BRACKET_FULL.right.octavos.forEach(m => rightHTML += createMatchCard(m, false));
+  rightHTML += `</div>`;
+  
+  tree.innerHTML = leftHTML + centerHTML + rightHTML;
+  document.getElementById("bracketPopup").style.display = "flex";
+}
 
-document.getElementById('codeInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){const v=e.target.value.toUpperCase();if(codes[v]){checkLogin(v);}}
+function closeBracketPopup(){
+  document.getElementById("bracketPopup").style.display = "none";
+}
+
+document.getElementById("bracketPopup").addEventListener("click",function(e){
+  if(e.target===this) closeBracketPopup();
 });
 
-document.getElementById('modal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('modal'))closeModal();
-});
-
-document.getElementById('bracketPopup').addEventListener('click',e=>{
-  if(e.target===document.getElementById('bracketPopup'))closeBracket();
-});
+function toast(m){
+  const t=document.getElementById("toast");
+  t.textContent=m;
+  t.style.display="block";
+  setTimeout(()=>t.style.display="none",2500);
+}
 </script>
 </body>
 </html>
