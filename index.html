@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0f1a">
-<title>Mundial 2026 - QUINIELA 8vos de Final</title>
+<title>Mundial 2026 - QUINIELA CUARTOS DE FINAL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -178,7 +178,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
     <div class="pitch-lines"></div>
     <div class="trophy-container">🏆</div>
     <div class="login-title">MUNDIAL 2026</div>
-    <div class="login-sub">QUINIELA 8VOS DE FINAL</div>
+    <div class="login-sub">QUINIELA CUARTOS DE FINAL</div>
     <input type="text" id="codeInput" class="login-input" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CÓDIGO">
     <div id="loginPreview"></div>
     <button class="wc-action save-btn" style="width:100%;justify-content:center;" onclick="doLogin()">
@@ -198,12 +198,12 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
           <div class="wc-logo-container"><div class="wc-pulse"></div><div class="wc-ball">⚽</div></div>
           <div>
             <div class="banner-title">FIFA WORLD CUP 2026</div>
-            <div class="banner-subtitle">QUINIELA 8VOS DE FINAL</div>
+            <div class="banner-subtitle">QUINIELA CUARTOS DE FINAL</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <button class="bracket-btn" onclick="openBracketPopup()"><span>🏆</span>LLAVES</button>
-          <div class="live-badge"><span class="live-dot"></span>8VOS DE FINAL</div>
+          <div class="live-badge"><span class="live-dot"></span>CUARTOS DE FINAL</div>
         </div>
       </div>
     </div>
@@ -280,47 +280,51 @@ const USER_CODES = {"ADMIN0":"Administrador","JUDI97":"Juan de Dios","NDZA11":"F
 
 const FLAGS = {"México":"mx","Canadá":"ca","Brasil":"br","Australia":"au","Alemania":"de","Japón":"jp","Bélgica":"be","Cabo Verde":"cv","Suiza":"ch","Sudáfrica":"za","Estados Unidos":"us","Marruecos":"ma","Países Bajos":"nl","Costa de Marfil":"ci","España":"es","Egipto":"eg","Francia":"fr","Austria":"at","Colombia":"co","Croacia":"hr","Argentina":"ar","Noruega":"no","Inglaterra":"gb-eng","Portugal":"pt","R.D. Congo":"cd","Ghana":"gh","Panamá":"pa","Uzbekistán":"uz","Costa Rica":"cr","Irán":"ir","Corea del Sur":"kr","Senegal":"sn","Túnez":"tn","Qatar":"qa","Arabia Saudita":"sa","Irak":"iq","Jordania":"jo","Nueva Zelanda":"nz","Haití":"ht","Escocia":"gb-sct","Turquía":"tr","Paraguay":"py","Bosnia y Herz.":"ba","Rep. Checa":"cz","Suecia":"se","Ecuador":"ec","Curazao":"cw","Uruguay":"uy","Argelia":"dz"};
 
-// 4 PARTIDOS OFICIALES DE 8VOS - LUNES Y MARTES (HORA MÉXICO CDT/UTC-6)
+// 4 PARTIDOS OFICIALES DE CUARTOS DE FINAL - HORA MÉXICO CDT (UTC-6)
 const MATCHES = [
-  {h:"Portugal",a:"España",d:"Lun 7 Jul · 13:00",s:"SoFi Stadium, Inglewood · EU"},
-  {h:"Estados Unidos",a:"Bélgica",d:"Lun 7 Jul · 17:00",s:"BMO Field, Toronto · CA"},
-  {h:"Argentina",a:"Egipto",d:"Mar 8 Jul · 10:00",s:"Hard Rock Stadium, Miami Gardens · EU"},
-  {h:"Suiza",a:"Colombia",d:"Mar 8 Jul · 21:00",s:"BC Place, Vancouver · CA"}
+  {h:"Francia",a:"Marruecos",d:"Jue 9 Jul · 14:00",s:"MetLife Stadium, East Rutherford · NJ"},
+  {h:"España",a:"Portugal",d:"Vie 10 Jul · 13:00",s:"SoFi Stadium, Inglewood · CA"},
+  {h:"Noruega",a:"Inglaterra",d:"Sáb 11 Jul · 15:00",s:"AT&T Stadium, Arlington · TX"},
+  {h:"Argentina",a:"Suiza",d:"Sáb 11 Jul · 19:00",s:"Levi's Stadium, Santa Clara · CA"}
 ];
 
 const BRACKET_FULL = {
   left: {
     octavos: [
-      {h:"Paraguay", a:"Francia", date:"4 Jul · 13:00", hScore:null, aScore:null},
-      {h:"Canadá", a:"Marruecos", date:"4 Jul · 11:00", hScore:null, aScore:null},
-      {h:"España", a:"Austria", date:"7 Jul · 13:00", hScore:null, aScore:null},
-      {h:"Portugal", a:"Croacia", date:"7 Jul · 17:00", hScore:null, aScore:null}
+      {h:"Paraguay", a:"Francia", date:"4 Jul", hScore:null, aScore:null},
+      {h:"Canadá", a:"Marruecos", date:"4 Jul", hScore:null, aScore:null},
+      {h:"España", a:"Austria", date:"7 Jul", hScore:null, aScore:null},
+      {h:"Portugal", a:"Croacia", date:"7 Jul", hScore:null, aScore:null}
     ],
     cuartos: [
-      {h:"W49", a:"W50", date:"9 Jul · 14:00"},
-      {h:"W53", a:"W54", date:"10 Jul · 13:00"}
+      {h:"Francia", a:"Marruecos", date:"9 Jul · 14:00", hScore:null, aScore:null},
+      {h:"España", a:"Portugal", date:"10 Jul · 13:00", hScore:null, aScore:null}
     ],
     semis: [
-      {h:"W57", a:"W58", date:"14 Jul · 13:00"}
+      {h:"W57", a:"W58", date:"14 Jul · 15:00"}
     ]
   },
   right: {
     octavos: [
-      {h:"Brasil", a:"Noruega", date:"5 Jul · 14:00", hScore:null, aScore:null},
-      {h:"México", a:"Inglaterra", date:"5 Jul · 18:00", hScore:null, aScore:null},
-      {h:"Argentina", a:"Cabo Verde", date:"8 Jul · 10:00", hScore:null, aScore:null},
-      {h:"Suiza", a:"Colombia", date:"8 Jul · 21:00", hScore:null, aScore:null}
+      {h:"Brasil", a:"Noruega", date:"5 Jul", hScore:null, aScore:null},
+      {h:"México", a:"Inglaterra", date:"5 Jul", hScore:null, aScore:null},
+      {h:"Argentina", a:"Egipto", date:"7 Jul", hScore:null, aScore:null},
+      {h:"Suiza", a:"Colombia", date:"7 Jul", hScore:null, aScore:null}
     ],
     cuartos: [
-      {h:"W51", a:"W52", date:"11 Jul · 15:00"},
-      {h:"W55", a:"W56", date:"11 Jul · 19:00"}
+      {h:"Noruega", a:"Inglaterra", date:"11 Jul · 15:00", hScore:null, aScore:null},
+      {h:"Argentina", a:"Suiza", date:"11 Jul · 19:00", hScore:null, aScore:null}
     ],
     semis: [
-      {h:"W59", a:"W60", date:"15 Jul · 13:00"}
+      {h:"W59", a:"W60", date:"15 Jul · 15:00"}
     ]
   },
-  final: {h:"W61", a:"W62", date:"19 Jul · 13:00"}
+  final: {h:"W61", a:"W62", date:"19 Jul · 15:00"}
 };
+
+// CLAVE DE LOCALSTORAGE NUEVA - V2 PARA EVITAR CONFLICTOS CON DATOS ANTERIORES
+const LS_KEY_PICKS = "wc26_picks_cuartos_v2_";
+const LS_KEY_LOCK = "wc26_lock_cuartos_v2_";
 
 let currentUser = "", currentCode = "", locked = false, picks = {}, mCallback = null;
 
@@ -354,15 +358,15 @@ function doLogin(){
 }
 
 function loadData(){
-  picks = JSON.parse(localStorage.getItem("wc26_picks_r8_" + currentCode) || "{}");
-  locked = localStorage.getItem("wc26_lock_r8_" + currentCode) === "1";
+  picks = JSON.parse(localStorage.getItem(LS_KEY_PICKS + currentCode) || "{}");
+  locked = localStorage.getItem(LS_KEY_LOCK + currentCode) === "1";
 }
 
 function renderMatches(){
   const mc = document.getElementById("matchesContainer");
   mc.innerHTML = MATCHES.map((m,idx)=>{
-    const hV = picks[`r8_${idx}_h`] ?? "";
-    const aV = picks[`r8_${idx}_a`] ?? "";
+    const hV = picks[`c_${idx}_h`] ?? "";
+    const aV = picks[`c_${idx}_a`] ?? "";
     const isFilled = hV !== "" && aV !== "";
     return `<div class="match ${isFilled ? 'filled' : ''}">
       <div class="match-teams">
@@ -386,7 +390,7 @@ function renderMatches(){
 
 function updateCounter(){
   const total = MATCHES.length;
-  const completed = MATCHES.filter((_,i)=>picks[`r8_${i}_h`]!==""&&picks[`r8_${i}_h`]!==undefined&&picks[`r8_${i}_a`]!==""&&picks[`r8_${i}_a`]!==undefined).length;
+  const completed = MATCHES.filter((_,i)=>picks[`c_${i}_h`]!==""&&picks[`c_${i}_h`]!==undefined&&picks[`c_${i}_a`]!==""&&picks[`c_${i}_a`]!==undefined).length;
   const el = document.getElementById("counterText");
   if(el){
     el.textContent = `${completed}/${total}`;
@@ -395,8 +399,8 @@ function updateCounter(){
 }
 
 function updatePick(idx,side,el){
-  picks[`r8_${idx}_${side}`] = el.value.slice(0,2);
-  el.closest(".match").classList.toggle("filled",picks[`r8_${idx}_h`]!==""&&picks[`r8_${idx}_h`]!==undefined&&picks[`r8_${idx}_a`]!==""&&picks[`r8_${idx}_a`]!==undefined);
+  picks[`c_${idx}_${side}`] = el.value.slice(0,2);
+  el.closest(".match").classList.toggle("filled",picks[`c_${idx}_h`]!==""&&picks[`c_${idx}_h`]!==undefined&&picks[`c_${idx}_a`]!==""&&picks[`c_${idx}_a`]!==undefined);
   updateCounter();
 }
 
@@ -408,7 +412,7 @@ function updateStatusUI(){
 
 function savePicks(){
   if(locked){toast("🔒 PRONÓSTICOS CERRADOS"); return;}
-  localStorage.setItem("wc26_picks_r8_" + currentCode, JSON.stringify(picks));
+  localStorage.setItem(LS_KEY_PICKS + currentCode, JSON.stringify(picks));
   toast("💾 PRONÓSTICOS GUARDADOS");
 }
 
@@ -416,7 +420,7 @@ function handleLock(){
   if(locked) return;
   if(confirm("¿BLOQUEAR PRONÓSTICOS?")){
     locked = true;
-    localStorage.setItem("wc26_lock_r8_" + currentCode, "1");
+    localStorage.setItem(LS_KEY_LOCK + currentCode, "1");
     savePicks();
     renderMatches();
     updateStatusUI();
@@ -445,7 +449,7 @@ function confirmM(){
 function handleUnlock(){
   openM("DESBLOQUEAR","Ingresa clave de administración", function(){
     locked = false;
-    localStorage.setItem("wc26_lock_r8_" + currentCode, "0");
+    localStorage.setItem(LS_KEY_LOCK + currentCode, "0");
     renderMatches();
     updateStatusUI();
   });
@@ -491,7 +495,7 @@ function doExport(){
       document.getElementById("capUser").textContent=currentUser;
       document.getElementById("capTimestamp").textContent=getTimestamp();
       const _total=MATCHES.length;
-      const _done=MATCHES.filter((_,i)=>picks[`r8_${i}_h`]!==""&&picks[`r8_${i}_h`]!==undefined&&picks[`r8_${i}_a`]!==""&&picks[`r8_${i}_a`]!==undefined).length;
+      const _done=MATCHES.filter((_,i)=>picks[`c_${i}_h`]!==""&&picks[`c_${i}_h`]!==undefined&&picks[`c_${i}_a`]!==""&&picks[`c_${i}_a`]!==undefined).length;
       document.getElementById("capCounter").textContent=`${_done}/${_total}`;
       const inputs=area.querySelectorAll("input");
       const backups=[];
@@ -515,7 +519,7 @@ function doExport(){
         overlay.style.display="none";
         flashes.style.display="none";
         const link=document.createElement("a");
-        link.download=`WC26_R8_${currentUser}.jpg`;
+        link.download=`WC26_CUARTOS_${currentUser}.jpg`;
         link.href=canvas.toDataURL("image/jpeg",.95);
         link.click();
       });
@@ -562,7 +566,7 @@ function openBracketPopup(){
   leftHTML += `</div>`;
   
   leftHTML += `<div class="bracket-col cuartos">`;
-  BRACKET_FULL.left.cuartos.forEach(m => leftHTML += createPlaceholderCard(m));
+  BRACKET_FULL.left.cuartos.forEach(m => leftHTML += createMatchCard(m, false));
   leftHTML += `</div>`;
   
   leftHTML += `<div class="bracket-col semis">`;
@@ -589,7 +593,7 @@ function openBracketPopup(){
   rightHTML += `</div>`;
   
   rightHTML += `<div class="bracket-col cuartos">`;
-  BRACKET_FULL.right.cuartos.forEach(m => rightHTML += createPlaceholderCard(m));
+  BRACKET_FULL.right.cuartos.forEach(m => rightHTML += createMatchCard(m, false));
   rightHTML += `</div>`;
   
   rightHTML += `<div class="bracket-col octavos">`;
