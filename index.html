@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0f1a">
-<title>Mundial 2026 - QUINIELA CUARTOS DE FINAL</title>
+<title>Mundial 2026 - QUINIELA SEMIFINALES</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -178,7 +178,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
     <div class="pitch-lines"></div>
     <div class="trophy-container">🏆</div>
     <div class="login-title">MUNDIAL 2026</div>
-    <div class="login-sub">QUINIELA CUARTOS DE FINAL</div>
+    <div class="login-sub">QUINIELA SEMIFINALES</div>
     <input type="text" id="codeInput" class="login-input" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CÓDIGO">
     <div id="loginPreview"></div>
     <button class="wc-action save-btn" style="width:100%;justify-content:center;" onclick="doLogin()">
@@ -198,12 +198,12 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
           <div class="wc-logo-container"><div class="wc-pulse"></div><div class="wc-ball">⚽</div></div>
           <div>
             <div class="banner-title">FIFA WORLD CUP 2026</div>
-            <div class="banner-subtitle">QUINIELA CUARTOS DE FINAL</div>
+            <div class="banner-subtitle">QUINIELA SEMIFINALES</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <button class="bracket-btn" onclick="openBracketPopup()"><span>🏆</span>LLAVES</button>
-          <div class="live-badge"><span class="live-dot"></span>CUARTOS DE FINAL</div>
+          <div class="live-badge"><span class="live-dot"></span>SEMIFINALES</div>
         </div>
       </div>
     </div>
@@ -217,7 +217,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(circle 
 
     <div class="status-bar">
       <div id="statusText">ESTADO: ABIERTO 🟢</div>
-      <div id="counterText" style="font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--muted);">0/4</div>
+      <div id="counterText" style="font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--muted);">0/2</div>
       <div id="displayUser" style="font-weight:800;color:var(--gold);"></div>
     </div>
 
@@ -280,12 +280,10 @@ const USER_CODES = {"ADMIN0":"Administrador","JUDI97":"Juan de Dios","NDZA11":"F
 
 const FLAGS = {"México":"mx","Canadá":"ca","Brasil":"br","Australia":"au","Alemania":"de","Japón":"jp","Bélgica":"be","Cabo Verde":"cv","Suiza":"ch","Sudáfrica":"za","Estados Unidos":"us","Marruecos":"ma","Países Bajos":"nl","Costa de Marfil":"ci","España":"es","Egipto":"eg","Francia":"fr","Austria":"at","Colombia":"co","Croacia":"hr","Argentina":"ar","Noruega":"no","Inglaterra":"gb-eng","Portugal":"pt","R.D. Congo":"cd","Ghana":"gh","Panamá":"pa","Uzbekistán":"uz","Costa Rica":"cr","Irán":"ir","Corea del Sur":"kr","Senegal":"sn","Túnez":"tn","Qatar":"qa","Arabia Saudita":"sa","Irak":"iq","Jordania":"jo","Nueva Zelanda":"nz","Haití":"ht","Escocia":"gb-sct","Turquía":"tr","Paraguay":"py","Bosnia y Herz.":"ba","Rep. Checa":"cz","Suecia":"se","Ecuador":"ec","Curazao":"cw","Uruguay":"uy","Argelia":"dz"};
 
-// 4 PARTIDOS OFICIALES DE CUARTOS DE FINAL - HORA MÉXICO CDT (UTC-6)
+// 2 PARTIDOS OFICIALES DE SEMIFINALES - HORA MÉXICO CDT (UTC-6)
 const MATCHES = [
-  {h:"Francia",a:"Marruecos",d:"Jue 9 Jul · 14:00",s:"MetLife Stadium, East Rutherford · NJ"},
-  {h:"España",a:"Bélgica",d:"Vie 10 Jul · 13:00",s:"SoFi Stadium, Inglewood · CA"},
-  {h:"Noruega",a:"Inglaterra",d:"Sáb 11 Jul · 15:00",s:"AT&T Stadium, Arlington · TX"},
-  {h:"Argentina",a:"Suiza",d:"Sáb 11 Jul · 19:00",s:"Levi's Stadium, Santa Clara · CA"}
+  {h:"Francia",a:"España",d:"Mar 14 Jul · 13:00",s:"AT&T Stadium, Arlington · TX"},
+  {h:"Inglaterra",a:"Argentina",d:"Mié 15 Jul · 13:00",s:"Mercedes-Benz Stadium, Atlanta · GA"}
 ];
 
 const BRACKET_FULL = {
@@ -297,11 +295,11 @@ const BRACKET_FULL = {
       {h:"Portugal", a:"Croacia", date:"7 Jul", hScore:null, aScore:null}
     ],
     cuartos: [
-      {h:"Francia", a:"Marruecos", date:"9 Jul · 14:00", hScore:null, aScore:null},
-      {h:"España", a:"Bélgica", date:"10 Jul · 13:00", hScore:null, aScore:null}
+      {h:"Francia", a:"Marruecos", date:"9 Jul · 14:00", hScore:2, aScore:0},
+      {h:"España", a:"Bélgica", date:"10 Jul · 13:00", hScore:2, aScore:1}
     ],
     semis: [
-      {h:"W57", a:"W58", date:"14 Jul · 15:00"}
+      {h:"Francia", a:"España", date:"14 Jul · 13:00", hScore:null, aScore:null}
     ]
   },
   right: {
@@ -312,19 +310,19 @@ const BRACKET_FULL = {
       {h:"Suiza", a:"Colombia", date:"7 Jul", hScore:null, aScore:null}
     ],
     cuartos: [
-      {h:"Noruega", a:"Inglaterra", date:"11 Jul · 15:00", hScore:null, aScore:null},
-      {h:"Argentina", a:"Suiza", date:"11 Jul · 19:00", hScore:null, aScore:null}
+      {h:"Noruega", a:"Inglaterra", date:"11 Jul · 15:00", hScore:1, aScore:2},
+      {h:"Argentina", a:"Suiza", date:"11 Jul · 19:00", hScore:3, aScore:1}
     ],
     semis: [
-      {h:"W59", a:"W60", date:"15 Jul · 15:00"}
+      {h:"Inglaterra", a:"Argentina", date:"15 Jul · 13:00", hScore:null, aScore:null}
     ]
   },
   final: {h:"W61", a:"W62", date:"19 Jul · 15:00"}
 };
 
-// CLAVE DE LOCALSTORAGE NUEVA - V2 PARA EVITAR CONFLICTOS CON DATOS ANTERIORES
-const LS_KEY_PICKS = "wc26_picks_cuartos_v2_";
-const LS_KEY_LOCK = "wc26_lock_cuartos_v2_";
+// CLAVE DE LOCALSTORAGE NUEVA - V1 PARA SEMIFINALES (DIFERENTE A CUARTOS)
+const LS_KEY_PICKS = "wc26_picks_semis_v1_";
+const LS_KEY_LOCK = "wc26_lock_semis_v1_";
 
 let currentUser = "", currentCode = "", locked = false, picks = {}, mCallback = null;
 
@@ -365,8 +363,8 @@ function loadData(){
 function renderMatches(){
   const mc = document.getElementById("matchesContainer");
   mc.innerHTML = MATCHES.map((m,idx)=>{
-    const hV = picks[`c_${idx}_h`] ?? "";
-    const aV = picks[`c_${idx}_a`] ?? "";
+    const hV = picks[`s_${idx}_h`] ?? "";
+    const aV = picks[`s_${idx}_a`] ?? "";
     const isFilled = hV !== "" && aV !== "";
     return `<div class="match ${isFilled ? 'filled' : ''}">
       <div class="match-teams">
@@ -390,7 +388,7 @@ function renderMatches(){
 
 function updateCounter(){
   const total = MATCHES.length;
-  const completed = MATCHES.filter((_,i)=>picks[`c_${i}_h`]!==""&&picks[`c_${i}_h`]!==undefined&&picks[`c_${i}_a`]!==""&&picks[`c_${i}_a`]!==undefined).length;
+  const completed = MATCHES.filter((_,i)=>picks[`s_${i}_h`]!==""&&picks[`s_${i}_h`]!==undefined&&picks[`s_${i}_a`]!==""&&picks[`s_${i}_a`]!==undefined).length;
   const el = document.getElementById("counterText");
   if(el){
     el.textContent = `${completed}/${total}`;
@@ -399,8 +397,8 @@ function updateCounter(){
 }
 
 function updatePick(idx,side,el){
-  picks[`c_${idx}_${side}`] = el.value.slice(0,2);
-  el.closest(".match").classList.toggle("filled",picks[`c_${idx}_h`]!==""&&picks[`c_${idx}_h`]!==undefined&&picks[`c_${idx}_a`]!==""&&picks[`c_${idx}_a`]!==undefined);
+  picks[`s_${idx}_${side}`] = el.value.slice(0,2);
+  el.closest(".match").classList.toggle("filled",picks[`s_${idx}_h`]!==""&&picks[`s_${idx}_h`]!==undefined&&picks[`s_${idx}_a`]!==""&&picks[`s_${idx}_a`]!==undefined);
   updateCounter();
 }
 
@@ -495,7 +493,7 @@ function doExport(){
       document.getElementById("capUser").textContent=currentUser;
       document.getElementById("capTimestamp").textContent=getTimestamp();
       const _total=MATCHES.length;
-      const _done=MATCHES.filter((_,i)=>picks[`c_${i}_h`]!==""&&picks[`c_${i}_h`]!==undefined&&picks[`c_${i}_a`]!==""&&picks[`c_${i}_a`]!==undefined).length;
+      const _done=MATCHES.filter((_,i)=>picks[`s_${i}_h`]!==""&&picks[`s_${i}_h`]!==undefined&&picks[`s_${i}_a`]!==""&&picks[`s_${i}_a`]!==undefined).length;
       document.getElementById("capCounter").textContent=`${_done}/${_total}`;
       const inputs=area.querySelectorAll("input");
       const backups=[];
@@ -519,7 +517,7 @@ function doExport(){
         overlay.style.display="none";
         flashes.style.display="none";
         const link=document.createElement("a");
-        link.download=`WC26_CUARTOS_${currentUser}.jpg`;
+        link.download=`WC26_SEMIS_${currentUser}.jpg`;
         link.href=canvas.toDataURL("image/jpeg",.95);
         link.click();
       });
@@ -566,11 +564,11 @@ function openBracketPopup(){
   leftHTML += `</div>`;
   
   leftHTML += `<div class="bracket-col cuartos">`;
-  BRACKET_FULL.left.cuartos.forEach(m => leftHTML += createMatchCard(m, false));
+  BRACKET_FULL.left.cuartos.forEach(m => leftHTML += createMatchCard(m, true));
   leftHTML += `</div>`;
   
   leftHTML += `<div class="bracket-col semis">`;
-  BRACKET_FULL.left.semis.forEach(m => leftHTML += createPlaceholderCard(m));
+  BRACKET_FULL.left.semis.forEach(m => leftHTML += createMatchCard(m, false));
   leftHTML += `</div>`;
   
   // CENTER FINAL
@@ -589,11 +587,11 @@ function openBracketPopup(){
   
   // RIGHT SIDE
   let rightHTML = `<div class="bracket-col semis">`;
-  BRACKET_FULL.right.semis.forEach(m => rightHTML += createPlaceholderCard(m));
+  BRACKET_FULL.right.semis.forEach(m => rightHTML += createMatchCard(m, false));
   rightHTML += `</div>`;
   
   rightHTML += `<div class="bracket-col cuartos">`;
-  BRACKET_FULL.right.cuartos.forEach(m => rightHTML += createMatchCard(m, false));
+  BRACKET_FULL.right.cuartos.forEach(m => rightHTML += createMatchCard(m, true));
   rightHTML += `</div>`;
   
   rightHTML += `<div class="bracket-col octavos">`;
